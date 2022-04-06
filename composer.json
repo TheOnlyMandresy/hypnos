@@ -1,0 +1,15 @@
+{
+    "name": "hypnos/system",
+    "autoload": {
+        "psr-4": {
+            "System": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Randriatavy Mandresy",
+            "email": "mandresyrvy@gmail.com"
+        }
+    ],
+    "require": {}
+}
