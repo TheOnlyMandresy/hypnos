@@ -2,7 +2,7 @@
     "name": "hypnos/system",
     "autoload": {
         "psr-4": {
-            "System": "src/"
+            "System\\": ["src/", "src/Controllers/", "src/Database/"]
         }
     },
     "authors": [
