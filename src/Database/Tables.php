@@ -10,13 +10,7 @@ use System;
 
 class Tables
 {
-    private static $db;
     protected static $table;
-
-    public function __construct ()
-    {
-        if (self::$db === null) self::$db = System::getDb();
-    }
 
     /**
      * Translate datas to query or prepare request
@@ -24,9 +18,9 @@ class Tables
     private static function query ($statement, $attributes = null, $all = true)
     {
         if ($attributes) {
-            return self::$db->prepare($statement, $attributes, get_called_class(), $all);
+            return System::getDb()->prepare($statement, $attributes, get_called_class(), $all);
         } else {
-            return self::$db->query($statement, get_called_class(), $all);
+            return System::getDb()->query($statement, get_called_class(), $all);
         }
     }
 
@@ -251,6 +245,6 @@ class Tables
      */
     public static function lastId ()
     {
-        return self::$db->lastId();
+        return System::getDb()->lastId();
     }
 }

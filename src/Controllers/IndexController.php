@@ -17,7 +17,7 @@ class IndexController extends Controller
     private function index ()
     {
         $title = TextTool::setTitle('accueil');
-        $h1 = 'Hello World';
+        $h1 = 'Bienvenue sur ' .TextTool::getName();
 
         return $this->render('index', compact($this->compact()));
     }

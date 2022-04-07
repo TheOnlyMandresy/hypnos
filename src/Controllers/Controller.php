@@ -13,9 +13,9 @@ class Controller
      * Rendering page
      * @param string $name Page to load
      * @param array $vars
-     * @param bool $template Need a template (ex: False for api)
+     * @param bool $api Is an api data
      */
-    protected function render ($name, $vars = [], $template = true)
+    protected function render ($name, $vars = [], $api = false)
     {
         ob_start();
             $isOnline = self::isOnline();
@@ -25,9 +25,7 @@ class Controller
         $page = ob_end_clean();
 
         require_once System::root(1). 'Views/Pages/' .ucfirst($name). '.php';
-        require_once System::root(1). 'Views/Templates/Base.php';
-
-        // ($template)? require_once System::root(1). 'Views/Templates/Template' .TEMPLATE. '.php' : null;
+        if (!$api) require_once System::root(1). 'Views/Templates/Base.php';
 
         unset($_SESSION['flash']);
     }

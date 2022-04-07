@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&&display=swap');
+
+/* Required */
+@import 'required/header.css';
+@import 'required/buttons.css';
+@import 'base.css';
+
+/* pages */
+
+
+/* Responsive */
+@import url('responsive/base.css') only screen and (min-width:768px);
+@import url('responsive/required/header.css') only screen and (min-width:768px);

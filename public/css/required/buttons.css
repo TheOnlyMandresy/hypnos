@@ -1,0 +1,44 @@
+.buttons {
+    margin: 1em 0;
+    text-align: right;
+}
+.buttons.center { text-align: center; }
+
+[class*="btn-"] {
+    cursor: pointer;
+    background: none;
+    font-weight: var(--ft-weight-bold);
+    overflow: hidden;
+    z-index: 1;
+}
+[class*="btn-"] > span { text-transform: uppercase; }
+[class*="btn-"]::before {
+    content: '';
+    z-index: 0;
+    height: 100%; width: 100%;
+    transition: left ease-out .3s;
+    position: absolute;
+    top: 0; left: -100%;
+}
+[class*="btn-"]:hover::before { left: 0; }
+[class*="btn-"]:hover > span {
+    transition: color ease-in-out .5s;
+    color: var(--color-text);
+}
+
+
+.btn-success::before {
+    border-bottom: 5px var(--color-dominant) solid;
+}
+.btn-success > span {
+    z-index: 1;
+    color: var(--color-dominant);
+}
+
+
+.btn-danger::before {
+    border-bottom: 5px var(--color-danger) solid;
+}
+.btn-danger > span {
+    color: var(--color-text);
+}

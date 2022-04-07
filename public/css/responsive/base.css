@@ -1,0 +1,5 @@
+.box { width: 12vw; }
+.container {
+    flex-direction: initial;    
+    justify-content: space-evenly;
+}

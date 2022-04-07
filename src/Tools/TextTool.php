@@ -51,8 +51,21 @@ class TextTool
         }
     }
 
+    /**
+     * Edit window tab's title
+     * @param string $text
+     * @return string
+     */
     public static function setTitle ($text)
     {
-        return System::getSystemInfos('website'). ' : ' .ucfirst($text);
+        return ucfirst(System::getSystemInfos('website')). ' : ' .ucfirst($text);
+    }
+
+    /**
+     * Get name of the website
+     */
+    public static function getName ()
+    {
+        return ucfirst(System::getSystemInfos('website'));
     }
 }
