@@ -28,17 +28,17 @@
     --ft-size-large : 1.2em;
 }
 
-html,
-body,
-main { height: 100%; }
-
 body {
-    background-color: var(--color-primary);
+    background-color: var(--color-secondary);
 }
 
 main {
-    margin-top: 13vh;
-    padding: 1em;
+    z-index: 1;
+    min-height: 100vh;
+    margin-bottom: 20vh;
+    padding: 13vh 1em 1em 1em;
+    background-color: var(--color-primary);
+    box-shadow: 0 5px 0 white, 0 20px 20px 20px #20272b;
 }
 
 .container {

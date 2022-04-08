@@ -9,13 +9,14 @@ class IndexController extends Controller
 {
     public function __construct ($page)
     {
-        $this->compact(['title', 'h1'], true);
+        $this->compact(['title', 'h1', 'page'], true);
 
         if ($page[0] === 'index') return $this->index();
     }
     
     private function index ()
     {
+        $page = 'index';
         $title = TextTool::setTitle('accueil');
         $h1 = 'Bienvenue sur ' .TextTool::getName();
 

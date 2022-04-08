@@ -2,6 +2,10 @@
 
 <h1><?= $h1; ?></h1>
 
+<p>
+    Chaque suite au design luxueux inclut des services hauts de gamme, de quoi plonger pleinement dans une atmosphère chic-romantique.
+</p>
+
 <div class="container">
 
     <?php for ($i = 0; $i < 7; $i++): ?>

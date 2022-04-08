@@ -1,0 +1,11 @@
+main.index {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+main.index > p {
+    margin-bottom: 3em;
+    text-align: center;
+}

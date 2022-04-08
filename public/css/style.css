@@ -2,10 +2,12 @@
 
 /* Required */
 @import 'required/header.css';
+@import 'required/footer.css';
 @import 'required/buttons.css';
 @import 'base.css';
 
 /* pages */
+@import 'pages/index.css';
 
 
 /* Responsive */
