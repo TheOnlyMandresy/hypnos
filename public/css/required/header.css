@@ -44,33 +44,44 @@ header .logo > .img {
 header .logo img { height: 90%; }
 
 header.open > .logo > .img::before,
-header.open > .logo > .img::after {
+header > .logo > .img::after {
     content: '';
     height: 100%; width: 100%;
     position: absolute;
     top: 0; left: 0;   
 }
-
-header > .logo > .img::before {
+header.open > .logo > .img::before {
     z-index: 1;
-    background-color: transparent;
     background: radial-gradient(circle, rgba(255,255,255,.5) 50%, rgba(0,0,0,0) 100%);
-    transition: background-color 1s;
+    background-color: var(--color-dominant);
 }
-header.open > .logo > .img::before { background-color: var(--color-dominant); }
-
-header.open > .logo > .img::after {
+header > .logo > .img::after {
     z-index: 2;
-    filter: invert(1);
-
-    background-image: url(/img/effacer.png);
     background-repeat: no-repeat;
     background-position: center;
+}
+header:not(.open) > .logo > .img:hover::after {
+    background-color: white;
+    background-image: url(/img/menu.png);
+    background-size: 50%;
+}
+header.open > .logo > .img::after {
+    filter: invert(1);
+    background-image: url(/img/effacer.png);
 }
 
 /* Navbar */
 nav {
+    overflow: hidden;
     height: 100%; width: 100%;
+
+    border-bottom: 6.5vh solid var(--color-secondary);
     background-color: var(--color-secondary);
     box-shadow: 0 5px 0 white, 0 8px 18px 3px var(--color-dominant);
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
+
+nav > img { filter: invert(1); }

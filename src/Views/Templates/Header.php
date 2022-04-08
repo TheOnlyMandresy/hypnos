@@ -1,5 +1,5 @@
 <nav id="navbar">
-    
+    <img src="img/hypnos.png" alt="company name" />
 </nav>
 
 <div class="logo">
