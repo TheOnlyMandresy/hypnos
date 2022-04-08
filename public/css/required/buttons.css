@@ -42,3 +42,14 @@
 .btn-danger > span {
     color: var(--color-text);
 }
+
+.btn-nav {
+    width: fit-content;
+    margin-bottom: 1em;
+}
+.btn-nav::before { border-bottom: 5px var(--color-primary) solid; }
+.btn-nav > span {
+    text-align: center;
+    color: white;
+    font-size: var(--ft-size-medium);
+}
