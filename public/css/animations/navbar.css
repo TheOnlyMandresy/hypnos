@@ -1,0 +1,39 @@
+@keyframes openNavbar {
+    from {
+        height: 6.5vh;
+    }
+
+    to {
+        height: 93.5vh;
+    }
+}
+
+@keyframes closeNavbar {
+    from {
+        height: 93.5vh;
+    }
+
+    to {
+        height: 6.5vh;
+    }
+}
+
+@keyframes effacerNavbarOn {
+    form {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(180deg);
+    }
+}
+
+@keyframes effacerNavbarOff {
+    from {
+        transform: rotate(180deg);
+    }
+
+    to {
+        transform: rotate(0deg);
+    }
+}

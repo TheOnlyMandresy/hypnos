@@ -1,0 +1,19 @@
+@keyframes openNavbar {
+    from {
+        height: 6.5vh;
+    }
+
+    to {
+        height: 30vh;
+    }
+}
+
+@keyframes closeNavbar {
+    from {
+        height: 30vh;
+    }
+
+    to {
+        height: 6.5vh;
+    }
+}

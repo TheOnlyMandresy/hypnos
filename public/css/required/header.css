@@ -14,10 +14,6 @@ header::before {
     bottom: -5vh; left: 50%;
     transform: translateX(-50%);
 }
-header.open {
-    transition: height ease-out .3s;
-    height: 93.5vh;
-}
 
 /* Logo */
 header .logo {
@@ -40,11 +36,37 @@ header .logo > .img {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    overflow: hidden;
 
     background-color: white;
     box-shadow: 0 0 0 7px white;
 }
 header .logo img { height: 90%; }
+
+header.open > .logo > .img::before,
+header.open > .logo > .img::after {
+    content: '';
+    height: 100%; width: 100%;
+    position: absolute;
+    top: 0; left: 0;   
+}
+
+header > .logo > .img::before {
+    z-index: 1;
+    background-color: transparent;
+    background: radial-gradient(circle, rgba(255,255,255,.5) 50%, rgba(0,0,0,0) 100%);
+    transition: background-color 1s;
+}
+header.open > .logo > .img::before { background-color: var(--color-dominant); }
+
+header.open > .logo > .img::after {
+    z-index: 2;
+    filter: invert(1);
+
+    background-image: url(/img/effacer.png);
+    background-repeat: no-repeat;
+    background-position: center;
+}
 
 /* Navbar */
 nav {

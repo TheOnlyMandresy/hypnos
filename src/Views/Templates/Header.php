@@ -1,4 +1,6 @@
-<nav></nav>
+<nav id="navbar">
+
+</nav>
 
 <div class="logo">
     <div class="img">
