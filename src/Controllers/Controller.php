@@ -22,9 +22,13 @@ class Controller
             // if ($isOnline) $myDatas = Users::getMyDatas();
 
             extract($vars);
+
+            // Metas
             if (!isset($metaDesc)) $metaDesc = "Hypnos est un groupe hôtelier fondé en 2004. Propriétaire de 7 établissements dans les quatre
             coins de l’hexagone, chacun de ces hôtels s’avère être une destination idéale pour les couples
             en quête d’un séjour romantique à deux.";
+            if (!isset($metaImg)) $metaImg = 'logo.png';
+
         $load = ob_end_clean();
 
         require_once System::root(1). 'Views/Pages/' .ucfirst($name). '.php';
