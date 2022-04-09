@@ -1,10 +1,10 @@
-<?php ob_start(); ?>
-
-<h1><?= $h1; ?></h1>
-
-<p>
-    Chaque suite au design luxueux inclut des services hauts de gamme, de quoi plonger pleinement dans une atmosphère chic-romantique.
-</p>
+<main class="index">
+<div class="title">
+    <h1><?= $h1; ?></h1>
+    <p>
+        Chaque suite au design luxueux inclut des services hauts de gamme, de quoi plonger pleinement dans une atmosphère chic-romantique.
+    </p>
+</div>
 
 <div class="container">
 
@@ -19,11 +19,10 @@
         </div>
 
         <div class="buttons center">
-            <button class="btn-success"><span>Voir les suites</span></button>
+            <button class="btn-success"><span><a href="/institutions/ID" onclick="route()">Voir les suites</a></span></button>
         </div>
     </div>
     <?php endfor; ?>
     
 </div>
-
-<?php $main = ob_get_clean(); ?>
+</main>

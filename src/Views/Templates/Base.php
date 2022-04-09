@@ -24,7 +24,7 @@
 <body>
     <header><?php require_once 'Header.php'; ?></header>
 
-    <main class="<?= $page; ?>"><?= $main; ?></main>
+    <div id="root"></div>
 
     <footer><?php require_once 'Footer.php'; ?></footer>
 

@@ -1,0 +1,6 @@
+main.index { padding-top: 7vh; }
+main.index > .title {
+    position: absolute;
+    width: 100%;
+    top: 20vh;
+}

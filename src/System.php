@@ -15,19 +15,23 @@ class System extends Settings
     {
         $page = $_SERVER['REQUEST_URI'];
 
+        if (!str_contains($page, 'page/')) return require_once '../src/Views/Templates/Base.php';;
+
         if (str_contains($page, '?')) {
             $pageExplode = explode('?', $page);
             $page = $pageExplode[0];
         }
-
-        if ($page === '/') $page = '/index';
         
-        $this->page = explode('/', $page);
-        array_shift($this->page);
+        $this->page = explode('/', $page)[2];
 
-        if (reset($this->page) === 'admin') {
-            return $this->pageAdmin();
+        if (str_contains($this->page, '/')) {
+            $this->page = explode('/', $page);
+            array_shift($this->page);
         }
+
+        // if (reset($this->page) === 'admin') {
+        //     return $this->pageAdmin();
+        // }
         return $this->page();
     }
 
@@ -46,29 +50,11 @@ class System extends Settings
      */
     private function page ()
     {
-        $page = reset($this->page);
-        $count = count($this->page);
+        $page = (is_array($this->page)) ? reset($this->page) : $this->page;
 
-        if ($count === 1) {
-            $load = $page;
-
-            switch ($page)
-            {
-                case 'login':
-                case 'logout':
-                case 'register':
-                    $controller = new \System\Controllers\UsersController($this->page);
-                    break;
-                default:
-                    $new = '\System\Controllers\\' .ucfirst($page). 'Controller';
-                    $controller = new $new($this->page);
-                    break;
-            }
-        } else {
-            $new = '\System\Controllers\\' .ucfirst($page). 'Controller';
-            $load = end($this->page);
-            $controller = new $new($this->page);
-        }
+        $new = '\System\Controllers\\' .ucfirst($page). 'Controller';
+        $load = (is_array($this->page)) ? end($this->page) : $this->page;
+        $controller = new $new($load);
     }
 
     /**

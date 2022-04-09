@@ -84,7 +84,7 @@ header > nav {
     align-items: center;
 }
 
-header > nav > img { filter: invert(1); margin-top: 1em; }
+header > nav > a > img { filter: invert(1); margin-top: 1em; }
 
 header > nav > .nav {
     display: grid;

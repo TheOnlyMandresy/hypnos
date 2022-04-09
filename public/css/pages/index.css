@@ -5,7 +5,22 @@ main.index {
     align-items: center;
 }
 
-main.index > p {
+main.index > .title > p {
     margin-bottom: 3em;
     text-align: center;
+    color: var(--color-light);
 }
+
+main.index > .container p {
+    font-size: var(--ft-size-small);
+    line-height: var(--ft-lineh-large);
+    color: var(--color-light);
+}
+
+main.index > .container h2 {
+    font-size: var(--ft-size-small);
+    line-height: var(--ft-lineh-small);
+    color: var(--color-mid);
+}
+
+main.index > .container h3 { margin-bottom: 1em; }

@@ -1,5 +1,5 @@
 .buttons {
-    margin: 1em 0;
+    margin-bottom: 2em;
     text-align: right;
 }
 .buttons.center { text-align: center; }
@@ -11,7 +11,7 @@
     overflow: hidden;
     z-index: 1;
 }
-[class*="btn-"] > span { text-transform: uppercase; }
+[class*="btn-"] > span > a { text-transform: uppercase; }
 [class*="btn-"]::before {
     content: '';
     z-index: 0;
@@ -21,7 +21,7 @@
     top: 0; left: -100%;
 }
 [class*="btn-"]:hover::before { left: 0; }
-[class*="btn-"]:hover > span {
+[class*="btn-"]:hover > span > a {
     transition: color ease-in-out .5s;
     color: var(--color-text);
 }
@@ -30,7 +30,7 @@
 .btn-success::before {
     border-bottom: 5px var(--color-dominant) solid;
 }
-.btn-success > span {
+.btn-success > span > a {
     z-index: 1;
     color: var(--color-dominant);
 }
@@ -39,7 +39,7 @@
 .btn-danger::before {
     border-bottom: 5px var(--color-danger) solid;
 }
-.btn-danger > span {
+.btn-danger > span > a {
     color: var(--color-text);
 }
 
@@ -48,8 +48,9 @@
     margin-bottom: 1em;
 }
 .btn-nav::before { border-bottom: 5px var(--color-primary) solid; }
-.btn-nav > span {
+.btn-nav > span > a {
     text-align: center;
     color: white;
     font-size: var(--ft-size-medium);
+    letter-spacing: .3em;
 }

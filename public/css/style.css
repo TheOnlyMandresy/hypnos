@@ -19,3 +19,5 @@
 @import url('responsive/required/header.css') only screen and (min-width:768px);
 
 @import url('responsive/animations/navbar.css') only screen and (min-width:768px);
+
+@import url('responsive/pages/index.css') only screen and (min-width:768px);

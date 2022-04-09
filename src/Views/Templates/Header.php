@@ -1,40 +1,40 @@
 <nav id="navbar">
-    <img src="img/hypnos.png" alt="company name" />
+    <a href="/" onclick="route()"><img src="img/hypnos.png" alt="company name" /></a>
 
     <div class="nav">
         <ul>
             <li>
-                <a><p class="btn-nav">
-                    <span>Nos bâtiments</span>
-                </p></a>
+                <p class="btn-nav">
+                    <span><a href="/institutions" onclick="route()">Nos bâtiments</a></span>
+                </p>
             </li>
             <li>
-                <a><p class="btn-nav">
-                    <span>Nos chambres</span>
-                </p></a>
+                <p class="btn-nav">
+                    <span><a href="/rooms" onclick="route()">Nos chambres</a></span>
+                </p>
             </li>
             <li>
-                <a><p class="btn-nav">
-                    <span>Faire une réservation</span>
-                </p></a>
+                <p class="btn-nav">
+                    <span><a href="/reservation" onclick="route()">Faire une réservation</a></span>
+                </p>
             </li>
         </ul>
 
         <ul>
             <li>
-                <a><p class="btn-nav">
-                    <span>Se connecter</span>
-                </p></a>
+                <p class="btn-nav">
+                    <span><a href="/login" onclick="route()">Se connecter</a></span>
+                </p>
             </li>
             <li>
-                <a><p class="btn-nav">
-                    <span>S'inscrire</span>
-                </p></a>
+                <p class="btn-nav">
+                    <span><a href="/register" onclick="route()">S'inscrire</a></span>
+                </p>
             </li>
             <li>
-                <a><p class="btn-nav">
-                    <span>Nous contacter</span>
-                </p></a>
+                <p class="btn-nav">
+                    <span><a href="/contact" onclick="route()">Nous contacter</a></span>
+                </p>
             </li>
         </ul>
     </div>

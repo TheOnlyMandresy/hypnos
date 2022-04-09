@@ -11,7 +11,7 @@ class IndexController extends Controller
     {
         $this->compact(['title', 'h1', 'page'], true);
 
-        if ($page[0] === 'index') return $this->index();
+        if ($page === 'index') return $this->index();
     }
     
     private function index ()

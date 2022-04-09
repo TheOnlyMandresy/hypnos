@@ -17,15 +17,22 @@
     --color-secondary : #2E373D;
     --color-dominant : #753307; /*#9E4736*/
     --color-danger : #CF4D6F;
-    --color-text : #001427;
+
+    --color-dark : #001427;
+    --color-mid : #2E373D;
+    --color-light : gray;
 
     --ft-weight-normal : 600;
     --ft-weight-bold : 700;
     --ft-weight-bolder : 800;
 
+    --ft-size-small : .8em;
     --ft-size-normal : .9em;
     --ft-size-medium : 1em;
     --ft-size-large : 1.2em;
+
+    --ft-lineh-small : .8em;
+    --ft-lineh-large : 1.4em;
 }
 
 body {
@@ -58,15 +65,13 @@ main {
 
 h2,
 h3,
-p { color: var(--color-text); }
+p { color: var(--color-dark); }
 
 h1 {
     color: var(--color-secondary);
     margin: .5em 0;
     text-align: center;
 }
-
-h3 { color: var(--color-secondary); }
 
 p {
     font-size: var(--ft-size-normal);
