@@ -9,6 +9,6 @@ handleLocation()
 
 
 // System
-const navBtn = document.querySelector('.logo .img')
+const header = document.querySelector('header')
 
-navBtn.addEventListener('click', navbar)
+header.addEventListener('click', (e) => {navbar(e)})
