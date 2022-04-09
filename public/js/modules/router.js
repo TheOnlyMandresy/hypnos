@@ -1,3 +1,4 @@
+// Getting link
 export const route = (event) => {
     event = event || window.event
     event.preventDefault()
@@ -6,11 +7,12 @@ export const route = (event) => {
     handleLocation()
 }
 
+// Loader
 export const handleLocation = async () => {
     let path = window.location.pathname,
         route = routes[path] || routes[404],
         page = await fetch(route).then((data) => data.text()),
-        html = page.slice(jsonConverter(page, true));
+        html = page.replace(jsonConverter(page, true), '');
 
     updateHead(page)
     document.getElementById('root').innerHTML = html
@@ -24,17 +26,18 @@ const routes = {
     '/rooms': '/page/rooms'
 }
 
-// Convert to JSON or get length of JSON (to delete before initializing the html)
-function jsonConverter (page, length = false)
+// Convert to JSON or remove JSON (to delete before initializing the html)
+function jsonConverter (page, remove = false)
 {
-    let jsonStart = '{"jsonHead":',
-        jsonEnd = '}',
+    let sub = (remove)? 0 : 1,
+        jsonStart = '{"jsonHead":',
+        jsonEnd = '}}',
         json = page.substring(
             page.indexOf(jsonStart) + jsonStart.length, 
-            page.lastIndexOf(jsonEnd)
+            page.lastIndexOf(jsonEnd) + sub
         )
     
-    if (length) return json.length + jsonStart.length + jsonEnd.length
+    if (remove) return jsonStart + json + jsonEnd
     return json
 }
 

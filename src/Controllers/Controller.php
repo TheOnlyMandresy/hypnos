@@ -32,7 +32,7 @@ class Controller
         $load = ob_end_clean();
         
         require_once System::root(1). 'Views/Templates/Head.php';
-        echo '<main class="' .$page. ">";
+        echo '<main class="' .$page. '">';
         require_once System::root(1). 'Views/Pages/' .ucfirst($name). '.php';
         echo '</main>';
 
