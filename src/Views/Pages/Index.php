@@ -1,4 +1,3 @@
-<main class="index">
 <div class="title">
     <h1><?= $h1; ?></h1>
     <p>
@@ -25,4 +24,3 @@
     <?php endfor; ?>
     
 </div>
-</main>

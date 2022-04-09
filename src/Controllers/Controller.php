@@ -30,9 +30,11 @@ class Controller
             if (!isset($metaImg)) $metaImg = 'logo.png';
 
         $load = ob_end_clean();
+        
         require_once System::root(1). 'Views/Templates/Head.php';
+        echo '<main class="' .$page. ">";
         require_once System::root(1). 'Views/Pages/' .ucfirst($name). '.php';
-        // if (!$api) require_once System::root(1). 'Views/Templates/Base.php';
+        echo '</main>';
 
         unset($_SESSION['flash']);
     }
