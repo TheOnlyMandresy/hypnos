@@ -4,6 +4,6 @@
 
 <div class="container">
 
-    Hello ici la page des OBJETS A LISTER, ATCHOUM PROUT!
+    Hello ici la page erreur 404, ON EST OU ?!
     
 </div>

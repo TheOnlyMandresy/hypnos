@@ -4,6 +4,6 @@
 
 <div class="container">
 
-    Hello ici les institutions, YOOOOw!
+    Hello ici la page de l'institution, YOOOOw!
     
 </div>

@@ -4,6 +4,6 @@
 
 <div class="container">
 
-    Hello ici la page des OBJETS A LISTER, ATCHOUM PROUT!
+    Hello ici la page de contact, PLEASE LEAVE A MESSAGE!
     
 </div>

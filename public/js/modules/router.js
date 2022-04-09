@@ -10,8 +10,8 @@ export const route = (event) => {
 // Loader
 export const handleLocation = async () => {
     let path = window.location.pathname,
-        route = routes[path] || routes[404],
-        page = await fetch(route).then((data) => data.text()),
+        route = routes[filterLink(path)] || routes[404],
+        page = await fetch(dynamicLoad(route, path)).then((data) => data.text()),
         html = page.replace(jsonConverter(page, true), '');
 
     updateHead(page)
@@ -20,10 +20,27 @@ export const handleLocation = async () => {
 
 // Pages
 const routes = {
-    404: '/page/404',
+    404: '/page/index/404',
+    405: '/page/index/405',
     '/': '/page/index',
+
     '/institutions': '/page/institutions',
-    '/rooms': '/page/rooms'
+    '/institution/ID': '/page/institutions/get-ID', // SEE AN INST
+
+    '/rooms': '/page/rooms',
+    '/room/ID': '/page/rooms/get-ID', // SEE A ROOM,
+    '/rooms/ID': '/page/rooms/filter-ID', // FILTER BY INST
+
+    '/contact': '/page/users/contact',
+    '/support': '/page/users/tickets',
+    '/ticket/ID': '/page/users/ticket-ID', // SEE A TICKET
+
+    '/booking': '/page/users/booking',
+    '/reservations': '/page/users/reserved',
+    '/booked/ID': '/page/users/booked-ID', // SEE RESERVATION DETAIL
+
+    '/login': '/page/users/login',
+    '/register': '/page/users/register'
 }
 
 // Convert to JSON or remove JSON (to delete before initializing the html)
@@ -61,4 +78,36 @@ function updateHead (page)
     }
 
     title.textContent = json.title
+}
+
+function filterLink (path)
+{
+    let arr = path.split('/'),
+        id = parseInt(arr.pop())
+
+    if (Number.isInteger(id)) {
+        arr.shift()
+        return '/' + arr[0] + '/ID'
+    }
+    
+    return path
+}
+
+// Get special links
+function dynamicLoad (route, path)
+{
+    console.log(route)
+    if (route.includes('-ID')) {
+        let id = path.split('/'),
+            url = route.split('-')
+
+        id = id.pop()
+        url.pop()
+
+        url = url.toString() + '/' + id
+
+        return url
+    }
+
+    return route
 }

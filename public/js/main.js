@@ -1,5 +1,5 @@
-import { navbar } from './modules/nav.js'
 import { route, handleLocation } from './modules/router.js'
+import { navbar } from './modules/nav.js'
 
 // Router
 window.onpopstate = handleLocation

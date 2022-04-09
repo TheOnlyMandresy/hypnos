@@ -4,6 +4,6 @@
 
 <div class="container">
 
-    Hello ici la page des OBJETS A LISTER, ATCHOUM PROUT!
+    Hello ici la page de MES réservation, T'AS CRU QUOI LA !!!
     
 </div>

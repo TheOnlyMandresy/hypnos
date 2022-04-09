@@ -22,12 +22,9 @@ class System extends Settings
             $page = $pageExplode[0];
         }
         
-        $this->page = explode('/', $page)[2];
-
-        if (str_contains($this->page, '/')) {
-            $this->page = explode('/', $page);
-            array_shift($this->page);
-        }
+        $this->page = explode('/', $page);
+        array_shift($this->page);
+        array_shift($this->page);
 
         // if (reset($this->page) === 'admin') {
         //     return $this->pageAdmin();
@@ -53,8 +50,7 @@ class System extends Settings
         $page = (is_array($this->page)) ? reset($this->page) : $this->page;
 
         $new = '\System\Controllers\\' .ucfirst($page). 'Controller';
-        $load = (is_array($this->page)) ? end($this->page) : $this->page;
-        $controller = new $new($load);
+        $controller = new $new($this->page);
     }
 
     /**

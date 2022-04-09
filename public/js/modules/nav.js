@@ -1,5 +1,5 @@
 let header = document.querySelector('header'),
-navBtn = document.querySelector('.logo .img')
+    navBtn = document.querySelector('.logo .img')
 
 export function navbar (e)
 {

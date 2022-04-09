@@ -1,5 +1,5 @@
 <nav id="navbar">
-    <a href="/" onclick="route()"><img src="img/hypnos.png" alt="company name" /></a>
+    <a href="/" onclick="route()"><img src="/img/hypnos.png" alt="company name" /></a>
 
     <div class="nav">
         <ul>
@@ -15,7 +15,7 @@
             </li>
             <li>
                 <p class="btn-nav">
-                    <span><a href="/reservation" onclick="route()">Faire une réservation</a></span>
+                    <span><a href="/booking" onclick="route()">Faire une réservation</a></span>
                 </p>
             </li>
         </ul>
@@ -42,6 +42,6 @@
 
 <div class="logo">
     <div class="img">
-        <img src="img/logo.png" alt="logo" />
+        <img src="/img/logo.png" alt="logo" />
     </div>
 </div>
