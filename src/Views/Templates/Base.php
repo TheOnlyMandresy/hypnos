@@ -7,17 +7,17 @@
     <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
 
     <meta name="author" content="<?= System::getSystemInfos('website'); ?>" />
-    <meta name="description" content="<?= $metaDesc; ?>" />
+    <meta name="description" content="<?= System::getSystemInfos('meta_desc'); ?>" />
     
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="<?= System::getSystemInfos('website'); ?>" />
     <meta name="twitter:creator" content="<?= System::getSystemInfos('website'); ?>" />
 
-    <meta property="og:image" content="/img/<?= $metaImg; ?>" />
-    <meta property="og:description" content="<?= $metaDesc; ?>" />
-    <meta property="og:title" content="<?= $title; ?>" />
+    <meta property="og:image" content="/img/<?= System::getSystemInfos('meta_img'); ?>" />
+    <meta property="og:description" content="<?= System::getSystemInfos('meta_desc'); ?>" />
+    <meta property="og:title" content="<?= System::getSystemInfos('website'); ?>" />
     
-    <title><?= $title; ?></title>
+    <title><?= System::getSystemInfos('website'); ?></title>
     <link rel="stylesheet" href="/css/style.css" />
 </head>
 

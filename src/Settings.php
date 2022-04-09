@@ -24,4 +24,11 @@ class Settings
         // IMAGES
     protected const IMG_HOTEL = '/img/hotels';
     protected const IMG_ROOM = '/rooms';
+
+    // Metas
+    protected const META_DESC = "Hypnos est un groupe hôtelier fondé en 2004. Propriétaire de 7 établissements dans les quatre
+    coins de l’hexagone, chacun de ces hôtels s’avère être une destination idéale pour les couples
+    en quête d’un séjour romantique à deux." ;
+    protected const META_IMG = 'logo.png' ;
+
 }
