@@ -3,7 +3,9 @@
 </div>
 
 <div class="container">
-
-    Hello ici la page erreur 404, ON EST OU ?!
+    Hey ! Il semblerait que la page que vous cherchez n'existe pas... Êtes-vous sûr de votre saisie ?
     
+    <div class="buttons center">
+        <button class="btn-danger"><span><a href="/" onclick="route()">Retourner sur le site</a></span></button>
+    </div>
 </div>

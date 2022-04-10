@@ -6,7 +6,7 @@ export function navbar (e)
     let isOpen = header.classList.contains('open'),
         tag = e.target.tagName,
         cl = e.target.classList
-        
+
     if (cl.contains('img') || tag === 'IMG' || tag === 'A') {
         if (isOpen) {
             header.classList.remove('open')

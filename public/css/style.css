@@ -10,6 +10,8 @@
 @import 'animations/navbar.css';
 
 /* pages */
+@import 'pages/template.css';
+@import 'pages/error.css';
 @import 'pages/index.css';
 
 

@@ -11,16 +11,19 @@
     overflow: hidden;
     z-index: 1;
 }
-[class*="btn-"] > span > a { text-transform: uppercase; }
+[class*="btn-"] > span > a {
+    text-transform: uppercase;
+    letter-spacing: .2em;
+}
 [class*="btn-"]::before {
     content: '';
     z-index: 0;
     height: 100%; width: 100%;
-    transition: left ease-out .3s;
+    transition: transform ease-out 300ms;
     position: absolute;
     top: 0; left: -100%;
 }
-[class*="btn-"]:hover::before { left: 0; }
+[class*="btn-"]:hover::before { transform: translateX(100%); }
 [class*="btn-"]:hover > span > a {
     transition: color ease-in-out .5s;
     color: var(--color-text);
@@ -35,12 +38,20 @@
     color: var(--color-dominant);
 }
 
+.btn-success2::before {
+    border-bottom: 5px var(--color-dominant-bis) solid;
+}
+.btn-success2 > span > a {
+    z-index: 1;
+    color: var(--color-dominant-bis);
+}
+
 
 .btn-danger::before {
     border-bottom: 5px var(--color-danger) solid;
 }
 .btn-danger > span > a {
-    color: var(--color-text);
+    color: var(--color-danger);
 }
 
 .btn-nav {

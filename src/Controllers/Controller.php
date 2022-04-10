@@ -28,10 +28,11 @@ class Controller
             if (!isset($metaImg)) $metaImg = system::getSystemInfos('meta_img');
 
         $load = ob_end_clean();
-        
+
         require_once System::root(1). 'Views/Templates/Head.php';
         echo '<main class="' .$page. '">';
         require_once System::root(1). 'Views/Pages/' .ucfirst($name). '.php';
+        if (str_contains($page, 'template')) require_once System::root(1). 'Views/Templates/General.php';
         echo '</main>';
 
         unset($_SESSION['flash']);

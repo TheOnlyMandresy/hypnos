@@ -1,9 +1,5 @@
-<div class="title">
-    <h1><?= $h1; ?></h1>
-</div>
-
-<div class="container">
+<?php ob_start(); ?>
 
     Hello ici la page des OBJETS A LISTER, ATCHOUM PROUT!
-    
-</div>
+
+<?php $container = ob_get_clean(); ?>

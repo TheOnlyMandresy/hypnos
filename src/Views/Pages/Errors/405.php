@@ -3,7 +3,9 @@
 </div>
 
 <div class="container">
-
-    Hello ici la page erreur 405, DEGAGE DE LA !
+    Malheureusement, cette zone est destinée à un certain type d'utilisateur...
     
+    <div class="buttons center">
+        <button class="btn-danger"><span><a href="/" onclick="route()">Retourner sur le site</a></span></button>
+    </div>
 </div>

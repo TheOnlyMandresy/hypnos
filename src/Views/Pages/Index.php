@@ -7,20 +7,18 @@
 
 <div class="container">
 
-    <?php for ($i = 0; $i < 7; $i++): ?>
+    <?php foreach ($all as $data): ?>
     <div class="box">
         <div class="texts">
-            <h2>Name of the hotel</h2>
-            <h3>Place of the hotel</h3>
-            <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quod corrupti sapiente quasi reprehenderit officia dolor est aliquid ab repellat dignissimos explicabo quaerat alias dolorum vero consequatur et, earum qui voluptate!
-            </p>
+            <h2><?= $data->name; ?></h2>
+            <h3><?= $data->address; ?> <span><?= $data->city; ?></span></h3>
+            <p><?= $data->description; ?></p>
         </div>
 
         <div class="buttons center">
-            <button class="btn-success"><span><a href="/institutions/ID" onclick="route()">Voir les suites</a></span></button>
+            <button class="btn-success"><span><a href="/institution/<?= $data->id; ?>" onclick="route()">Voir les suites</a></span></button>
         </div>
     </div>
-    <?php endfor; ?>
+    <?php endforeach; ?>
     
 </div>

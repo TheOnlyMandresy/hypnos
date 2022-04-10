@@ -14,6 +14,7 @@ export const handleLocation = async () => {
         page = await fetch(dynamicLoad(route, path)).then((data) => data.text()),
         html = page.replace(jsonConverter(page, true), '');
 
+    changeContentSize(path)
     updateHead(page)
     document.getElementById('root').innerHTML = html
 }
@@ -25,19 +26,19 @@ const routes = {
     '/': '/page/index',
 
     '/institutions': '/page/institutions',
-    '/institution/ID': '/page/institutions/get-ID', // SEE AN INST
+    '/institution-ID': '/page/institutions/get-ID', // SEE AN INST
 
     '/rooms': '/page/rooms',
-    '/room/ID': '/page/rooms/get-ID', // SEE A ROOM,
-    '/rooms/ID': '/page/rooms/filter-ID', // FILTER BY INST
+    '/room-ID': '/page/rooms/get-ID', // SEE A ROOM,
+    '/rooms-ID': '/page/rooms/filter-ID', // FILTER BY INST
 
     '/contact': '/page/users/contact',
     '/support': '/page/users/tickets',
-    '/ticket/ID': '/page/users/ticket-ID', // SEE A TICKET
+    '/ticket-ID': '/page/users/ticket-ID', // SEE A TICKET
 
     '/booking': '/page/users/booking',
     '/reservations': '/page/users/reserved',
-    '/booked/ID': '/page/users/booked-ID', // SEE RESERVATION DETAIL
+    '/booked-ID': '/page/users/booked-ID', // SEE RESERVATION DETAIL
 
     '/login': '/page/users/login',
     '/register': '/page/users/register'
@@ -87,7 +88,7 @@ function filterLink (path)
 
     if (Number.isInteger(id)) {
         arr.shift()
-        return '/' + arr[0] + '/ID'
+        return '/' + arr[0] + '-ID'
     }
     
     return path
@@ -110,4 +111,14 @@ function dynamicLoad (route, path)
     }
 
     return route
+}
+
+// Change principal content's size
+function changeContentSize (path)
+{
+    let content = document.querySelector('#root').classList
+
+    window.scrollTo({top: 0, behavior: 'smooth'})
+    if (path === '/') return content.remove('large')
+    content.add('large')
 }

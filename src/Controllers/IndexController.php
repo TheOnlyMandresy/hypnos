@@ -2,6 +2,7 @@
 
 namespace System\Controllers;
 
+use System\Database\Tables\InstitutionsTable as Institutions;
 use System\Controller;
 use System\Tools\TextTool;
 
@@ -29,15 +30,16 @@ class IndexController extends Controller
         $page = 'index';
         $title = TextTool::setTitle('accueil');
         $h1 = 'Bienvenue sur ' .TextTool::getName();
+        $all = Institutions::all();
 
-        return $this->render('index', compact($this->compact()));
+        return $this->render('index', compact($this->compact(['all'])));
     }
     
     private function notFound ()
     {
         $page = 'error';
         $title = TextTool::setTitle('Introuvable');
-        $h1 = 'Bienvenue sur ' .TextTool::getName();
+        $h1 = '404 <br> introuvable';
 
         return $this->render('errors/404', compact($this->compact()));
     }
@@ -46,7 +48,7 @@ class IndexController extends Controller
     {
         $page = 'error';
         $title = TextTool::setTitle('Accès interdit');
-        $h1 = 'Bienvenue sur ' .TextTool::getName();
+        $h1 = '405 <br> accès refuser';
 
         return $this->render('errors/405', compact($this->compact()));
     }

@@ -1,9 +1,5 @@
-<div class="title">
-    <h1><?= $h1; ?></h1>
-</div>
-
-<div class="container">
+<?php ob_start(); ?>
 
     Hello ici la page de contact, PLEASE LEAVE A MESSAGE!
-    
-</div>
+
+<?php $container = ob_get_clean(); ?>
