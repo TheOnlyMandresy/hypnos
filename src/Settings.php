@@ -23,7 +23,7 @@ class Settings
     protected const URL_ROOM = '/room';
         // IMAGES
     protected const IMG_HOTEL = '/img/hotels';
-    protected const IMG_ROOM = '/rooms';
+    protected const IMG_ROOM = '/img/rooms';
 
     // Metas
     protected const META_DESC = "Hypnos est un groupe hôtelier fondé en 2004. Propriétaire de 7 établissements dans les quatre

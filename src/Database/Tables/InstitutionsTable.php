@@ -23,7 +23,7 @@ class InstitutionsTable extends Tables
     public static function getInstitution ($id)
     {
         $statement = static::statement();
-        $statement['where'] = 'g.id = ?';
+        $statement['where'] = 'id = ?';
         $statement['att'] = $id;
         
         return static::find($statement);

@@ -14,6 +14,7 @@ export const handleLocation = async () => {
         page = await fetch(dynamicLoad(route, path)).then((data) => data.text()),
         html = page.replace(jsonConverter(page, true), '');
 
+        
     changeContentSize(path)
     updateHead(page)
     document.getElementById('root').innerHTML = html
@@ -25,8 +26,8 @@ const routes = {
     405: '/page/index/405',
     '/': '/page/index',
 
-    '/institutions': '/page/institutions',
-    '/institution-ID': '/page/institutions/get-ID', // SEE AN INST
+    '/hotels': '/page/institutions',
+    '/hotel-ID': '/page/institutions/get-ID', // SEE AN INST
 
     '/rooms': '/page/rooms',
     '/room-ID': '/page/rooms/get-ID', // SEE A ROOM,
@@ -97,7 +98,6 @@ function filterLink (path)
 // Get special links
 function dynamicLoad (route, path)
 {
-    console.log(route)
     if (route.includes('-ID')) {
         let id = path.split('/'),
             url = route.split('-')

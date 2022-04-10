@@ -11,6 +11,7 @@
     overflow: hidden;
     z-index: 1;
 }
+[class*="btn-"]:nth-child(2) { margin-left: .3em; }
 [class*="btn-"] > span > a {
     text-transform: uppercase;
     letter-spacing: .2em;

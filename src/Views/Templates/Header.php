@@ -5,12 +5,12 @@
         <ul>
             <li>
                 <p class="btn-nav">
-                    <span><a href="/institutions" onclick="route()">Nos bâtiments</a></span>
+                    <span><a href="<?= System::getSystemInfos('url_hotel'); ?>s" onclick="route()">Nos hôtels</a></span>
                 </p>
             </li>
             <li>
                 <p class="btn-nav">
-                    <span><a href="/rooms" onclick="route()">Nos chambres</a></span>
+                    <span><a href="<?= System::getSystemInfos('url_room'); ?>s" onclick="route()">Nos chambres</a></span>
                 </p>
             </li>
             <li>

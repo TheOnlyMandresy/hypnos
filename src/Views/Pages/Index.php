@@ -16,7 +16,7 @@
         </div>
 
         <div class="buttons center">
-            <button class="btn-success"><span><a href="/institution/<?= $data->id; ?>" onclick="route()">Voir les suites</a></span></button>
+            <button class="btn-success"><span><a href="<?= System::getSystemInfos('url_hotel'); ?>/<?= $data->id; ?>" onclick="route()">Voir les suites</a></span></button>
         </div>
     </div>
     <?php endforeach; ?>

@@ -47,11 +47,11 @@ class Controller
         switch ($code)
         {
             case 403:
-                header('HTTP/1.0 403 forbidden');
-                die('Acces interdit');
+                return header('Location: /403'); 
             case 404:
-                header('HTTP/1.0 404 Not Found');
-                die('Page introuvable');
+                return header('Location: /404'); 
+            case 405:
+                return header('Location: /405'); 
         }
     }
     

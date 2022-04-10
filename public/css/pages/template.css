@@ -14,11 +14,15 @@ main.template > .title > h1 {
     color: var(--color-primary);
     text-transform: uppercase;
     letter-spacing: .1em;
-    width: 50%;
     line-height: 1.15em;
 }
 
 main.template > .title > p {
     color: var(--color-dlight);
     font-size: var(--ft-size-small);
+}
+
+main.template > .container {
+    margin-inline: 15vw;
+    padding-block: 9vh;
 }
