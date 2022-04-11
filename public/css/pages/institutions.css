@@ -7,14 +7,19 @@ main.institution-one > .container > .about {
     gap: 0.7em;
     grid-template-columns: repeat(5, 5vw);
     grid-template-areas:
-        "t t . . .";
+        "t t . . ."
+        ". . . . ."
+        ". . . a a";
 }
+main.institution-one > .container > .about > h3.title {
+    grid-area: t;
+    text-align: right;
+}
+main.institution-one > .container > .about > h3.address { grid-area: a; }
 main.institution-one > .container > .about > h3 {
     line-height: .9em;
     width: 20vh;
     font-size: 1.6em;
-    text-align: right;
-    grid-area: t;
 }
 main.institution-one > .container > .about > p {
     padding: 1em;
@@ -27,9 +32,25 @@ main.institution-one > .container > .about > p {
     justify-content: center;
 }
 
-main.institution-one > .container > .rooms > .box { margin-bottom: 7vh; }
-main.institution-one > .container > .rooms > .box > h3 { margin-bottom: 1em; }
-main.institution-one > .container > .rooms > .box > .desc {
+main.institution-one > .container > .rooms { width: 35vw; }
+main.institution-one > .container > .rooms > .box {
+    margin-bottom: 7vh;
+    display: grid;
+    grid-template-columns: 10vw 1fr;
+    gap: 2em;
+}
+main.institution-one > .container > .rooms .texts { padding: initial; }
+main.institution-one > .container > .rooms .img {
+    background-position: center;
+    height: 10vw;
+    width: 10vw;
+    background-size: cover;
+}
+main.institution-one > .container > .rooms h3 {
+    margin-bottom: .5em;
+    font-size: 1.6em;
+}
+main.institution-one > .container > .rooms .desc {
     color: var(--color-light);
     margin-bottom: 2em;
 }

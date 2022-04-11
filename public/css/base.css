@@ -35,7 +35,7 @@
     --ft-size-large : 1.2em;
 
     --ft-lineh-small : .8em;
-    --ft-lineh-large : 1.4em;
+    --ft-lineh-large : 1.6em;
 }
 
 body { background-color: var(--color-secondary); }
@@ -53,6 +53,15 @@ main {
     padding: 13vh 15vw 1em 15vw;
     background-color: var(--color-primary);
     box-shadow: 0 5px 0 white, 0 8px 10px 5px #20272ba3;
+}
+main.small {
+    margin-bottom: 0;
+    min-height: initial;
+    padding: 5em;
+    position: fixed;
+    width: 30vw;
+    top: 50vh; left: 50vw;
+    transform: translateY(-50%) translateX(-50%);
 }
 
 .box > .texts {

@@ -13,8 +13,14 @@ class Settings
     // Website
     protected const WEBSITE = 'Hypnos';
     protected const CATCHWORD = 'Groupe Hôtelier';
+    protected const SUPPORT = [
+        'Je souhaite poser une réclamation',
+        'Je souhaite commander un service supplémentaire',
+        'Je souhaite en savoir plus sur une suite',
+        'J’ai un souci avec cette application'
+    ];
         // About Website
-    protected const CMS_VERSION = 'v1';
+    protected const CMS_VERSION = '1.1';
     protected const CMS_AUTHOR = 'Mandresy';
     protected const CMS_AUTHOR_URL = 'https://www.instagram.com/monsieur.rvy/';
 

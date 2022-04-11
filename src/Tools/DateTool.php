@@ -10,7 +10,7 @@ class DateTool
 {
     /**
      * @param string $date
-     * @param string $type : since | d/m/y | full | day | month | year | :time | time | sql | timestamp | datetime
+     * @param string $type since | d/m/y | full | day | month | year | :time | time | sql | timestamp | datetime | tomorrow
      * @return string
      */
     public static function dateFormat ($date, $type = null)
@@ -20,7 +20,7 @@ class DateTool
         switch($type)
         {
             case 'since':
-                return static::dateSince($date);
+                return self::dateSince($date);
             case 'd/m/y':
                 return date('d/m/Y', $time);
             case 'full':
@@ -40,9 +40,11 @@ class DateTool
             case 'timestamp':
                 return strtotime($date);
             case 'datetime':
-                return date('Y-m-d', $time). 'T' .date('H:i', $time); 
+                return date('Y-m-d', $time). 'T' .date('H:i', $time);
+            case 'tomorrow':
+                return self::addDay($time, 1);
             default:
-                return date('d/m/Y', $time);
+                return date('Y-m-d', $time);
         }
     }
 
@@ -88,5 +90,16 @@ class DateTool
         } else {
             return $string ? implode(', ', $string) : 'maintenant';
         }
+    }
+
+    /**
+     * @param string $date
+     * @param int $days
+     * @return string
+     */
+    private static function addDay ($date, $days)
+    {
+        $add = '+' .$days. ' day';
+        return self::dateFormat(strtotime($add, $date));
     }
 }

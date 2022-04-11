@@ -1,27 +1,28 @@
-let px = 0,
-    lastScroll = 0,
+let lastScroll = 0,
     backAbout = 0,
     saveBackAbout = null;
 
 export function scroll ()
 {
-    let title = document.querySelector('.template .title'),
-        about = document.querySelector('.template > .container > .about')
-
-    if (saveBackAbout === null) saveBackAbout = about.offsetTop
+    let title = document.querySelector('.institution-one.template .title')
 
     if (title) {
+        let about = document.querySelector('.institution-one.template > .container > .about')
+
+        if (saveBackAbout === null) saveBackAbout = about.offsetTop
+
         if (scrollY >= lastScroll) {
             if ((scrollY * -1) >= ((title.offsetHeight * -1)) - 50) {
                 backAbout = saveBackAbout + (scrollY * -1)
             }
         } else {
             let down = scrollY * -1
-            if ((scrollY - backAbout) <= backAbout) backAbout = saveBackAbout + down
+            if (((scrollY * -1) >= ((title.offsetHeight * -1)) - 50)) {
+                backAbout = saveBackAbout + down
+            }
         }
     
-        px = backAbout + 'px'
-        about.style.top = px;
+        about.style.top = backAbout + 'px';
         lastScroll = scrollY;
     }
 }

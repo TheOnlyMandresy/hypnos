@@ -2,6 +2,8 @@
 
 namespace System\Controllers;
 
+use System\Database\Tables\InstitutionsTable as Institutions;
+use System\Database\Tables\RoomsTable as Rooms;
 use System\Controller;
 use System\Tools\TextTool;
 
@@ -9,7 +11,7 @@ class UsersController extends Controller
 {
     public function __construct ($page)
     {
-        $this->compact(['title', 'h1', 'page', 'description'], true);
+        $this->compact(['title', 'h1', 'page'], true);
 
         switch ($page[1]) {
             case 'login':
@@ -33,7 +35,7 @@ class UsersController extends Controller
 
     private function login ()
     {
-        $page = 'login';
+        $page = 'login small';
         $title = TextTool::setTitle('Connexion');
         $h1 = 'Se connecter';
 
@@ -42,7 +44,7 @@ class UsersController extends Controller
 
     private function register ()
     {
-        $page = 'register';
+        $page = 'register small';
         $title = TextTool::setTitle('Inscription');
         $h1 = 'Inscrits-toi';
 
@@ -54,12 +56,12 @@ class UsersController extends Controller
      */
     private function contact ()
     {
-        $page = 'contact-new template';
+        $page = 'contact-new small';
         $title = TextTool::setTitle('Contact');
-        $h1 = 'Créer un ticket';
+        $h1 = 'Formulaire de contact';
         $description = 'Lorem ipsum dolor sit amet. Et unde architecto hic ducimus voluptatem eum blanditiis beatae in itaque facere hic recusandae numquam et enim esse. Non enim sunt a tempora odio quo nihil molestias. Et alias autem aut soluta consequatur in nostrum excepturi non galisum repudiandae et excepturi ducimus et dignissimos quaerat? Aut adipisci internos est temporibus veritatis est optio dolorem hic fuga suscipit qui nihil eligendi ut dolores culpa et eius sunt?';
 
-        return $this->render('contact', compact($this->compact()));
+        return $this->render('contact', compact($this->compact(['description'])));
     }
 
     /**
@@ -72,7 +74,7 @@ class UsersController extends Controller
         $h1 = 'Vos tickets';
         $description = 'Lorem ipsum dolor sit amet. Et unde architecto hic ducimus voluptatem eum blanditiis beatae in itaque facere hic recusandae numquam et enim esse. Non enim sunt a tempora odio quo nihil molestias. Et alias autem aut soluta consequatur in nostrum excepturi non galisum repudiandae et excepturi ducimus et dignissimos quaerat? Aut adipisci internos est temporibus veritatis est optio dolorem hic fuga suscipit qui nihil eligendi ut dolores culpa et eius sunt?';
 
-        return $this->render('user/Contact', compact($this->compact()));
+        return $this->render('user/Contact', compact($this->compact(['description'])));
     }
 
     /**
@@ -80,12 +82,12 @@ class UsersController extends Controller
      */
     private function ticket ($id)
     {
-        $page = 'contact-ticket template';
+        $page = 'contact-ticket';
         $title = TextTool::setTitle('ticket -' .$id);
         $h1 = 'Votre ticket';
         $description = 'Lorem ipsum dolor sit amet. Et unde architecto hic ducimus voluptatem eum blanditiis beatae in itaque facere hic recusandae numquam et enim esse. Non enim sunt a tempora odio quo nihil molestias. Et alias autem aut soluta consequatur in nostrum excepturi non galisum repudiandae et excepturi ducimus et dignissimos quaerat? Aut adipisci internos est temporibus veritatis est optio dolorem hic fuga suscipit qui nihil eligendi ut dolores culpa et eius sunt?';
 
-        return $this->render('user/Contact', compact($this->compact()));
+        return $this->render('user/Contact', compact($this->compact(['description'])));
     }
 
     /**
@@ -93,12 +95,22 @@ class UsersController extends Controller
      */
     private function booking ()
     {
-        $page = 'book-new template';
+        $page = 'book-new small';
         $title = TextTool::setTitle('Faites un réservation');
         $h1 = 'Nouvelle réservation';
-        $description = 'Lorem ipsum dolor sit amet. Et unde architecto hic ducimus voluptatem eum blanditiis beatae in itaque facere hic recusandae numquam et enim esse. Non enim sunt a tempora odio quo nihil molestias. Et alias autem aut soluta consequatur in nostrum excepturi non galisum repudiandae et excepturi ducimus et dignissimos quaerat? Aut adipisci internos est temporibus veritatis est optio dolorem hic fuga suscipit qui nihil eligendi ut dolores culpa et eius sunt?';
+        $institutionsDatas = Institutions::all();
+        $roomsDatas = Rooms::all();
 
-        return $this->render('booking', compact($this->compact()));
+        $institutions = [];
+        foreach ($institutionsDatas as $value) {
+            $institutions[$value->id] = $value->name;
+        }
+        $rooms = [];
+        foreach ($roomsDatas as $value) {
+            $rooms[$value->id] = $value->title;
+        }
+
+        return $this->render('booking', compact($this->compact(['institutions', 'rooms'])));
     }
 
     /**
@@ -111,7 +123,7 @@ class UsersController extends Controller
         $h1 = 'Vos réservations';
         $description = 'Lorem ipsum dolor sit amet. Et unde architecto hic ducimus voluptatem eum blanditiis beatae in itaque facere hic recusandae numquam et enim esse. Non enim sunt a tempora odio quo nihil molestias. Et alias autem aut soluta consequatur in nostrum excepturi non galisum repudiandae et excepturi ducimus et dignissimos quaerat? Aut adipisci internos est temporibus veritatis est optio dolorem hic fuga suscipit qui nihil eligendi ut dolores culpa et eius sunt?';
 
-        return $this->render('user/All', compact($this->compact()));
+        return $this->render('user/All', compact($this->compact(['description'])));
     }
 
     /**
@@ -124,6 +136,6 @@ class UsersController extends Controller
         $h1 = 'Votre réservation';
         $description = 'Lorem ipsum dolor sit amet. Et unde architecto hic ducimus voluptatem eum blanditiis beatae in itaque facere hic recusandae numquam et enim esse. Non enim sunt a tempora odio quo nihil molestias. Et alias autem aut soluta consequatur in nostrum excepturi non galisum repudiandae et excepturi ducimus et dignissimos quaerat? Aut adipisci internos est temporibus veritatis est optio dolorem hic fuga suscipit qui nihil eligendi ut dolores culpa et eius sunt?';
 
-        return $this->render('user/Booked', compact($this->compact()));
+        return $this->render('user/Booked', compact($this->compact(['description'])));
     }
 }

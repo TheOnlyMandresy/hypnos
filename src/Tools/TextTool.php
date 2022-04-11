@@ -68,4 +68,16 @@ class TextTool
     {
         return ucfirst(System::getSystemInfos('website'));
     }
+
+    /**
+     * Shorten text
+     * @param string $str
+     * @param int $len
+     * @return string
+     */
+    public static function shorten ($str, $len)
+    {
+        if (strlen($str) > $len) return substr($str, 0, $len) . '...';
+        return $str;
+    }
 }

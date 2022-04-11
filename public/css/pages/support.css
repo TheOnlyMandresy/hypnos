@@ -1,0 +1,11 @@
+/* New ticket */
+main.contact-new { width: 50vw; }
+main.contact-new h1 {
+    margin: 0;
+    margin-bottom: 1em;
+}
+main.contact-new > .container form { grid-template-columns: 2fr 1fr; }
+main.contact-new > .container form .settings {
+    display: grid;
+    gap: 3em;
+}

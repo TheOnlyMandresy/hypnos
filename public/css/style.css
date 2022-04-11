@@ -5,6 +5,7 @@
 @import 'required/header.css';
 @import 'required/footer.css';
 @import 'required/buttons.css';
+@import 'required/forms.css';
 
 /* Animations */
 @import 'animations/navbar.css';
@@ -13,7 +14,10 @@
 @import 'pages/template.css';
 @import 'pages/error.css';
 @import 'pages/index.css';
+@import 'pages/auth.css';
+@import 'pages/support.css';
 @import 'pages/institutions.css';
+@import 'pages/book.css';
 
 
 /* Responsive */

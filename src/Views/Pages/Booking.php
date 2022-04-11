@@ -1,5 +1,21 @@
-<?php ob_start(); ?>
+<?php
+    use System\Tools\FormTool;
+    $form = new FormTool();
+?>
 
-    Hello ici la page de réservation, HEEHEHEHEHEHEHEH!
+<div class="title">
+    <h1><?= $h1; ?></h1>
+</div>
 
-<?php $container = ob_get_clean(); ?>
+<div class="container">
+    <form>
+        <?= $form::select('institutionId', 'Dans quel hôtel allez-vous ?', $institutions, ''); ?>
+        <?= $form::select('roomId', 'Choix de la chambre', $rooms, ''); ?>
+        <?= $form::date('dateStart', 'Début du séjour'); ?>
+        <?= $form::date('dateEnd', 'Fin du séjour'); ?>
+
+        <div class="buttons">
+            <?= $form::button('Réserver', 'book-new', 'success'); ?>
+        </div>
+    </form>
+</div>

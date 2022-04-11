@@ -97,20 +97,4 @@ class Controller
     {
         return isset($_SESSION['user']);
     }
-    
-    /**
-     * Load JS file
-     * @param array $pages Path to files to upload
-     * @return array
-     */
-    private static function loadJS ($pages)
-    {
-        $scripts = [];
-
-        foreach ($pages as $page) {
-            $scripts[] = '<script type = "text/javascript" src="/js/' .$page. '.js';
-        }
-
-        return $scripts;
-    }
 }

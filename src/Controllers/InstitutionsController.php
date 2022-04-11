@@ -53,6 +53,11 @@ class InstitutionsController extends Controller
         $description = $data->description;
         $entertainment = explode('.', $data->entertainment);
 
+        foreach ($rooms as $room) {
+            $room->title = ucfirst($room->title);
+            $room->description = TextTool::shorten($room->description, 220);
+        }
+
         for ($i = 0; $i < count($entertainment); $i++) {
             $entertainment[$i] = ucfirst($entertainment[$i]);
         }
