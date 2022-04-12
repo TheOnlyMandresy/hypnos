@@ -15,20 +15,26 @@ class UsersController extends Controller
 
         switch ($page[1]) {
             case 'login':
+                if (isset($_SESSION['user'])) return $this->error(405);
                 return $this->login();
             case 'register':
+                if (isset($_SESSION['user'])) return $this->error(405);
                 return $this->register();
             case 'contact':
                 return $this->contact();
             case 'tickets':
+                if (!isset($_SESSION['user'])) return $this->error(405);
                 return $this->tickets();
             case 'ticket':
+                if (!isset($_SESSION['user'])) return $this->error(405);
                 return $this->ticket($page[2]);
             case 'booking':
                 return $this->booking();
             case 'reserved':
+                if (!isset($_SESSION['user'])) return $this->error(405);
                 return $this->reserved();
             case 'booked':
+                if (!isset($_SESSION['user'])) return $this->error(405);
                 return $this->booked($page[2]);
         }
     }

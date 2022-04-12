@@ -1,0 +1,9 @@
+@keyframes fade {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+@keyframes flash {
+    from { transform: translateY(0%); }
+    to { transform: translateY(300%); }
+}

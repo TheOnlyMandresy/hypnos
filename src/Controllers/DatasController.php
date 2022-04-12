@@ -29,27 +29,54 @@ class DatasController extends Controller
         $password2 = TextTool::security($_POST['password2'], 'post');
         $isEmpty = [$firstname, $lastname, $email, $password1, $password2];
 
-        if (in_array('', $isEmpty)) {
-            $api = $this->error(4);
-        } else {
-            if (!preg_match('/^[a-zA-Z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/', $email)) $api = $this->error(1);
-            if ($password1 !== $password2) $api = $this->error(2);
-            if (Users::isUserExist($email)) $api = $this->error(3);
-            if (!isset($api)) $api = Users::generalAdd([
+        if (in_array('', $isEmpty)) $api = $this->error(4);
+        elseif (Users::isUserExist($email)) $api = $this->error(3);
+        elseif (!preg_match('/^[a-zA-Z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/', $email)) $api = $this->error(1);
+        elseif (strlen($password1) <= 7) $api = $this->error(5);
+        elseif ($password1 !== $password2) $api = $this->error(2);
+        else {
+            $send = Users::generalAdd([
                 'firstname' => $firstname,
                 'lastname' => $lastname,
                 'email' => $email,
                 'password' => TextTool::security($password1, 'convertPass')
             ]);
+            $api = (isset($send)) ? 'session' : $this->error(8);
         }
 
-        $json = json_encode($api);
+        $datas = [
+            'infos' => $api,
+            'link' => false
+        ];
+
+        $json = json_encode($datas);
         return $this->render('api', compact($this->compact(['json'])), true);
     }
 
     private function login ()
     {
-        $json = 'OK';
+        $email = TextTool::security($_POST['email'], 'post');
+        $password = TextTool::security($_POST['password'], 'post');
+        $isEmpty = [$email, $password];
+
+        if (in_array('', $isEmpty)) $api = $this->error(4);
+        elseif (!Users::isUserExist($email)) $api = $this->error(6);
+        elseif (!Users::isPasswordCorrect($email, $password)) $api = $this->error(7);
+        elseif (!Users::login($email)) $api = $this->error(8);
+        else $api = 'session';
+
+        $datas = [
+            'infos' => $api,
+            'link' => false
+        ];
+        $json = json_encode($datas);
+
         return $this->render('api', compact($this->compact(['json'])), true);
+    }
+
+    private function logout ()
+    {
+        session_destroy($_SESSION['user']);
+        return true;
     }
 }

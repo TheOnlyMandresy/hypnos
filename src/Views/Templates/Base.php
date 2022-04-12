@@ -22,6 +22,8 @@
 </head>
 
 <body>
+    <?php require_once 'Loading.php'; ?>
+
     <header><?php require_once 'Header.php'; ?></header>
 
     <div id="root"></div>

@@ -66,6 +66,14 @@ class Controller
                 return 'Un compte avec cet adresse mail existe déjà';
             case 4:
                 return 'Veuillez renseigner tous les champs';
+            case 5:
+                return 'Votre mot de passe est trop court';
+            case 6:
+                return 'Aucun compte trouvé';
+            case 7:
+                return 'Mot de passe incorrect';
+            case 8:
+                return 'Une erreur est survenue. Veuillez réessayer';
         }
     }
     

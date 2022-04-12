@@ -8,6 +8,7 @@
 @import 'required/forms.css';
 
 /* Animations */
+@import 'animations/base.css';
 @import 'animations/navbar.css';
 
 /* pages */

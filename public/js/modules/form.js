@@ -1,3 +1,5 @@
+import { route } from './router.js'
+
 let btn = null,
     form = null
 
@@ -32,8 +34,30 @@ export function checkForm ()
     }
 }
 
-function appendAlert (message)
+function appendAlert (datas)
 {
-    let mess = (Array.isArray(message)) ? message : JSON.parse(message)
-    console.log(message)
+    let main = document.querySelector('main')
+        datas = JSON.parse(datas)
+
+    if (document.querySelector('.flash')) document.querySelector('.flash').remove()
+
+    if (datas.infos !== true && datas.infos !== 'session') {
+        let html = document.createElement('div'),
+            p = document.createElement('p')
+
+        html.classList.add('flash')
+        p.textContent = datas.infos
+        html.appendChild(p)
+        main.classList.add('danger')
+        main.appendChild(html)
+        return
+    }
+    
+    main.classList.remove('danger')
+    main.classList.add('success')
+    setTimeout(() => {
+        if (datas.infos === 'session') return window.location.replace(history.back())
+        (!datas.link) ? history.back() : window.location.replace(datas.link)
+    }, 1000)
+    
 }

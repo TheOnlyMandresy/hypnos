@@ -1,3 +1,12 @@
+main.danger {
+    border: 1px solid var(--color-danger);
+    box-shadow: 0 0 10px 1px var(--color-danger) inset;
+}
+main.success {
+    border: 1px solid var(--color-dominant-bis);
+    box-shadow: 0 0 10px 1px var(--color-dominant-bis) inset;
+}
+
 form {
     display: grid;
     gap: 3em;
@@ -18,4 +27,16 @@ form textarea {
 form label {
     font-size: var(--ft-size-small);
     color: var(--color-light);
+}
+
+.flash {
+    position: absolute;
+    top: -4%; left: 0;
+    width: 100%;
+    animation: 1s ease forwards flash;
+}
+
+.flash p {
+    text-align: center;
+    color: var(--color-danger);
 }

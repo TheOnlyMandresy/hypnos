@@ -21,6 +21,7 @@
         </ul>
 
         <ul>
+            <?php if (!isset($_SESSION['user'])): ?>
             <li>
                 <p class="btn-nav">
                     <span><a href="/login" onclick="route()">Se connecter</a></span>
@@ -36,6 +37,23 @@
                     <span><a href="/contact" onclick="route()">Nous contacter</a></span>
                 </p>
             </li>
+            <?php else: ?>
+            <li>
+                <p class="btn-nav">
+                    <span><a href="/reservations" onclick="route()">Mes réservations</a></span>
+                </p>
+            </li>
+            <li>
+                <p class="btn-nav">
+                    <span><a href="/support" onclick="route()">Contact</a></span>
+                </p>
+            </li>
+            <li>
+                <p class="btn-nav">
+                    <span><a href="/logout" onclick="route()">Nous contacter</a></span>
+                </p>
+            </li>
+            <?php endif; ?>
         </ul>
     </div>
 </nav>
