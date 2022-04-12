@@ -29,11 +29,17 @@ class Controller
 
         $load = ob_end_clean();
 
-        require_once System::root(1). 'Views/Templates/Head.php';
-        echo '<main class="' .$page. '">';
+        if (!$api) {
+            require_once System::root(1). 'Views/Templates/Head.php';
+            echo '<main class="' .$page. '">';
+        }
+        
         require_once System::root(1). 'Views/Pages/' .ucfirst($name). '.php';
-        if (str_contains($page, 'template')) require_once System::root(1). 'Views/Templates/General.php';
-        echo '</main>';
+        
+        if (!$api) {
+            if (str_contains($page, 'template')) require_once System::root(1). 'Views/Templates/General.php';
+            echo '</main>';
+        }
 
         unset($_SESSION['flash']);
     }
@@ -51,7 +57,15 @@ class Controller
             case 404:
                 return header('Location: /404'); 
             case 405:
-                return header('Location: /405'); 
+                return header('Location: /405');
+            case 1:
+                return 'Adresse mail incorrect';
+            case 2:
+                return 'Les mot de passes ne se correspondent pas';
+            case 3:
+                return 'Un compte avec cet adresse mail existe déjà';
+            case 4:
+                return 'Veuillez renseigner tous les champs';
         }
     }
     

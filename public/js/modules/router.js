@@ -1,3 +1,6 @@
+import { routes } from './pages.js'
+import { checkForm } from './form.js'
+
 // Getting link
 export const route = (event) => {
     event = event || window.event
@@ -10,39 +13,14 @@ export const route = (event) => {
 // Loader
 export const handleLocation = async () => {
     let path = window.location.pathname,
-        route = routes[filterLink(path)] || routes[404],
+        route = routes[filterLink(path)] || routes['/404'],
         page = await fetch(dynamicLoad(route, path)).then((data) => data.text()),
         html = page.replace(jsonConverter(page, true), '');
 
-        
     changeContentSize(path)
     updateHead(page)
     document.getElementById('root').innerHTML = html
-}
-
-// Pages
-const routes = {
-    404: '/page/index/404',
-    405: '/page/index/405',
-    '/': '/page/index',
-
-    '/hotels': '/page/institutions',
-    '/hotel-ID': '/page/institutions/get-ID', // SEE AN INST
-
-    '/rooms': '/page/rooms',
-    '/room-ID': '/page/rooms/get-ID', // SEE A ROOM,
-    '/rooms-ID': '/page/rooms/filter-ID', // FILTER BY INST
-
-    '/contact': '/page/users/contact',
-    '/support': '/page/users/tickets',
-    '/ticket-ID': '/page/users/ticket-ID', // SEE A TICKET
-
-    '/booking': '/page/users/booking',
-    '/reservations': '/page/users/reserved',
-    '/booked-ID': '/page/users/booked-ID', // SEE RESERVATION DETAIL
-
-    '/login': '/page/users/login',
-    '/register': '/page/users/register'
+    checkForm ()
 }
 
 // Convert to JSON or remove JSON (to delete before initializing the html)
@@ -85,7 +63,10 @@ function updateHead (page)
 function filterLink (path)
 {
     let arr = path.split('/'),
-        id = parseInt(arr.pop())
+        id = parseInt(arr.pop()),
+        parse = ['/404', '/405']
+
+    if (parse.includes(path)) return path
 
     if (Number.isInteger(id)) {
         arr.shift()

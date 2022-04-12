@@ -27,7 +27,7 @@ class TextTool
     /**
      * Be sure that human's entries won't be a trouble
      * @param string $text
-     * @param string $type : post | decode | get | hash | convertPass | verifyPass
+     * @param string $type : post | decode | get | hash | convertPass
      * @return string
      */
     public static function security ($text, $type = 'post')

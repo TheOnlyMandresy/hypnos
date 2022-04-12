@@ -20,7 +20,7 @@ class IndexController extends Controller
                 return $this->index();
             case '404':
                 return $this->notFound();
-            case '405':
+            case 405:
                 return $this->denied();
         }
     }

@@ -65,7 +65,7 @@ class FormTool
      */
     public static function button ($text, $action, $type)
     {
-        return '<button type="button" formaction="/datas" name="submit" value="' .$action. '" class="btn-' .$type. '"><span><a>' .$text. '</a></span></button>';
+        return '<button type="button" name="submit" value="' .$action. '" class="btn-' .$type. '"><span><a>' .$text. '</a></span></button>';
     }
 
     /**

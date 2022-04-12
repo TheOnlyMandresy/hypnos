@@ -14,8 +14,10 @@ class System extends Settings
     public function __construct ()
     {
         $page = $_SERVER['REQUEST_URI'];
+        $if = ['page', 'api', 'datas'];
+        $json =explode('/', $page)[1];
 
-        if (!str_contains($page, 'page/')) return require_once '../src/Views/Templates/Base.php';;
+        if (!in_array($json, $if) && !str_contains($json, '?')) return require_once '../src/Views/Templates/Base.php';;
 
         if (str_contains($page, '?')) {
             $pageExplode = explode('?', $page);
@@ -24,8 +26,8 @@ class System extends Settings
         
         $this->page = explode('/', $page);
         array_shift($this->page);
-        array_shift($this->page);
-
+        if ($this->page[0] !== 'api' && $this->page[0] !== 'datas') array_shift($this->page);
+        
         // if (reset($this->page) === 'admin') {
         //     return $this->pageAdmin();
         // }
@@ -48,7 +50,6 @@ class System extends Settings
     private function page ()
     {
         $page = (is_array($this->page)) ? reset($this->page) : $this->page;
-
         $new = '\System\Controllers\\' .ucfirst($page). 'Controller';
         $controller = new $new($this->page);
     }

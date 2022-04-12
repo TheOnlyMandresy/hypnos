@@ -10,7 +10,7 @@
 <div class="container">
     <form>
         <?= $form::input('input', 'firstname', 'Prénom'); ?>
-        <?= $form::input('input', 'input', 'Nom'); ?>
+        <?= $form::input('input', 'lastname', 'Nom'); ?>
         <?= $form::input('email', 'email', 'Adresse mail'); ?>
         <?= $form::input('password', 'password1', 'Mot de passe'); ?>
         <?= $form::input('password', 'password2', 'Mot de passe (vérification)'); ?>

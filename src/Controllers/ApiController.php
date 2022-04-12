@@ -16,8 +16,9 @@ class ApiController extends Controller
     {
         $this->compact(['title'], true);
         $load = $page[1];
-
+        
         if ($load === 'room') return $this->room($page[2]);
+        if ($load === 'institution') return $this->room($page[2]);
 
         return $this->$load();
     }
@@ -32,6 +33,19 @@ class ApiController extends Controller
         $datas = Institutions::all();
         $api = array('datas' => $datas);
         $json = json_encode($api);
+        return $this->render('api', compact($this->compact(['json'])), true);
+    }
+
+    /**
+     * Get one institution
+     */
+    private function institution ($id)
+    {
+        $id = intval(TextTool::security($id, 'get'));
+        $title = TextTool::setTitle('institution');
+
+        $datas = Institutions::getInstitution($id);
+        $json = json_encode($datas);
         return $this->render('api', compact($this->compact(['json'])), true);
     }
 
