@@ -49,8 +49,8 @@
                 </p>
             </li>
             <li>
-                <p class="btn-nav">
-                    <span><a href="/logout" onclick="route()">Nous contacter</a></span>
+                <p class="btn-danger">
+                    <span><a href="/logout" onclick="route()">déconnexion</a></span>
                 </p>
             </li>
             <?php endif; ?>

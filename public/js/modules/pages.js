@@ -19,5 +19,6 @@ export const routes = {
     '/booked-ID': '/page/users/booked-ID', // SEE RESERVATION DETAIL
 
     '/login': '/page/users/login',
-    '/register': '/page/users/register'
+    '/register': '/page/users/register',
+    '/logout': '/datas?logout=true'
 }

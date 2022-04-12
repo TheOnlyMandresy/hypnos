@@ -15,7 +15,7 @@ export const handleLocation = async () => {
     let path = window.location.pathname,
         route = routes[filterLink(path)] || routes['/404'],
         page = await fetch(dynamicLoad(route, path)).then((data) => data.text()),
-        html = page.replace(jsonConverter(page, true), '');
+        html = page.replace(jsonConverter(page, true), '')
 
     changeContentSize(path)
     updateHead(page)

@@ -56,8 +56,9 @@ function appendAlert (datas)
     main.classList.remove('danger')
     main.classList.add('success')
     setTimeout(() => {
-        if (datas.infos === 'session') return window.location.replace(history.back())
-        (!datas.link) ? history.back() : window.location.replace(datas.link)
+        let url = history.back()
+        if (datas.infos === 'session') return window.location.href = url
+        (!datas.link) ? url : window.location.replace(datas.link)
     }, 1000)
     
 }

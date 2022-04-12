@@ -15,7 +15,10 @@ class DatasController extends Controller
     
     public function __construct ()
     {
-        if (!isset($_POST['submit']) && !in_array($_POST['submit'], self::$entries)) return $this->error(405);
+        if (!isset($_POST['submit']) && !isset($_GET['logout']) && !in_array($_POST['submit'], self::$entries)) return $this->error(405);
+
+        if ($_GET['logout']) return $this->logout();
+
         $load = $_POST['submit'];
         return $this->$load();
     }
@@ -76,7 +79,7 @@ class DatasController extends Controller
 
     private function logout ()
     {
-        session_destroy($_SESSION['user']);
+        unset($_SESSION['user']);
         return true;
     }
 }
