@@ -8,6 +8,7 @@ use System\Tools\TextTool;
 class UsersTable extends Tables
 {
     protected static $table = 'users';
+    protected static $myDatas = null;
 
     private static function statement ()
     {
@@ -73,5 +74,25 @@ class UsersTable extends Tables
         }
 
         return false;
+    }
+
+    public static function register ()
+    {
+        $_SESSION['user'] = static::lastId();
+    }
+
+    public static function getMyDatas ()
+    {
+        if (!is_null(self::$myDatas)) return self::$myDatas;
+
+        $statement = self::statement();
+        $statement['where'] = 'id = ?';
+        $statement['att'] = $_SESSION['user'];
+
+        $datas = static::find($statement);
+
+        if ($datas) self::$myDatas = $datas;
+        
+        return self::$myDatas;
     }
 }

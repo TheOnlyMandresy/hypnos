@@ -1,5 +1,6 @@
 import { routes } from './pages.js'
 import { checkForm } from './form.js'
+import { reloadApp } from './nav.js'
 
 // Getting link
 export const route = (event) => {
@@ -13,10 +14,11 @@ export const route = (event) => {
 // Loader
 export const handleLocation = async () => {
     let path = window.location.pathname,
-        route = routes[filterLink(path)] || routes['/404'],
+        route = routes[isLogged(path)][0] || routes['/404'],
         page = await fetch(dynamicLoad(route, path)).then((data) => data.text()),
         html = page.replace(jsonConverter(page, true), '')
 
+    logout(path)
     changeContentSize(path)
     updateHead(page)
     document.getElementById('root').innerHTML = html
@@ -60,6 +62,7 @@ function updateHead (page)
     title.textContent = json.title
 }
 
+// Dynamic links
 function filterLink (path)
 {
     let arr = path.split('/'),
@@ -102,4 +105,24 @@ function changeContentSize (path)
     window.scrollTo({top: 0, behavior: 'smooth'})
     if (path === '/') return content.remove('large')
     content.add('large')
+}
+
+// user is logged
+function isLogged (path)
+{
+    path = filterLink(path)
+    
+    if (sessionStorage.getItem('user') && routes[path][1] === 2) history.back()
+    if (sessionStorage.getItem('user') === null && routes[path][1] === 3) return '/405'
+
+    return path
+}
+
+// user logout
+function logout (path)
+{
+    if (sessionStorage.getItem('user') && path === '/logout') {
+        sessionStorage.removeItem('user')
+        return reloadApp()
+    }
 }

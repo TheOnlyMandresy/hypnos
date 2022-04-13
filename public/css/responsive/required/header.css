@@ -2,4 +2,4 @@ header.open {
     height: 30vh;
 }
 
-header > nav > .nav { grid-template-areas: "a b"; }
+header > nav > .nav { flex-direction: initial; }

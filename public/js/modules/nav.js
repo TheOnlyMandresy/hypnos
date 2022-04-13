@@ -21,3 +21,22 @@ export function navbar (e)
         }
     }
 }
+
+export function reloadApp ()
+{
+    let html = document.createElement('div'),
+        img = document.createElement('img'),
+        body = document.querySelector('body')
+
+    html.id = 'loading'
+    html.classList.add('loading')
+    img.src = '/img/logo.png'
+    html.appendChild(img)
+
+    setTimeout(() => {
+        body.style.overflow = 'hidden'
+        body.appendChild(html)
+        history.back()
+        setTimeout( () => { location.reload() }, 500)
+    }, 500)
+}

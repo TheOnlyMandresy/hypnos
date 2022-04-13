@@ -7,7 +7,7 @@ use System\Controller;
 use System\Tools\TextTool;
 
 /**
- * Api loader
+ * Datas treatment
  */
 class DatasController extends Controller
 {
@@ -15,9 +15,9 @@ class DatasController extends Controller
     
     public function __construct ()
     {
-        if (!isset($_POST['submit']) && !isset($_GET['logout']) && !in_array($_POST['submit'], self::$entries)) return $this->error(405);
+        if ((!isset($_POST['submit']) && !isset($_GET['logout'])) && !in_array($_POST['submit'], self::$entries)) return $this->error(405);
 
-        if ($_GET['logout']) return $this->logout();
+        if (isset($_GET['logout'])) return $this->logout();
 
         $load = $_POST['submit'];
         return $this->$load();
@@ -44,12 +44,15 @@ class DatasController extends Controller
                 'email' => $email,
                 'password' => TextTool::security($password1, 'convertPass')
             ]);
+
+            if (isset($send)) Users::register();
+    
             $api = (isset($send)) ? 'session' : $this->error(8);
         }
 
         $datas = [
             'infos' => $api,
-            'link' => false
+            'reload' => true
         ];
 
         $json = json_encode($datas);
@@ -70,7 +73,7 @@ class DatasController extends Controller
 
         $datas = [
             'infos' => $api,
-            'link' => false
+            'reload' => true
         ];
         $json = json_encode($datas);
 

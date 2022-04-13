@@ -1,4 +1,4 @@
-import { route } from './router.js'
+import { reloadApp } from './nav.js'
 
 let btn = null,
     form = null
@@ -30,7 +30,7 @@ export function checkForm ()
     if (document.querySelector('form')) {
         form = document.querySelector('form')
         btn = document.querySelector('form button[type="button"]')
-        btn.addEventListener('click', (e) => { sendDatas(e) }) // To remove when finish
+        btn.addEventListener('click', (e) => { sendDatas(e) })
     }
 }
 
@@ -40,6 +40,7 @@ function appendAlert (datas)
         datas = JSON.parse(datas)
 
     if (document.querySelector('.flash')) document.querySelector('.flash').remove()
+    if (datas.infos === 'session') sessionStorage.setItem('user', true)
 
     if (datas.infos !== true && datas.infos !== 'session') {
         let html = document.createElement('div'),
@@ -55,10 +56,7 @@ function appendAlert (datas)
     
     main.classList.remove('danger')
     main.classList.add('success')
-    setTimeout(() => {
-        let url = history.back()
-        if (datas.infos === 'session') return window.location.href = url
-        (!datas.link) ? url : window.location.replace(datas.link)
-    }, 1000)
-    
+
+    if (datas.reload === true) return reloadApp()
+    return history.back()
 }

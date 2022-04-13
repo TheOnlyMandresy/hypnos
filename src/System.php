@@ -2,6 +2,7 @@
 
 use System\Settings;
 use System\Database;
+use System\Database\Tables\UsersTable as Users;
 
 class System extends Settings
 {
@@ -16,6 +17,9 @@ class System extends Settings
         $page = $_SERVER['REQUEST_URI'];
         $if = ['page', 'api', 'datas'];
         $json =explode('/', $page)[1];
+        
+        $isOnline = Users::isLogged();
+        if ($isOnline) $myDatas = Users::getMyDatas();
 
         if (!in_array($json, $if) && !str_contains($json, '?')) return require_once '../src/Views/Templates/Base.php';;
 

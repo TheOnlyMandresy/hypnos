@@ -1,10 +1,10 @@
 main.danger {
     border: 1px solid var(--color-danger);
-    box-shadow: 0 0 10px 1px var(--color-danger) inset;
+    box-shadow: 0 0 10px var(--color-danger) inset;
 }
 main.success {
     border: 1px solid var(--color-dominant-bis);
-    box-shadow: 0 0 10px 1px var(--color-dominant-bis) inset;
+    box-shadow: 0 0 10px var(--color-dominant-bis) inset;
 }
 
 form {

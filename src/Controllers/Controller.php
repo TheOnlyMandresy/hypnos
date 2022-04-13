@@ -18,9 +18,6 @@ class Controller
     protected function render ($name, $vars = [], $api = false)
     {
         ob_start();
-            $isOnline = self::isOnline();
-            // if ($isOnline) $myDatas = Users::getMyDatas();
-
             extract($vars);
 
             // Metas

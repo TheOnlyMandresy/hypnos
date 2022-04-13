@@ -55,6 +55,26 @@
             </li>
             <?php endif; ?>
         </ul>
+        
+        <?php if (isset($_SESSION['user']) && $myDatas->rank > 0): ?>
+        <ul>
+            <li>
+                <p class="btn-nav">
+                    <span><a href="/login" onclick="route()">équipe</a></span>
+                </p>
+            </li>
+            <li>
+                <p class="btn-nav">
+                    <span><a href="/login" onclick="route()">Hôtels/Suites</a></span>
+                </p>
+            </li>
+            <li>
+                <p class="btn-nav">
+                    <span><a href="/login" onclick="route()">Support</a></span>
+                </p>
+            </li>
+        </ul>
+        <?php endif; ?>
     </div>
 </nav>
 
