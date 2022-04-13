@@ -95,4 +95,17 @@ class UsersTable extends Tables
         
         return self::$myDatas;
     }
+
+    public static function api ($id)
+    {
+        $statement = self::statement();
+        $statement['select'] = 'id, firstname, lastname, email, rank';
+        $statement['where'] = 'id = ?';
+        $statement['att'] = $id;
+
+        $datas = static::find($statement);
+
+        if ($datas) return $datas;
+        return false;
+    }
 }

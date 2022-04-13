@@ -50,11 +50,14 @@ class Controller
         switch ($code)
         {
             case 403:
-                return header('Location: /403'); 
+                echo json_encode(403);
+                break; 
             case 404:
-                return header('Location: /404'); 
+                echo json_encode(404);
+                break; 
             case 405:
-                return header('Location: /405');
+                echo json_encode(405);
+                break;
             case 1:
                 return 'Adresse mail incorrect';
             case 2:

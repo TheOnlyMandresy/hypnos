@@ -1,24 +1,30 @@
 export const routes = {
-    '/404': ['/page/index/404', 1],
-    '/405': ['/page/index/405', 1],
-    '/': ['/page/index', 1],
+    '/404': '/page/index/404',
+    '/405': '/page/index/405',
+    '/': '/page/index',
 
-    '/hotels': ['/page/institutions', 1],
-    '/hotel-ID': ['/page/institutions/get-ID', 1], // SEE AN INST
+    '/hotels': '/page/institutions',
+    '/hotel-ID': '/page/institutions/get-ID',
 
-    '/rooms': ['/page/rooms', 1],
-    '/room-ID': ['/page/rooms/get-ID', 1], // SEE A ROOM,
-    '/rooms-ID': ['/page/rooms/filter-ID', 1], // FILTER BY INST
+    '/rooms': '/page/rooms',
+    '/room-ID': '/page/rooms/get-ID',
+    '/rooms-ID': '/page/rooms/filter-ID',
 
-    '/contact': ['/page/users/contact', 1],
-    '/support': ['/page/users/tickets', 3],
-    '/ticket-ID': ['/page/users/ticket-ID', 3], // SEE A TICKET
+    '/contact': '/page/users/contact',
+    '/support': '/page/users/tickets',
+    '/ticket-ID': '/page/users/ticket-ID',
 
-    '/booking': ['/page/users/booking', 1],
-    '/reservations': ['/page/users/reserved', 3],
-    '/booked-ID': ['/page/users/booked-ID', 3], // SEE RESERVATION DETAIL
+    '/booking': '/page/users/booking',
+    '/reservations': '/page/users/reserved',
+    '/booked-ID': '/page/users/booked-ID',
 
-    '/login': ['/page/users/login', 2],
-    '/register': ['/page/users/register', 2],
-    '/logout': ['/datas?logout=true', 3]
+    '/login': '/page/users/login',
+    '/register': '/page/users/register',
+    '/logout': '/datas?logout=true',
+
+    '/admin/team': '/page/admin/team',             // Team
+    '/admin/views': '/page/admin/views',           // Hotels, Rooms, Reservations
+    '/admin/support': '/page/admin/support',       // Tickets
+    '/admin/ticket-ID': '/page/admin/ticket-ID',
+    '/admin/user': '/page/admin/team',  
 }

@@ -4,6 +4,7 @@ namespace System\Controllers;
 
 use System\Database\Tables\InstitutionsTable as Institutions;
 use System\Database\Tables\RoomsTable as Rooms;
+use System\Database\Tables\UsersTable as Users;
 use System\Controller;
 use System\Tools\TextTool;
 
@@ -15,26 +16,26 @@ class UsersController extends Controller
 
         switch ($page[1]) {
             case 'login':
-                if (isset($_SESSION['user'])) return $this->error(405);
+                if (Users::isLogged()) return static::error(405);
                 return $this->login();
             case 'register':
-                if (isset($_SESSION['user'])) return $this->error(405);
+                if (Users::isLogged()) return static::error(405);
                 return $this->register();
             case 'contact':
                 return $this->contact();
             case 'tickets':
-                if (!isset($_SESSION['user'])) return $this->error(405);
+                if (!Users::isLogged()) return static::error(405);
                 return $this->tickets();
             case 'ticket':
-                if (!isset($_SESSION['user'])) return $this->error(405);
+                if (!Users::isLogged()) return static::error(405);
                 return $this->ticket($page[2]);
             case 'booking':
                 return $this->booking();
             case 'reserved':
-                if (!isset($_SESSION['user'])) return $this->error(405);
+                if (!Users::isLogged()) return static::error(405);
                 return $this->reserved();
             case 'booked':
-                if (!isset($_SESSION['user'])) return $this->error(405);
+                if (!Users::isLogged()) return static::error(405);
                 return $this->booked($page[2]);
         }
     }

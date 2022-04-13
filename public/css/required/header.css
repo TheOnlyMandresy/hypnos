@@ -90,7 +90,7 @@ header > nav > .nav {
     display: flex;
     flex-direction: column;
     gap: 3em;
-    align-items: center;
+    align-items: flex-start;
 
     padding: 3em;
     height: 100%;

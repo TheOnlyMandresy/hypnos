@@ -40,7 +40,6 @@ function appendAlert (datas)
         datas = JSON.parse(datas)
 
     if (document.querySelector('.flash')) document.querySelector('.flash').remove()
-    if (datas.infos === 'session') sessionStorage.setItem('user', true)
 
     if (datas.infos !== true && datas.infos !== 'session') {
         let html = document.createElement('div'),

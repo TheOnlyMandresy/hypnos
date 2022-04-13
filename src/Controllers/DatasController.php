@@ -15,7 +15,7 @@ class DatasController extends Controller
     
     public function __construct ()
     {
-        if ((!isset($_POST['submit']) && !isset($_GET['logout'])) && !in_array($_POST['submit'], self::$entries)) return $this->error(405);
+        if ((!isset($_POST['submit']) && !isset($_GET['logout'])) && !in_array($_POST['submit'], self::$entries)) return static::error(405);
 
         if (isset($_GET['logout'])) return $this->logout();
 
@@ -25,6 +25,8 @@ class DatasController extends Controller
 
     private function register ()
     {
+        if (Users::isLogged()) return static::error(405);
+
         $firstname = TextTool::security($_POST['firstname'], 'post');
         $lastname = TextTool::security($_POST['lastname'], 'post');
         $email = TextTool::security($_POST['email'], 'post');
@@ -61,6 +63,8 @@ class DatasController extends Controller
 
     private function login ()
     {
+        if (Users::isLogged()) return static::error(405);
+
         $email = TextTool::security($_POST['email'], 'post');
         $password = TextTool::security($_POST['password'], 'post');
         $isEmpty = [$email, $password];
@@ -82,6 +86,7 @@ class DatasController extends Controller
 
     private function logout ()
     {
+        if (!Users::isLogged()) return static::error(405);
         unset($_SESSION['user']);
         return true;
     }

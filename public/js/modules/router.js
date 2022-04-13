@@ -14,11 +14,15 @@ export const route = (event) => {
 // Loader
 export const handleLocation = async () => {
     let path = window.location.pathname,
-        route = routes[isLogged(path)][0] || routes['/404'],
-        page = await fetch(dynamicLoad(route, path)).then((data) => data.text()),
-        html = page.replace(jsonConverter(page, true), '')
+        route = routes[filterLink(path)] || routes['/404'],
+        page = await fetch(dynamicLoad(route, path)).then((data) => data.text())
+    
+    if (parseInt(page) === 405) return window.location.href = '/405'
+    if (parseInt(page) === 404) return window.location.href = '/404'
 
-    logout(path)
+    let html = page.replace(jsonConverter(page, true), '')
+
+    if (path === '/logout') return reloadApp()
     changeContentSize(path)
     updateHead(page)
     document.getElementById('root').innerHTML = html
@@ -105,24 +109,4 @@ function changeContentSize (path)
     window.scrollTo({top: 0, behavior: 'smooth'})
     if (path === '/') return content.remove('large')
     content.add('large')
-}
-
-// user is logged
-function isLogged (path)
-{
-    path = filterLink(path)
-    
-    if (sessionStorage.getItem('user') && routes[path][1] === 2) history.back()
-    if (sessionStorage.getItem('user') === null && routes[path][1] === 3) return '/405'
-
-    return path
-}
-
-// user logout
-function logout (path)
-{
-    if (sessionStorage.getItem('user') && path === '/logout') {
-        sessionStorage.removeItem('user')
-        return reloadApp()
-    }
 }
