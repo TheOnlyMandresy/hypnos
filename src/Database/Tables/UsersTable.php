@@ -22,6 +22,19 @@ class UsersTable extends Tables
         return static::find($statement, null, true);
     }
 
+    public static function getId ($email)
+    {
+        $statement = self::statement();
+        $statement['select'] = 'id';
+        $statement['where'] = 'email = ?';
+        $statement['att'] = $email;
+        
+        $datas = static::find($statement);
+
+        if ($datas) return $datas->id;
+        return false;
+    }
+
     public static function getUser ($id)
     {
         $statement = self::statement();

@@ -16,7 +16,7 @@ class System extends Settings
     {
         $page = $_SERVER['REQUEST_URI'];
         $if = ['page', 'api', 'datas'];
-        $json =explode('/', $page)[1];
+        $json = explode('/', $page)[1];
         
         $isOnline = Users::isLogged();
         if ($isOnline) $myDatas = Users::getMyDatas();
@@ -31,10 +31,7 @@ class System extends Settings
         $this->page = explode('/', $page);
         array_shift($this->page);
         if ($this->page[0] !== 'api' && $this->page[0] !== 'datas') array_shift($this->page);
-        
-        // if (reset($this->page) === 'admin') {
-        //     return $this->pageAdmin();
-        // }
+
         return $this->page();
     }
 
@@ -56,24 +53,6 @@ class System extends Settings
         $page = (is_array($this->page)) ? reset($this->page) : $this->page;
         $new = '\System\Controllers\\' .ucfirst($page). 'Controller';
         $controller = new $new($this->page);
-    }
-
-    /**
-     * Load corresponding admin page
-     */
-    private function pageAdmin ()
-    {
-        $extract = array_shift($this->page);
-        $page = (reset($this->page) !== null)? reset($this->page) : 'index';
-        $load = ($page === 'index')? $page : end($this->page);
-
-        if ($page === 'index') {
-            $new = new \Systeme\Controller\Admin\SystemeController();
-        } else {
-            $new = '\Systeme\Controller\Admin\\' .ucfirst($page). 'Controller';
-        }
-
-        new $new($this->page);
     }
 
     /**

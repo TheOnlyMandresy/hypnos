@@ -175,7 +175,10 @@ class Tables
             'att' => $att
         ];
 
-        return static::update($statement, $underSection);
+        $datas = static::update($statement, $underSection);
+        
+        if ($datas) return true;
+        return false;
     }
 
     public static function generalDelete ($id, $underSection = null)

@@ -74,6 +74,8 @@ class Controller
                 return 'Mot de passe incorrect';
             case 8:
                 return 'Une erreur est survenue. Veuillez réessayer';
+            case 9:
+                return 'L\'hôtel sélectionné n\'existe pas';
         }
     }
     

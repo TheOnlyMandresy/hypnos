@@ -1,0 +1,23 @@
+main[class*="admin-"] h1 {
+    margin: 0;
+    margin-bottom: 1em;
+}
+
+main.admin-team > .container {
+    display: flex;
+    gap: 5em;
+    align-items: flex-start;
+}
+main.admin-team > .container > .team {
+    max-height: 45vh;
+    overflow-y: auto;display: grid;
+    gap: 1em;
+    padding-right: 1em;
+}
+main.admin-team > .container > .team .name {
+    font-size: var(--ft-size-small);
+    font-weight: var(--ft-weight-bold);
+    text-transform: uppercase;
+    color: var(--color-light);
+    letter-spacing: 0.1em;
+}

@@ -4,7 +4,6 @@ footer {
     height: 20vh;
     width: 100%;
     bottom: 0; left: 0;
-    background-color: var(--color-secondary);
     padding: 5em;
 }
 

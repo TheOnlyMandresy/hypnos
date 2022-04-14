@@ -56,6 +56,7 @@ function appendAlert (datas)
     main.classList.remove('danger')
     main.classList.add('success')
 
+    if (datas.admin === true) return location.reload()
     if (datas.reload === true) return reloadApp()
     return history.back()
 }

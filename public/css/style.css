@@ -20,6 +20,8 @@
 @import 'pages/institutions.css';
 @import 'pages/book.css';
 
+@import 'pages/admin.css';
+
 
 /* Responsive */
 @import url('responsive/base.css') only screen and (min-width:768px);

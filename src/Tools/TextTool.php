@@ -58,7 +58,7 @@ class TextTool
      */
     public static function setTitle ($text)
     {
-        return ucfirst(System::getSystemInfos('website')). ' : ' .ucfirst($text);
+        return ucfirst(System::getSystemInfos('website')). ' : ' .self::specialUcFirst($text);
     }
 
     /**

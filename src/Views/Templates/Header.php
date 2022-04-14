@@ -60,17 +60,17 @@
         <ul>
             <li>
                 <p class="btn-nav">
-                    <span><a href="/login" onclick="route()">équipe</a></span>
+                    <span><a href="/admin/team" onclick="route()">équipe</a></span>
                 </p>
             </li>
             <li>
                 <p class="btn-nav">
-                    <span><a href="/login" onclick="route()">Hôtels/Suites</a></span>
+                    <span><a href="/admin/views" onclick="route()">Hôtels/Suites</a></span>
                 </p>
             </li>
             <li>
                 <p class="btn-nav">
-                    <span><a href="/login" onclick="route()">Support</a></span>
+                    <span><a href="/admin/support" onclick="route()">Support</a></span>
                 </p>
             </li>
         </ul>

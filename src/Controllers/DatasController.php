@@ -2,7 +2,9 @@
 
 namespace System\Controllers;
 
+use System\Database\Tables\AdminTable as Admin;
 use System\Database\Tables\UsersTable as Users;
+use System\Database\Tables\InstitutionsTable as Institutions;
 use System\Controller;
 use System\Tools\TextTool;
 
@@ -11,7 +13,7 @@ use System\Tools\TextTool;
  */
 class DatasController extends Controller
 {
-    private static $entries = ['register', 'login'];
+    private static $entries = ['register', 'login', 'adminMemberNew'];
     
     public function __construct ()
     {
@@ -54,7 +56,8 @@ class DatasController extends Controller
 
         $datas = [
             'infos' => $api,
-            'reload' => true
+            'reload' => true,
+            'admin' => false
         ];
 
         $json = json_encode($datas);
@@ -77,7 +80,8 @@ class DatasController extends Controller
 
         $datas = [
             'infos' => $api,
-            'reload' => true
+            'reload' => true,
+            'admin' => false
         ];
         $json = json_encode($datas);
 
@@ -89,5 +93,27 @@ class DatasController extends Controller
         if (!Users::isLogged()) return static::error(405);
         unset($_SESSION['user']);
         return true;
+    }
+
+    private function adminMemberNew ()
+    {
+        $email = TextTool::security($_POST['email'], 'post');
+        $institutionId = TextTool::security($_POST['institutionId']);
+
+        if (!Users::isUserExist($email)) $api = static::error(6);
+        elseif (!Institutions::getInstitution($institutionId)) $api = static::error(9);
+        else {
+            Admin::addMember($email, $institutionId);
+            $api = true;
+        }
+
+        $datas = [
+            'infos' => $api,
+            'reload' => true,
+            'admin' => true
+        ];
+        $json = json_encode($datas);
+
+        return $this->render('api', compact($this->compact(['json'])), true);
     }
 }

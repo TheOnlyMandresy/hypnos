@@ -1,4 +1,4 @@
-import { routes } from './pages.js'
+import { routes, admin } from './pages.js'
 import { checkForm } from './form.js'
 import { reloadApp } from './nav.js'
 
@@ -23,6 +23,8 @@ export const handleLocation = async () => {
     let html = page.replace(jsonConverter(page, true), '')
 
     if (path === '/logout') return reloadApp()
+
+    admin(path)
     changeContentSize(path)
     updateHead(page)
     document.getElementById('root').innerHTML = html
