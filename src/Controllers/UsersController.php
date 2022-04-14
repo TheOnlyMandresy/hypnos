@@ -16,10 +16,10 @@ class UsersController extends Controller
 
         switch ($page[1]) {
             case 'login':
-                if (Users::isLogged()) return static::error(405);
+                if (Users::isLogged()) return static::error(0);
                 return $this->login();
             case 'register':
-                if (Users::isLogged()) return static::error(405);
+                if (Users::isLogged()) return static::error(0);
                 return $this->register();
             case 'contact':
                 return $this->contact();

@@ -10,6 +10,7 @@ main.index > .title > h1 {
     text-transform: uppercase;
     line-height: .9em;
     width: 50%;
+    font-size: 3em;
 }
 
 main.index > .title > p {

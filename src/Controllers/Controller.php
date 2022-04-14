@@ -49,6 +49,9 @@ class Controller
     {
         switch ($code)
         {
+            case 0:
+                echo json_encode(-1);
+                break;
             case 403:
                 echo json_encode(403);
                 break; 

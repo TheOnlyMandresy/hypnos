@@ -16,13 +16,14 @@ export const handleLocation = async () => {
     let path = window.location.pathname,
         route = routes[filterLink(path)] || routes['/404'],
         page = await fetch(dynamicLoad(route, path)).then((data) => data.text())
-    
+
+    if (parseInt(page) === -1) history.back()
     if (parseInt(page) === 405) return window.location.href = '/405'
     if (parseInt(page) === 404) return window.location.href = '/404'
 
     let html = page.replace(jsonConverter(page, true), '')
 
-    if (path === '/logout') return reloadApp()
+    if (path === '/logout') return window.location.href = '/'
 
     admin(path)
     changeContentSize(path)
