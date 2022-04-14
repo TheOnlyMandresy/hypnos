@@ -26,10 +26,16 @@ class InstitutionsTable extends Tables
         $statement['where'] = 'id = ?';
         $statement['att'] = $id;
         
-        $datas = static::find($statement);
+        return static::find($statement);
+    }
 
-        if ($datas) return $datas;
-        return false;
+    public static function getManagerInstitution ($id)
+    {
+        $statement = self::statement();
+        $statement['where'] = 'managerId = ?';
+        $statement['att'] = $id;
+        
+        return static::find($statement);
     }
 
     public static function withNoManager ()
@@ -37,6 +43,17 @@ class InstitutionsTable extends Tables
         $statement = self::statement();
         $statement['where'] = 'managerId IS NULL';
 
-        return static::find($statement, null, true);
+        $datas = static::find($statement, null, true);
+        
+        return ($datas) ? $datas : false;
+    }
+
+    public static function isManaged ($id)
+    {
+        $statement = self::statement();
+        $statement['where'] = 'id = ? AND managerId IS NULL';
+        $statement['att'] = $id;
+
+        return (static::find($statement)) ? false : true;
     }
 }

@@ -5,19 +5,30 @@ let btn = null,
 
 export function sendDatas (e)
 {
-    let post = new FormData(form),
-        request = new XMLHttpRequest()
-        post.append('submit', btn.value)
+    let request = new XMLHttpRequest(),
+        post = null
 
-    btn.disabled = true
-    e.preventDefault()
+    if (e.path) {
+        post = new FormData(form)
+        
+        post.append('submit', btn.value)
+        btn.disabled = true
+        e.preventDefault()
+    } else {
+        post = new FormData()
+
+        for(let data of e.post) {
+            post.append(data[0], data[1])
+        }
+        post.append('submit', e.submit)
+    }
     
     request.onreadystatechange = function() {
         if (request.readyState === 4) {
             appendAlert(request.response)
 
             setTimeout(() => {
-                btn.disabled = false
+                if (e.path) btn.disabled = false
             }, 3000)
         }
     }

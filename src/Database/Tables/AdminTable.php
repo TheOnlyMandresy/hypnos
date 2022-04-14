@@ -10,9 +10,9 @@ class AdminTable extends Tables
 {
     protected static $table = 'users';
 
-    private static function statement ()
+    private static function statement ($join = true)
     {
-        return [
+        if ($join) return [
             'select' => "
                 u.*,
                 i.name as iName,
@@ -24,16 +24,15 @@ class AdminTable extends Tables
             ",
             'where' => 'u.rank = 1'
         ];
+
+        return [];
     }
 
     public static function all ()
     {
         $statement = self::statement();
 
-        $datas = static::find($statement, null, true);
-
-        if ($datas) return $datas;
-        return false;
+        return static::find($statement, null, true);
     }
 
     public static function addMember ($email, $institutionId)
@@ -42,12 +41,60 @@ class AdminTable extends Tables
 
         Users::generalEdit([
             'datas' => ['rank' => 1],
-            'id' => $userId
+            'ids' => ['id' => $userId]
         ]);
         
         Institutions::generalEdit([
             'datas' => ['managerId' => $userId],
-            'id' => $institutionId
+            'ids' => ['id' => $institutionId]
         ]);
+    }
+
+    public static function editMember ($email, $institutionId)
+    {
+        $userId = Users::getId($email);
+        
+        Institutions::generalEdit([
+            'datas' => ['managerId' => NULL],
+            'ids' => ['managerId' => $userId]
+        ]);
+
+        Institutions::generalEdit([
+            'datas' => ['managerId' => $userId],
+            'ids' => ['id' => $institutionId]
+        ]);
+    }
+
+    public static function delMember ($email)
+    {
+        $userId = Users::getId($email);
+        
+        Institutions::generalEdit([
+            'datas' => ['managerId' => NULL],
+            'ids' => ['managerId' => $userId]
+        ]);
+
+        Users::generalEdit([
+            'datas' => ['rank' => 0],
+            'ids' => ['id' => $userId]
+        ]);
+    }
+
+    public static function isUserExist ($email)
+    {
+        $statement = self::statement(false);
+        $statement['where'] = 'rank = 1 AND email = ?';
+        $statement['att'] = $email;
+    
+        return (static::find($statement)) ? true : false;
+    }
+
+    public static function isAdministrator ($email)
+    {
+        $statement = self::statement(false);
+        $statement['where'] = 'rank = 2 AND email = ?';
+        $statement['att'] = $email;
+    
+        return (static::find($statement)) ? true : false;
     }
 }

@@ -13,7 +13,7 @@ use System\Tools\TextTool;
  */
 class DatasController extends Controller
 {
-    private static $entries = ['register', 'login', 'adminMemberNew'];
+    private static $entries = ['register', 'login', 'adminTeamNew', 'adminTeamEdit'];
     
     public function __construct ()
     {
@@ -95,8 +95,10 @@ class DatasController extends Controller
         return true;
     }
 
-    private function adminMemberNew ()
+    private function adminTeamNew ()
     {
+        if (!Admin::isAdministrator(Users::$myDatas->email)) return static::error(405);
+
         $email = TextTool::security($_POST['email'], 'post');
         $institutionId = TextTool::security($_POST['institutionId']);
 
@@ -104,6 +106,55 @@ class DatasController extends Controller
         elseif (!Institutions::getInstitution($institutionId)) $api = static::error(9);
         else {
             Admin::addMember($email, $institutionId);
+            $api = true;
+        }
+
+        $datas = [
+            'infos' => $api,
+            'reload' => true,
+            'admin' => true
+        ];
+        $json = json_encode($datas);
+
+        return $this->render('api', compact($this->compact(['json'])), true);
+    }
+
+    private function adminTeamEdit ()
+    {
+        if (!Admin::isAdministrator(Users::$myDatas->email)) return static::error(405);
+
+        $email = TextTool::security($_POST['email'], 'post');
+        $institutionId = TextTool::security($_POST['institutionId']);
+
+        if (!Users::isUserExist($email)) $api = static::error(6);
+        elseif (!Admin::isUserExist($email)) $api = static::error(10);
+        elseif (!Institutions::getInstitution($institutionId)) $api = static::error(9);
+        elseif (Institutions::isManaged($institutionId)) $api = static::error(11);
+        else {
+            Admin::editMember($email, $institutionId);
+            $api = true;
+        }
+
+        $datas = [
+            'infos' => $api,
+            'reload' => true,
+            'admin' => true
+        ];
+        $json = json_encode($datas);
+
+        return $this->render('api', compact($this->compact(['json'])), true);
+    }
+
+    private function adminTeamDelete ()
+    {
+        if (!Admin::isAdministrator(Users::$myDatas->email)) return static::error(405);
+
+        $email = TextTool::security($_POST['email'], 'post');
+
+        if (!Users::isUserExist($email)) $api = static::error(6);
+        elseif (!Admin::isUserExist($email)) $api = static::error(10);
+        else {
+            Admin::delMember($email);
             $api = true;
         }
 

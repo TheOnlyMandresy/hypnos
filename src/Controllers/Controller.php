@@ -76,6 +76,10 @@ class Controller
                 return 'Une erreur est survenue. Veuillez réessayer';
             case 9:
                 return 'L\'hôtel sélectionné n\'existe pas';
+            case 10:
+                return 'Cet utilisateur n\'est pas un membre de l\'équipe';
+            case 11:
+                return 'Cette institution possède déjà un gérant';
         }
     }
     

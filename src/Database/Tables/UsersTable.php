@@ -8,7 +8,7 @@ use System\Tools\TextTool;
 class UsersTable extends Tables
 {
     protected static $table = 'users';
-    protected static $myDatas = null;
+    public static $myDatas = null;
 
     private static function statement ()
     {
@@ -31,8 +31,7 @@ class UsersTable extends Tables
         
         $datas = static::find($statement);
 
-        if ($datas) return $datas->id;
-        return false;
+        return ($datas) ? $datas->id : false;
     }
 
     public static function getUser ($id)
@@ -49,10 +48,8 @@ class UsersTable extends Tables
         $statement = self::statement();
         $statement['where'] = 'email = ?';
         $statement['att'] = $email;
-        
-        $data = static::find($statement);
 
-        return ($data) ? true : false;
+        return (static::find($statement)) ? true : false;
     }
 
     public static function isPasswordCorrect ($email, $password)
@@ -81,12 +78,9 @@ class UsersTable extends Tables
 
         $datas = static::find($statement);
 
-        if ($datas) {
-            $_SESSION['user'] = $datas->id;
-            return true;
-        }
+        if ($datas) $_SESSION['user'] = $datas->id;
 
-        return false;
+        return ($datas) ? true : false;
     }
 
     public static function register ()
@@ -109,6 +103,21 @@ class UsersTable extends Tables
         return self::$myDatas;
     }
 
+    public static function getMyId ()
+    {
+        if (!self::isLogged()) return false;
+
+        $statement = self::statement();
+        $statement['select'] = 'email';
+        $statement['where'] = 'id = ?';
+        $statement['att'] = $_SESSION['user'];
+        
+        $datas = static::find($statement);
+
+        return ($datas) ? $datas->email : false;
+    }
+
+
     public static function api ($id)
     {
         $statement = self::statement();
@@ -116,9 +125,6 @@ class UsersTable extends Tables
         $statement['where'] = 'id = ?';
         $statement['att'] = $id;
 
-        $datas = static::find($statement);
-
-        if ($datas) return $datas;
-        return false;
+        return static::find($statement);
     }
 }

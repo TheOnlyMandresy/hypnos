@@ -48,7 +48,7 @@ class Tables
         $statement .= 'SET ' .$set. ' ';
         $statement .= 'WHERE ' .$where;
 
-        return static::query($statement, $att);
+        return (static::query($statement, $att)) ? true : false;
     }
 
     /**
@@ -131,11 +131,13 @@ class Tables
             }
         }
 
-        return static::query($statement, $attributes, $all);
+        $datas = static::query($statement, $attributes, $all);
+
+        return ($datas) ? $datas : false;
     }
 
     /**
-     * Get datas in a table
+     * Add datas in a table
      * @param array $statement
      * @param string $underSection : Go to table's child
      */
@@ -149,36 +151,35 @@ class Tables
         return static::insert($statement, $underSection);
     }
 
+    /**
+     * Edit datas in a table
+     * @param array $statement
+     * @param string $underSection : Go to table's child
+     */
     public static function generalEdit ($datas, $underSection = null)
     {
-        $where = 'id = ?';
         $att = $datas['datas'];
-        
-        (isset($datas['id']))? $att['id'] = $datas['id'] : null;
+        $where = null;
 
-        if (isset($datas['ids'])) {
-            $where = null;
+        foreach ($datas['ids'] as $key => $value) {
+            $and = ($key === array_key_last($datas['ids'])) ? null : ' AND ';
+            $where .= $key . ' = ?' . $and;
 
-            foreach ($datas['ids'] as $key => $data) {
-                if ($key === array_key_last($datas['ids'])) {
-                    $where .= $key. ' = ?';
-                } else {
-                    $where .= $key. ' = ? AND ';
-                }
-                $att[$key] .= $data;
+            if (array_key_exists($key, $att)) {
+                $key .= uniqid();
+                $att['2'] = $value;
+                continue;
             }
+            $att['2'] = $value;
         }
 
         $statement = [
             'set' => $datas['datas'],
-            'where' =>$where,
+            'where' => $where,
             'att' => $att
         ];
 
-        $datas = static::update($statement, $underSection);
-        
-        if ($datas) return true;
-        return false;
+        return static::update($statement, $underSection);
     }
 
     public static function generalDelete ($id, $underSection = null)

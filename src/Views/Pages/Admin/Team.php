@@ -17,10 +17,10 @@
             
             <div class="buttons">
                 <button class="btn-success">
-                    <span><a name="<?= $data->email; ?>/<?= $data->iId; ?>/<?= $data->iName; ?>" >modifier</a></span>
+                    <span><a class="edit" name="<?= $data->email; ?>/<?= $data->iId; ?>/<?= $data->iName; ?>" >modifier</a></span>
                 </button>
                 <button class="btn-danger">
-                    <span><a>ou retirer</a></span>
+                    <span><a class="delete" name="<?= $data->email; ?>">ou retirer</a></span>
                 </button>
             </div>
         </div>
@@ -29,10 +29,10 @@
     </div>
     <form>
         <?= $form::input('input', 'email', 'adresse mail du nouveau gérant'); ?>
-        <?= $form::select('institutionId', 'Quel hôtel possédera-t-il la charge ?', $institutions); ?>
+        <?= $form::select('institutionId', 'De quel hôtel possédera-t-il la charge ?', $institutions); ?>
 
         <div class="buttons">
-            <?= $form::button('Attribuer les droits', 'adminMemberNew', 'success'); ?>
+            <?= $form::button('Attribuer les droits', 'adminTeamNew', 'success'); ?>
         </div>
     </form>
 </div>

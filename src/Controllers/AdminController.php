@@ -24,6 +24,8 @@ class AdminController extends Controller
 
     private function team ()
     {
+        if (!Admin::isAdministrator(Users::$myDatas->email)) return static::error(405);
+
         $page = 'admin-team small';
         $title = TextTool::setTitle('équipe');
         $h1 = 'L\'équipe de ' .TextTool::getName();
