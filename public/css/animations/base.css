@@ -4,6 +4,17 @@
 }
 
 @keyframes flash {
-    from { transform: translateY(0%); }
-    to { transform: translateY(300%); }
+    0% {
+        opacity: 0;
+        transform: translateY(100%) translateX(-50%);
+    }
+    40%,
+    80% { 
+        opacity: 1;
+        transform: translateY(-50%) translateX(-50%);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-100%) translateX(-50%);
+    }
 }

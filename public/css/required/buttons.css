@@ -66,3 +66,7 @@
     font-size: var(--ft-size-medium);
     letter-spacing: .3em;
 }
+.btn-nav.disabled > span > a {
+    color: var(--color-light);
+    cursor: default;
+}

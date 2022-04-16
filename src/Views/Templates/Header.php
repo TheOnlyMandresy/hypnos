@@ -59,7 +59,7 @@
         <?php if (isset($_SESSION['user']) && $myDatas->rank > 0): ?>
         <ul>
             <li>
-                <p class="btn-nav">
+                <p class="btn-nav <?php if ($myDatas->rank == 1) echo 'disabled'; ?>">
                     <span><a href="/admin/team" onclick="route()">équipe</a></span>
                 </p>
             </li>
@@ -69,7 +69,7 @@
                 </p>
             </li>
             <li>
-                <p class="btn-nav">
+                <p class="btn-nav <?php if ($myDatas->rank == 1) echo 'disabled'; ?>">
                     <span><a href="/admin/support" onclick="route()">Support</a></span>
                 </p>
             </li>

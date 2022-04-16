@@ -1,6 +1,4 @@
 import { routes, admin } from './pages.js'
-import { checkForm } from './form.js'
-import { reloadApp } from './nav.js'
 
 // Getting link
 export const route = (event) => {
@@ -25,11 +23,10 @@ export const handleLocation = async () => {
 
     if (path === '/logout') return window.location.href = '/'
 
-    admin(path)
     changeContentSize(path)
     updateHead(page)
     document.getElementById('root').innerHTML = html
-    checkForm ()
+    admin(path)
 }
 
 // Convert to JSON or remove JSON (to delete before initializing the html)

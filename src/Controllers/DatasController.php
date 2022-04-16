@@ -59,6 +59,7 @@ class DatasController extends Controller
         }
 
         $datas = [
+            'isForm' => true,
             'state' => $state,
             'infos' => false,
             'reload' => true,
@@ -84,6 +85,7 @@ class DatasController extends Controller
         else $state = true;
 
         $datas = [
+            'isForm' => true,
             'state' => $state,
             'infos' => false,
             'reload' => true,
@@ -129,6 +131,7 @@ class DatasController extends Controller
         }
 
         $datas = [
+            'isForm' => true,
             'state' => $state,
             'infos' => json_encode($api),
             'reload' => false,
@@ -156,6 +159,7 @@ class DatasController extends Controller
         }
 
         $datas = [
+            'isForm' => true,
             'state' => $state,
             'infos' => false,
             'reload' => false,
@@ -187,6 +191,7 @@ class DatasController extends Controller
         }
 
         $datas = [
+            'isForm' => false,
             'state' => $state,
             'infos' => json_encode($api),
             'reload' => false,
@@ -212,6 +217,7 @@ class DatasController extends Controller
         else $state = true;
 
         $datas = [
+            'isForm' => false,
             'state' => $state,
             'infos' => json_encode($api),
             'reload' => false,
@@ -235,6 +241,7 @@ class DatasController extends Controller
         }
 
         $datas = [
+            'isForm' => false,
             'state' => $state,
             'infos' => $state,
             'reload' => false,

@@ -31,13 +31,17 @@ form label {
 }
 
 .flash {
+    z-index: 9;
     position: absolute;
-    top: -4%; left: 0;
-    width: 100%;
-    animation: 1s ease forwards flash;
+    top: 50%; left: 50%;
+    opacity: 0;
+    transform: translateY(100%) translateX(-50%);
+    animation: 2.5s ease forwards flash;
 }
 
 .flash p {
     text-align: center;
-    color: var(--color-danger);
+    color: var(--color-primary);
+    padding: 1em;
+    background-color: var(--color-danger);
 }

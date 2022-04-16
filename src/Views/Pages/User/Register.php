@@ -8,7 +8,7 @@
 </div>
 
 <div class="container">
-    <form class="sendData">
+    <form>
         <?= $form::input('input', 'firstname', 'Prénom'); ?>
         <?= $form::input('input', 'lastname', 'Nom'); ?>
         <?= $form::input('email', 'email', 'Adresse mail'); ?>

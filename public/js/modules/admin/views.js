@@ -1,4 +1,4 @@
-import { sendDatas, globalData } from '../form.js'
+import { sendDatas } from '../form.js'
 
 export function viewsClick (e)
 {
@@ -8,46 +8,48 @@ export function viewsClick (e)
     if (target.contains('delete')) remove(e.target.name)
 }
 
-async function edit (id)
+function edit (id)
 {
-    let session = 'adminInstitutionGet',
-        send = {
+    let send = {
+            'to': 'adminInstitutionGet',
             'post': [
                 ['id', id]
-            ],
-            'submit': session
+            ]
         }
 
-    await fetch(sendDatas(send))
-    
-    const datas = globalData
-    let name = document.querySelector('input[name="name"]'),
-        city = document.querySelector('input[name="city"]'),
-        address = document.querySelector('input[name="address"]'),
-        description = document.querySelector('textarea[name="description"]'),
-        entertainment = document.querySelector('input[name="entertainment"]')
+    sendDatas(send).then(response => {
+        if (response.state !== true) return
+        const datas = response.infos
 
-    name.value = datas.name;
-    city.value = datas.city;
-    address.value = datas.address;
-    description.value = datas.description;
-    entertainment.value = datas.entertainment;
+        let name = document.querySelector('input[name="name"]'),
+            city = document.querySelector('input[name="city"]'),
+            address = document.querySelector('input[name="address"]'),
+            description = document.querySelector('textarea[name="description"]'),
+            entertainment = document.querySelector('input[name="entertainment"]')
+
+        name.value = datas.name;
+        city.value = datas.city;
+        address.value = datas.address;
+        description.value = datas.description;
+        entertainment.value = datas.entertainment;
+    })
 }
 
-async function remove (id)
+function remove (id)
 {
-    let session = 'adminInstitutionDel',
-        send = {
+    let send = {
+            'to': 'adminInstitutionDel',
             'post': [
                 ['id', id]
-            ],
-            'submit': session
+            ]
         }
+    
+    sendDatas(send).then(response => {
+        if (response.state !== true) return
 
-    await fetch(sendDatas(send))
-    
-    const datas = globalData
-    let box = document.querySelector('#institution' +id)
-    
-    if (datas === true) box.remove();
+        const datas = response.infos
+        let box = document.querySelector('#institution' +id)
+        
+        if (datas === true) box.remove();
+    })   
 }

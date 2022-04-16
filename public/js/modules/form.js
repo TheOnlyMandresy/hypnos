@@ -1,39 +1,40 @@
 import { reloadApp } from './nav.js'
 
-let btn, post
+let globalData
 
-export let globalData
-
-export function sendDatas (form)
+export async function sendDatas (infos)
 {
-    let request = new XMLHttpRequest()
+    let btn = document.querySelector('form button[type="button"]')
 
-    if (btn) btn.disabled = true
+    await fetch(datasTreatment(infos))
 
-    if (form.constructor.name === 'HTMLFormElement') {
-        post = new FormData(form)
-        
-        post.append('submit', btn.value)
-    } else {
+    appendAlert(globalData)
+    btn.disabled = false
+    return globalData
+}
+
+function datasTreatment (form)
+{
+    let request = new XMLHttpRequest(),
         post = new FormData()
 
+    post.append('submit', form.to)
+
+    if (form.post) {
         for(let data of form.post) {
             post.append(data[0], data[1])
         }
-        post.append('submit', form.submit)
     }
     
     request.onreadystatechange = function() {
         if (request.readyState === 4 && request.status === 200) {
-            let datas = JSON.parse(request.responseText)
+            let jsonObj = JSON.parse(request.responseText),
+                infos = jsonObj.infos
+                
+            infos = JSON.parse(infos)
+            jsonObj.infos = infos
 
-            globalData = JSON.parse(JSON.parse(request.responseText).infos)
-
-            setTimeout(() => {
-                if (btn) btn.disabled = false
-            }, 3000)
-
-            appendAlert(datas, form)
+            globalData = jsonObj
         }
     }
     
@@ -41,44 +42,13 @@ export function sendDatas (form)
     request.send(post)
 }
 
-export function checkForm ()
-{
-    if (document.querySelector('form.sendData')) {
-        let form = document.querySelector('form.sendData')
-        btn = form.querySelector('button[type="button"]')
-
-        console.log(btn)
-        form.addEventListener('submit', (e) => {
-            e.preventDefault()
-            sendDatas(form)
-        })
-        btn.addEventListener('click', (e) => {
-            e.preventDefault()
-            sendDatas(form)
-        })
-    }
-}
-
-function appendAlert (datas, form)
+function appendAlert (datas)
 {
     let main = document.querySelector('main')
-
-    if (document.querySelector('.flash')) document.querySelector('.flash').remove()
-
-    if (datas.state !== true && form.constructor.name === 'HTMLFormElement') {
-        let html = document.createElement('div'),
-            p = document.createElement('p')
-
-        html.classList.add('flash')
-        p.textContent = datas.state
-        html.appendChild(p)
-        main.classList.add('danger')
-        main.appendChild(html)
-        return
-    }
     
-    if (form.constructor.name === 'HTMLFormElement') {
-        main.classList.remove('danger')
+    if (datas.state !== true) return flash(main, datas.state)
+    
+    if (datas.isForm) {
         main.classList.add('success')
         setTimeout (() => { main.classList.remove('success') }, 1000)
     }
@@ -87,4 +57,22 @@ function appendAlert (datas, form)
     if (datas.reload && datas.link === -1) return reloadApp()
     if (!datas.reload && datas.link === -1) return history.back()
     if (!datas.reload && typeof datas.link === 'string') return window.location.href = datas.link
+}
+
+function flash (main, message)
+{
+    let html = document.createElement('div'),
+        p = document.createElement('p')
+
+    html.classList.add('flash')
+    p.textContent = message
+    html.appendChild(p)
+    main.appendChild(html)
+
+    main.classList.add('danger')
+
+    setTimeout (() => {
+        main.classList.remove('danger')
+        document.querySelector('.flash').remove()
+    }, 3000)
 }
