@@ -5,6 +5,7 @@ namespace System\Database\Tables;
 use System\Database\Tables;
 use System\Database\Tables\UsersTable as Users;
 use System\Database\Tables\InstitutionsTable as Institutions;
+use System\Database\Tables\RoomsTable as Rooms;
 
 class AdminTable extends Tables
 {
@@ -96,5 +97,13 @@ class AdminTable extends Tables
         $statement['att'] = $email;
     
         return (static::find($statement)) ? true : false;
+    }
+
+    public static function roomsDelete ($id)
+    {
+        Rooms::delete([
+            'where' => 'institutionId = ?',
+            'att' => [$id]
+        ]);
     }
 }

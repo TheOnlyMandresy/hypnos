@@ -3,6 +3,21 @@ main[class*="admin-"] h1 {
     margin-bottom: 1em;
 }
 
+main[class*="admin-"] .quickNav {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-bottom: 2em;
+}
+
+main[class*="admin-"] .btn-success2.selected a { color: var(--color-secondary); }
+
+main[class*="admin-"] .list {
+    max-height: 45vh;
+    overflow-y: auto;
+    padding-right: 2em;
+}
+
 main.admin-team > .container {
     display: flex;
     gap: 5em;
@@ -21,3 +36,26 @@ main.admin-team > .container > .team .name {
     color: var(--color-light);
     letter-spacing: 0.1em;
 }
+
+/* Overview */
+main.admin-views:not(.undersection) .container {
+    max-height: 40vh;
+    overflow-y: auto;
+}
+main.admin-views:not(.undersection) .box { margin-block: 2em; }
+main.admin-views:not(.undersection) .box h2 { font-size: 1.2em; }
+main.admin-views:not(.undersection) .box p { color: var(--color-light); }
+
+
+/* Undersection */
+main.admin-views.undersection .container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-areas: "a b";
+    gap: 5em
+}
+
+main.admin-views.undersection .container .list { grid-area: a; }
+main.admin-views.undersection .container form { grid-area: b; }
+
+main.admin-views.undersection .container h2 { font-size: 1em; }

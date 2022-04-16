@@ -11,13 +11,13 @@
     <div class="team">
     <?php if ($team !== false): ?>
         <?php foreach ($team as $data): ?>
-        <div class="box">
+        <div id="member<?= $data->id; ?>" class="box">
             <p class="name"><?= $data->lastname; ?> <?= $data->firstname; ?></p>
             <p class="email"><?= $data->email; ?></p>
             
             <div class="buttons">
                 <button class="btn-success">
-                    <span><a class="edit" name="<?= $data->email; ?>/<?= $data->iId; ?>/<?= $data->iName; ?>" >modifier</a></span>
+                    <span><a class="edit" name="<?= $data->email; ?>" >modifier</a></span>
                 </button>
                 <button class="btn-danger">
                     <span><a class="delete" name="<?= $data->email; ?>">ou retirer</a></span>

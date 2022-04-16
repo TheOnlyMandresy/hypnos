@@ -83,6 +83,10 @@ class Controller
                 return 'Cet utilisateur n\'est pas un membre de l\'équipe';
             case 11:
                 return 'Cette institution possède déjà un gérant';
+            case 12:
+                return 'Recherche introuvable';
+            case 13:
+                return 'Cet utilisateur est déjà un membre de l\'équipe';
         }
     }
     

@@ -24,9 +24,12 @@ export const routes = {
     '/register': '/page/users/register',
     '/logout': '/datas?logout=true',
 
-    '/admin/team': '/page/admin/team',             // Team
-    '/admin/views': '/page/admin/views',           // Hotels, Rooms, Reservations
-    '/admin/support': '/page/admin/support',       // Tickets
+    '/admin/team': '/page/admin/team',                  // Team
+    '/admin/views': '/page/admin/views',                // Hotels, Rooms, Reservations
+    '/admin/hotels': '/page/admin/institutions',        // Hotels
+    '/admin/rooms': '/page/admin/rooms',                // Rooms
+    '/admin/reservations': '/page/admin/reservations',  // Réservations
+    '/admin/support': '/page/admin/support',            // Tickets
     '/admin/ticket-ID': '/page/admin/ticket-ID',
     '/admin/user': '/page/admin/team',  
 }

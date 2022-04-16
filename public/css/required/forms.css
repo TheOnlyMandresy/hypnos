@@ -20,7 +20,8 @@ form select {
     background-color: rgb(0 0 0 / 2%);
 }
 form textarea {
-    resize: none;
+    min-height: 10vh;
+    resize: vertical;
     line-height: var(--ft-lineh-large);
 }
 

@@ -1,8 +1,6 @@
-import { sendDatas } from '../form.js'
+import { sendDatas, globalData } from '../form.js'
 
-let input = null
-let select = null
-let btn = null
+let input, select, btn
 
 export function teamClick (e)
 {
@@ -11,21 +9,67 @@ export function teamClick (e)
     input = document.querySelector('input[name="email"]')
     select = document.querySelector('select optgroup')
     btn = document.querySelector('button[type="button"]')
-
-    if (target.contains('edit')) edit(e)
-    if (target.contains('delete')) remove(e)
+    
+    if (e.target.parentNode.parentNode.value === 'adminTeamNew') add()
+    if (e.target.parentNode.parentNode.value === 'adminTeamEdit') edit()
+    if (target.contains('edit')) getEdit(e.target.name)
+    if (target.contains('delete')) remove(e.target.name)
 }
 
-function edit (e)
+async function add ()
 {
-    let datas = e.target.name.split('/')
+    let session = 'adminTeamNew',
+        list = document.querySelector('.container > .team'),
+        send = {
+            'post': [
+                ['email', input.value],
+                ['institutionId', select.parentNode.value]
+            ],
+            'submit': session
+        }
 
+    await fetch(sendDatas(send))
+    const datas = globalData
+
+    const newOption = `
+        <div id="member${datas.userId}" class="box">
+            <p class="name">${datas.name}</p>
+            <p class="email">${datas.email}</p>
+            
+            <div class="buttons">
+                <button class="btn-success">
+                    <span><a class="edit" name="${datas.email}" >modifier</a></span>
+                </button>
+                <button class="btn-danger">
+                    <span><a class="delete" name="${datas.email}">ou retirer</a></span>
+                </button>
+            </div>
+        </div>
+    `
+    list.innerHTML += newOption
+
+    input.value = ''
+    select.querySelector('option[value="' +datas.iId+ '"]').remove()
+}
+
+async function getEdit (email)
+{
+    let session = 'adminInstitutionGet',
+        send = {
+            'post': [
+                ['email', email]
+            ],
+            'submit': session
+        }
+
+    await fetch(sendDatas(send))
+    const datas = globalData
     if (select.querySelector('option.new')) select.querySelector('option.new').remove()
 
-    input.value = datas[0]
+    input.value = datas.userEmail
     const newOption = `
-        <option selected class="new" value=${datas[1]}>
-        ${datas[2]}
+        <option selected class="new" value=${datas.id}>
+        ${datas.name}
         </option>
     `
     btnState('confirmer modifications', 'adminTeamEdit', true)
@@ -34,23 +78,56 @@ function edit (e)
     input.addEventListener('change', teamChange)
 }
 
-function remove (e)
+async function remove (email)
 {
-    let data = e.target.name,
+    let session = 'adminTeamDelete',
         send = {
-        'post': [
-            ['email', data]
-        ],
-        'submit': 'adminTeamDelete'
-    }
+            'post': [
+                ['email', email]
+            ],
+            'submit': session
+        }
 
-    sendDatas(send);
+    await fetch(sendDatas(send))
+    const datas = globalData
+    let box = document.querySelector('#member' +datas.userId)
+    
+    teamChange()
+    const newOption = `
+        <option value=${datas.iId}>
+        ${datas.iName}
+        </option>
+    `
+    select.innerHTML += newOption
+
+    box.remove();
+}
+
+async function edit ()
+{
+    let session = 'adminTeamEdit',
+        option = select.querySelector('option:checked'),
+        lastOption = select.querySelector('option.new'),
+        send = {
+            'post': [
+                ['email', input.value],
+                ['institutionId', select.parentNode.value]
+            ],
+            'submit': session
+        }
+
+    await fetch(sendDatas(send))
+
+    input.value = ''
+    option.remove()
+    lastOption.classList.remove('new')
+    teamChange()
 }
 
 function teamChange ()
 {
-    if (btn.classList.contains('btn-success2')) {
-        document.querySelector('option.new').remove()
+    if (btn.value === 'adminTeamEdit') {
+        if (select.querySelector('option.new')) select.querySelector('option.new').remove()
         btnState('attribuer les droits', 'adminTeamNew', false)
         input.removeEventListener('change', teamChange)
     } 

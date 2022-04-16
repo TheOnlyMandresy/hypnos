@@ -32,7 +32,15 @@ class InstitutionsTable extends Tables
     public static function getManagerInstitution ($id)
     {
         $statement = self::statement();
-        $statement['where'] = 'managerId = ?';
+        $statement['select'] = "
+            i.*,
+            u.email as userEmail
+        ";
+        $statement['join'] = " as i
+            INNER JOIN users u
+            ON i.managerId = u.id
+        ";
+        $statement['where'] = 'i.managerId = ?';
         $statement['att'] = $id;
         
         return static::find($statement);
