@@ -28,7 +28,7 @@ export async function sendDatas (infos)
 {
     let btn = document.querySelector('form button[type="button"]')
 
-    await fetch(datasTreatment(infos))
+    await datasTreatment(infos)
 
     if (globalData.state === true) document.querySelector('form').reset()
     appendAlert(globalData)
@@ -38,31 +38,40 @@ export async function sendDatas (infos)
 
 function datasTreatment (form)
 {
-    let request = new XMLHttpRequest(),
-        post = new FormData()
+    return new Promise(function (resolve, reject) {
+        let request = new XMLHttpRequest(),
+            post = new FormData()
 
-    post.append('submit', form.to)
+        post.append('submit', form.to)
 
-    if (form.post) {
-        for(let data of form.post) {
-            post.append(data[0], data[1])
+        if (form.post) {
+            for(let data of form.post) {
+                if (typeof data[1] === 'object' && data[1].length > 0) {
+                    for(let x = 0; x < data[1].length; x++) {
+                        post.append(data[0] + '[]', data[1][x])
+                    }
+                } else {
+                    post.append(data[0], data[1])
+                }
+            }
         }
-    }
-    
-    request.onreadystatechange = function() {
-        if (request.readyState === 4 && request.status === 200) {
-            let jsonObj = JSON.parse(request.responseText),
-                infos = jsonObj.infos
-                
-            infos = JSON.parse(infos)
-            jsonObj.infos = infos
+        
+        request.onreadystatechange = function() {
+            if (request.readyState === 4 && request.status === 200) {
+                let jsonObj = JSON.parse(request.responseText),
+                    infos = jsonObj.infos
+                    
+                infos = JSON.parse(infos)
+                jsonObj.infos = infos
 
-            globalData = jsonObj
+                globalData = jsonObj
+                resolve(request.response)
+            }
         }
-    }
-    
-    request.open("POST", "/datas")
-    request.send(post)
+        
+        request.open("POST", "/datas")
+        request.send(post)
+    })
 }
 
 function appendAlert (datas)

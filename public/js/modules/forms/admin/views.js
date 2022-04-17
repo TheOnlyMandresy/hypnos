@@ -1,5 +1,5 @@
-import * as formular from '../../form.js'
-import * as views from '../../views/admin/views.js'
+import * as FORMULAR from '../../form.js'
+import * as VIEWS from '../../views/admin/VIEWS.js'
 
 export function adminViewsCall (e, main)
 {
@@ -13,7 +13,10 @@ export function adminViewsCall (e, main)
     }
 
     if (main.includes('admin-rooms')) {
-        
+        if (target === 'new') roomNew()
+        if (target === 'edit') roomEdit(e.target.dataset.infos)
+        if (target === 'get') roomGet(e.target.dataset.infos)
+        if (target === 'delete') roomRemove(e.target.dataset.infos)
     }
 
     if (main.includes('admin-reservations')) {
@@ -43,12 +46,12 @@ function institutionNew ()
         ]
     }
 
-    formular.sendDatas(send).then(response => {
+    FORMULAR.sendDatas(send).then(response => {
         if (response.state !== true) return
         const datas = response.infos
 
-        views.appendInstitution(datas)
-        formular.btnState('ajouter l\institution', 'new', false)
+        VIEWS.appendInstitution(datas)
+        FORMULAR.btnState('ajouter l\institution', 'new', false)
     })
 }
 
@@ -74,13 +77,13 @@ function institutionEdit (id)
         ]
     }
 
-    formular.sendDatas(send).then(response => {
+    FORMULAR.sendDatas(send).then(response => {
         if (response.state !== true) return
 
         let institutionId = '#institution' + id
-        document.querySelector(institutionId + ' h2').innerHTML = formular.htmlDecode(send.post[1][1])
+        document.querySelector(institutionId + ' h2').innerHTML = FORMULAR.htmlDecode(send.post[1][1])
         document.querySelector('form .buttons .add').remove()
-        formular.btnState('ajouter l\institution', 'new', false)
+        FORMULAR.btnState('ajouter l\institution', 'new', false)
     })
 }
 
@@ -93,7 +96,7 @@ function institutionGet (id)
         ]
     }
 
-    formular.sendDatas(send).then(response => {
+    FORMULAR.sendDatas(send).then(response => {
         if (response.state !== true) return
         const datas = response.infos
 
@@ -104,15 +107,15 @@ function institutionGet (id)
             entertainment = document.querySelector('input[name="entertainment"]'),
             btn = document.querySelector('form button a')
 
-        name.value = formular.htmlDecode(datas.name)
-        city.value = formular.htmlDecode(datas.city)
-        address.value = formular.htmlDecode(datas.address)
-        description.value = formular.htmlDecode(datas.description)
-        entertainment.value = formular.htmlDecode(datas.entertainment)
+        name.value = FORMULAR.htmlDecode(datas.name)
+        city.value = FORMULAR.htmlDecode(datas.city)
+        address.value = FORMULAR.htmlDecode(datas.address)
+        description.value = FORMULAR.htmlDecode(datas.description)
+        entertainment.value = FORMULAR.htmlDecode(datas.entertainment)
 
-        formular.btnState('confirmer modifications', 'edit', true)
-        btn.dataset.infos = formular.htmlDecode(datas.id)
-        views.addBtn()
+        FORMULAR.btnState('confirmer modifications', 'edit', true)
+        btn.dataset.infos = FORMULAR.htmlDecode(datas.id)
+        VIEWS.addBtn()
     })
 }
 
@@ -125,7 +128,7 @@ function institutionRemove (id)
         ]
     }
     
-    formular.sendDatas(send).then(response => {
+    FORMULAR.sendDatas(send).then(response => {
         if (response.state !== true) return
 
         const datas = response.infos
@@ -134,6 +137,32 @@ function institutionRemove (id)
         
         let isAddBtn = document.querySelector('form .buttons .add')
         if (isAddBtn) isAddBtn.remove()
-        formular.btnState('ajouter l\institution', 'new', false)
+        FORMULAR.btnState('ajouter l\institution', 'new', false)
     })   
+}
+
+function roomNew ()
+{
+    let title = document.querySelector('input[name="title"]'),
+        institutionId = document.querySelector('select'),
+        imgFront = document.querySelector('input[name="image"]'),
+        description = document.querySelector('textarea'),
+        price = document.querySelector('input[name="price"]'),
+        images = document.querySelector('input[name="image[]"]'),
+        link = document.querySelector('input[name="link"]')
+        
+    const send = {
+        'to': 'adminRoomNew',
+        'post': [
+            ['title', title.value],
+            ['institutionId', institutionId.value],
+            ['imgFront', imgFront.files],
+            ['description', description.value],
+            ['price', price.value],
+            ['images', images.files],
+            ['link', link.value]
+        ]
+    }
+
+    FORMULAR.sendDatas(send)
 }

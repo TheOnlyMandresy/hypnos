@@ -20,16 +20,16 @@ export function adminTeamCall (e)
 function add ()
 {
     const send = {
-            'to': 'adminTeamNew',
-            'post': [
-                ['email', input.value],
-                ['institutionId', select.parentNode.value]
-            ]
-        }
+        'to': 'adminTeamNew',
+        'post': [
+            ['email', input.value],
+            ['institutionId', select.parentNode.value]
+        ]
+    }
 
     FORMULAR.sendDatas(send).then(response => {
         if (response.state !== true) return
-        return TEAM.appendMember(response.infos)
+        return TEAM.addHTML(response.infos)
     })
 }
 
@@ -44,20 +44,7 @@ function get (email)
 
     FORMULAR.sendDatas(send).then(response => {
         if (response.state !== true) return
-        const datas = response.infos
-
-        if (select.querySelector('option.new')) select.querySelector('option.new').remove()
-
-        input.value = FORMULAR.htmlDecode(datas.userEmail)
-        const newOption = `
-            <option selected class="new" value=${FORMULAR.htmlDecode(datas.id)}>
-            ${FORMULAR.htmlDecode(datas.name)}
-            </option>
-        `
-        FORMULAR.btnState('confirmer modifications', 'edit', true)
-
-        select.innerHTML += newOption
-        input.addEventListener('input', teamChange)
+        return TEAM.editHTML(response.infos)
     })
 }
 
@@ -72,19 +59,7 @@ function remove (email)
 
     FORMULAR.sendDatas(send).then(response => {
         if (response.state !== true) return
-        const datas = response.infos
-
-        let box = document.querySelector('#member' +datas.userId)
-        
-        teamChange()
-        const newOption = `
-            <option value=${datas.iId}>
-            ${datas.iName}
-            </option>
-        `
-        select.innerHTML += newOption
-    
-        box.remove();
+        return TEAM.delHTML(response.infos)
     })
 }
 
@@ -105,16 +80,8 @@ function edit ()
         if (response.state !== true) return
         const datas = response.infos
     
-        input.value = ''
         option.remove()
         lastOption.classList.remove('new')
-        teamChange()
+        TEAM.changes()
     })
-}
-
-function teamChange ()
-{
-    if (select.querySelector('option.new')) select.querySelector('option.new').remove()
-    FORMULAR.btnState('attribuer les droits', 'new', false)
-    input.removeEventListener('change', teamChange)
 }

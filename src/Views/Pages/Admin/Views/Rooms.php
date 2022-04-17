@@ -25,14 +25,16 @@
     </div>
 
     <form>
-        <?= $form::input('input', 'name', 'Nom de l\'hôtel'); ?>
-        <?= $form::input('input', 'city', 'Dans quelle ville est-il situé ?'); ?>
-        <?= $form::input('input', 'address', 'Quel est son adresse ?'); ?>
-        <?= $form::textarea('description', 'Parlez-nous de cet endroit'); ?>
-        <?= $form::input('input', 'entertainment', 'Quels sevices proposez-vous (séparer par des “.”)'); ?>
+        <?= $form::input('input', 'title', 'Titre de la suite'); ?>
+        <?= $form::select('institutionId', 'A quelle enseigne appartient-elle ?', $institutions); ?>
+        <?= $form::images('Image de présentation', false); ?>
+        <?= $form::textarea('description', 'Description de la suite'); ?>
+        <?= $form::input('input', 'price', '€'); ?>
+        <?= $form::images('Images de démonstration'); ?>
+        <?= $form::input('input', 'link', 'Lien tripadvisor'); ?>
 
         <div class="buttons">
-            <?= $form::button('Attribuer les droits', 'adminInstitutionNew', 'success'); ?>
+            <?= $form::button('Ajouter la suite', 'new', 'success'); ?>
         </div>
     </form>
 </div>

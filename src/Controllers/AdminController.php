@@ -81,8 +81,14 @@ class AdminController extends Controller
         $title = TextTool::setTitle('Les suites');
         $h1 = 'Les suites';
 
-        $institutions = Institutions::all();
+        $datas = Institutions::all();
+        $institutions = [];
+        foreach ($datas as $value) {
+            $institutions[$value->id] = $value->name;
+        }
+        
         $rooms = Rooms::all();
+
 
         return $this->render('admin/Views/Rooms', compact($this->compact(['institutions', 'rooms'])));
     }

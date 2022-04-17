@@ -88,4 +88,17 @@ class FormTool
 
         return $html;
     }
+
+    public static function images ($ph, $multiple = true) {
+        
+        $id = uniqid();
+        
+        $html = '<div class="img">';
+            $html .= '<label for="' .$id. '">' .$ph. '</label>';
+            $html .= '<input accept="image/png, image/jpeg" id="' .$id. '" type="file" ';
+            $html .= ($multiple)? 'name="image[]" multiple />': 'name="image" />';
+        $html .= '</div>';
+        
+        return $html;
+    }
 }

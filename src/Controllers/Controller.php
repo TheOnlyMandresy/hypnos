@@ -87,6 +87,14 @@ class Controller
                 return 'Recherche introuvable';
             case 13:
                 return 'Cet utilisateur est déjà un membre de l\'équipe';
+            case 14:
+                return 'Une image est trop volumineuse';
+            case 15:
+                return 'Seuls les fichier de type JPEG/PNG sont acceptés';
+            case 16:
+                return 'Une erreur est survenue lors de l\'upload des images';
+            case 17:
+                return 'Un fichier envoyé n\'est pas une image';
         }
     }
     
