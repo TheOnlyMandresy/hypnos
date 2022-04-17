@@ -1,5 +1,3 @@
-import { administrator } from './admin.js'
-
 export const routes = {
     '/404': '/page/index/404',
     '/405': '/page/index/405',
@@ -34,16 +32,11 @@ export const routes = {
     '/admin/user': '/page/admin/team',  
 }
 
-export let adminMain
-
 export function admin (path)
 {
     let isAdmin = path.split('/')[1] === 'admin',
         body = document.querySelector('body')
-        adminMain = body.querySelector('main')
 
         if (isAdmin) body.classList.add('mode-admin')
         if (!isAdmin) body.classList.remove('mode-admin')
-
-        if (isAdmin) adminMain.addEventListener('click', (e) => { administrator(e) })
 }

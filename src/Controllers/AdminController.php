@@ -64,7 +64,7 @@ class AdminController extends Controller
     {
         if (!self::$isAdministrator && !self::$isManager) return static::error(405);
 
-        $page = 'admin-views undersection small';
+        $page = 'admin-views admin-institutions undersection small';
         $title = TextTool::setTitle('les hôtels');
         $h1 = 'Les hôtels de ' .TextTool::getName();
 
@@ -77,7 +77,7 @@ class AdminController extends Controller
     {
         if (!self::$isAdministrator && !self::$isManager) return static::error(405);
 
-        $page = 'admin-views undersection small';
+        $page = 'admin-views admin-rooms undersection small';
         $title = TextTool::setTitle('Les suites');
         $h1 = 'Les suites';
 
@@ -91,7 +91,7 @@ class AdminController extends Controller
     {
         if (!self::$isAdministrator && !self::$isManager) return static::error(405);
 
-        $page = 'admin-views undersection small';
+        $page = 'admin-views admin-reservations undersection small';
         $title = TextTool::setTitle('Les réservations');
         $h1 = 'Les réservations';
 

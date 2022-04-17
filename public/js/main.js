@@ -19,7 +19,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // When everything loaded
 window.addEventListener('load', function loaded() {
-    let loader = document.getElementById('loading')
+    const loader = document.getElementById('loading')
 
     setTimeout(() => {
         loader.classList.add('fade')
@@ -29,7 +29,7 @@ window.addEventListener('load', function loaded() {
             loader.remove()
         }, 1000)
     }, 1000)
-
+    
     window.removeEventListener('load', loaded)
 })
 

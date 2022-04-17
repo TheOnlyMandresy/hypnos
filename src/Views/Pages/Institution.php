@@ -10,7 +10,7 @@
 </div>
 
 <div class="rooms">
-<?php if ($rooms !== false): ?>
+<?php if (isset($rooms)): ?>
 <?php foreach ($rooms as $data): ?>
     <div class="box">
         <div class="img" style="background-image: url(<?= System::getSystemInfos('img_room'); ?>/<?= $data->imgFront; ?>);"></div>

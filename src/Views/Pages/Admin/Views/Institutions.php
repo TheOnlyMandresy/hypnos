@@ -27,10 +27,10 @@
             
             <div class="buttons">
                 <button class="btn-success">
-                    <span><a class="edit" name="<?= $data->id; ?>" >modifier</a></span>
+                    <span><a name="get" data-infos="<?= $data->id; ?>" >modifier</a></span>
                 </button>
                 <button class="btn-danger">
-                    <span><a class="delete" name="<?= $data->id; ?>">ou retirer</a></span>
+                    <span><a name="delete" data-infos="<?= $data->id; ?>">ou retirer</a></span>
                 </button>
             </div>
         </div>
@@ -45,7 +45,7 @@
         <?= $form::input('input', 'entertainment', 'Quels sevices proposez-vous (séparer par des “.”)'); ?>
 
         <div class="buttons">
-            <?= $form::button('Ajouter l\'institution', 'adminInstitutionNew', 'success'); ?>
+            <?= $form::button('Ajouter l\'institution', 'new', 'success'); ?>
         </div>
     </form>
 </div>

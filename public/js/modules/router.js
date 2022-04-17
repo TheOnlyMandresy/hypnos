@@ -1,4 +1,5 @@
 import { routes, admin } from './pages.js'
+import { formController } from './forms/controller.js'
 
 // Getting link
 export const route = (event) => {
@@ -27,6 +28,9 @@ export const handleLocation = async () => {
     updateHead(page)
     document.getElementById('root').innerHTML = html
     admin(path)
+    
+    const main = document.querySelector('main')
+    main.addEventListener('click', (e) => { formController(e) })
 }
 
 // Convert to JSON or remove JSON (to delete before initializing the html)

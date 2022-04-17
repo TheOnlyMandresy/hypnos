@@ -16,7 +16,7 @@ class DatasController extends Controller
 {
     private static $entries = [
         'register', 'login', 'adminTeamNew', 'adminTeamEdit', 'adminTeamDelete',
-        'adminInstitutionGet', 'adminInstitutionDel'
+        'adminInstitutionGet', 'adminInstitutionDel', 'adminInstitutionNew'
     ];
     
     public function __construct ()
@@ -27,6 +27,27 @@ class DatasController extends Controller
 
         $load = $_POST['submit'];
         return $this->$load();
+    }
+
+    /**
+     * Send datas
+     * @param bool $isForm Is it a form
+     * @param $state State of the request
+     * @param $infos Aditionnal informations
+     * @param bool $reload Reload website
+     * @param $link Url to go to [false: stay in page] [-1: to go back]
+     */
+    private function datas ($isForm, $state, $infos, $reload, $link = -1)
+    {
+        $array = [
+            'isForm' => $isForm,
+            'state' => $state,
+            'infos' => $infos,
+            'reload' => $reload,
+            'link' => $link
+        ];
+
+        return $array;
     }
 
     private function register ()
@@ -40,11 +61,11 @@ class DatasController extends Controller
         $password2 = TextTool::security($_POST['password2']);
         $isEmpty = [$firstname, $lastname, $email, $password1, $password2];
 
-        if (in_array('', $isEmpty)) $state = $this->error(4);
-        elseif (Users::isUserExist($email)) $state = $this->error(3);
-        elseif (!preg_match('/^[a-zA-Z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/', $email)) $state = $this->error(1);
-        elseif (strlen($password1) <= 7) $state = $this->error(5);
-        elseif ($password1 !== $password2) $state = $this->error(2);
+        if (in_array('', $isEmpty)) $state = static::error(4);
+        elseif (Users::isUserExist($email)) $state = static::error(3);
+        elseif (!preg_match('/^[a-zA-Z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/', $email)) $state = static::error(1);
+        elseif (strlen($password1) <= 7) $state = static::error(5);
+        elseif ($password1 !== $password2) $state = static::error(2);
         else {
             $send = Users::generalAdd([
                 'firstname' => $firstname,
@@ -55,18 +76,10 @@ class DatasController extends Controller
 
             if (isset($send)) Users::register();
     
-            $state = (isset($send)) ? true : $this->error(8);
+            $state = (isset($send)) ? true : static::error(8);
         }
 
-        $datas = [
-            'isForm' => true,
-            'state' => $state,
-            'infos' => false,
-            'reload' => true,
-            'link' => -1
-        ];
-
-        $json = json_encode($datas);
+        $json = json_encode(self::datas(true, $state, false, true));
         return $this->render('api', compact($this->compact(['json'])), true);
     }
 
@@ -78,20 +91,13 @@ class DatasController extends Controller
         $password = TextTool::security($_POST['password']);
         $isEmpty = [$email, $password];
 
-        if (in_array('', $isEmpty)) $state = $this->error(4);
-        elseif (!Users::isUserExist($email)) $state = $this->error(6);
-        elseif (!Users::isPasswordCorrect($email, $password)) $state = $this->error(7);
-        elseif (!Users::login($email)) $state = $this->error(8);
+        if (in_array('', $isEmpty)) $state = static::error(4);
+        elseif (!Users::isUserExist($email)) $state = static::error(6);
+        elseif (!Users::isPasswordCorrect($email, $password)) $state = static::error(7);
+        elseif (!Users::login($email)) $state = static::error(8);
         else $state = true;
 
-        $datas = [
-            'isForm' => true,
-            'state' => $state,
-            'infos' => false,
-            'reload' => true,
-            'link' => -1
-        ];
-        $json = json_encode($datas);
+        $json = json_encode(self::datas(true, $state, false, true));
 
         return $this->render('api', compact($this->compact(['json'])), true);
     }
@@ -130,14 +136,7 @@ class DatasController extends Controller
             ];
         }
 
-        $datas = [
-            'isForm' => true,
-            'state' => $state,
-            'infos' => json_encode($api),
-            'reload' => false,
-            'link' => false
-        ];
-        $json = json_encode($datas);
+        $json = json_encode(self::datas(true, $state, json_encode($api), false, false));
 
         return $this->render('api', compact($this->compact(['json'])), true);
     }
@@ -158,14 +157,7 @@ class DatasController extends Controller
             $state = true;
         }
 
-        $datas = [
-            'isForm' => true,
-            'state' => $state,
-            'infos' => false,
-            'reload' => false,
-            'link' => false
-        ];
-        $json = json_encode($datas);
+        $json = json_encode(self::datas(true, $state, false, false, false));
 
         return $this->render('api', compact($this->compact(['json'])), true);
     }
@@ -190,14 +182,72 @@ class DatasController extends Controller
             ];
         }
 
-        $datas = [
-            'isForm' => false,
-            'state' => $state,
-            'infos' => json_encode($api),
-            'reload' => false,
-            'link' => false
-        ];
-        $json = json_encode($datas);
+        $json = json_encode(self::datas(false, $state, json_encode($api), false, false));
+
+        return $this->render('api', compact($this->compact(['json'])), true);
+    }
+
+    private function adminInstitutionNew ()
+    {
+        $name = TextTool::security($_POST['name']);
+        $city = TextTool::security($_POST['city']);
+        $address = TextTool::security($_POST['address']);
+        $description = TextTool::security($_POST['description']);
+        $entertainment = TextTool::security($_POST['entertainment']);
+        $isEmpty = [$name, $city, $address, $description, $entertainment];
+        $api = false;
+
+        if (in_array('', $isEmpty)) $state = static::error(4);
+        else {
+            Institutions::generalAdd([
+                'name' => $name,
+                'city' => $city,
+                'address' => $address,
+                'description' => $description,
+                'entertainment' => $entertainment
+            ]);
+            
+            $state = true;
+            $api = [
+                'name' => $name,
+                'id' => Institutions::lastId()
+            ];
+        }
+
+        $json = json_encode(self::datas(true, $state, json_encode($api), false, false));
+
+        return $this->render('api', compact($this->compact(['json'])), true);
+    }
+
+    private function adminInstitutionEdit ()
+    {
+        $id = TextTool::security($_POST['id']);
+        $name = TextTool::security($_POST['name']);
+        $city = TextTool::security($_POST['city']);
+        $address = TextTool::security($_POST['address']);
+        $description = TextTool::security($_POST['description']);
+        $entertainment = TextTool::security($_POST['entertainment']);
+        $isEmpty = [$id, $name, $city, $address, $description, $entertainment];
+        $api = false;
+
+        if (in_array('', $isEmpty)) $state = static::error(4);
+        elseif (!Institutions::getInstitution($id)) $state = static::error(12);
+        else {
+            Institutions::generalEdit([
+                'datas' => [
+                    'name' => $name,
+                    'city' => $city,
+                    'address' => $address,
+                    'description' => $description,
+                    'entertainment' => $entertainment
+                ],
+                'ids' => ['id' => $id]
+            ]);
+            
+            $state = true;
+        }
+
+        $json = json_encode(self::datas(true, $state, false, false, false));
 
         return $this->render('api', compact($this->compact(['json'])), true);
     }
@@ -216,38 +266,30 @@ class DatasController extends Controller
         }
         else $state = true;
 
-        $datas = [
-            'isForm' => false,
-            'state' => $state,
-            'infos' => json_encode($api),
-            'reload' => false,
-            'link' => false
-        ];
-        $json = json_encode($datas);
+        $json = json_encode(self::datas(false, $state, json_encode($api), false, false));
 
         return $this->render('api', compact($this->compact(['json'])), true);
     }
 
     private function adminInstitutionDel ()
     {
-        
         $id = TextTool::security($_POST['id']);
 
         if (!Institutions::getInstitution($id)) $state = static::error(12);
         else {
+            if (Institutions::isManaged($id)) {
+                $user = Institutions::getInstitution($id);
+                Users::generalEdit([
+                    'datas' => ['rank' => 0],
+                    'ids' => ['id' => $user->managerId]
+                ]);
+            }
             Institutions::generalDelete($id);
             Admin::roomsDelete($id);
             $state = true;
         }
 
-        $datas = [
-            'isForm' => false,
-            'state' => $state,
-            'infos' => $state,
-            'reload' => false,
-            'link' => false
-        ];
-        $json = json_encode($datas);
+        $json = json_encode(self::datas(false, $state, $state, false, false));
 
         return $this->render('api', compact($this->compact(['json'])), true);
     }

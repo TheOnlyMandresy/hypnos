@@ -17,10 +17,10 @@
             
             <div class="buttons">
                 <button class="btn-success">
-                    <span><a class="edit" name="<?= $data->email; ?>" >modifier</a></span>
+                    <span><a name="get" data-infos="<?= $data->email; ?>" >modifier</a></span>
                 </button>
                 <button class="btn-danger">
-                    <span><a class="delete" name="<?= $data->email; ?>">ou retirer</a></span>
+                    <span><a name="delete" data-infos="<?= $data->email; ?>">ou retirer</a></span>
                 </button>
             </div>
         </div>
@@ -32,7 +32,7 @@
         <?= $form::select('institutionId', 'De quel hôtel possédera-t-il la charge ?', $institutions); ?>
 
         <div class="buttons">
-            <?= $form::button('Attribuer les droits', 'adminTeamNew', 'success'); ?>
+            <?= $form::button('Attribuer les droits', 'new', 'success'); ?>
         </div>
     </form>
 </div>

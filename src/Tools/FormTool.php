@@ -18,7 +18,7 @@ class FormTool
      */
     public static function input ($type, $name, $ph)
     {
-        return '<input required type="' .$type. '" name="' .$name. '" placeholder="' .$ph. '" />';
+        return '<input type="' .$type. '" name="' .$name. '" placeholder="' .$ph. '" />';
     }
 
     /**
@@ -28,7 +28,7 @@ class FormTool
      */
     public static function textarea ($name, $ph)
     {
-        return '<textarea required name="' .$name. '" placeholder="' .$ph. '"></textarea>';
+        return '<textarea name="' .$name. '" placeholder="' .$ph. '"></textarea>';
     }
 
     /**
@@ -65,7 +65,7 @@ class FormTool
      */
     public static function button ($text, $action, $type)
     {
-        return '<button type="button" name="submit" value="' .$action. '" class="btn-' .$type. '"><span><a>' .$text. '</a></span></button>';
+        return '<button type="button" name="submit" class="btn-' .$type. '"><span><a name="' .$action. '">' .$text. '</a></span></button>';
     }
 
     /**

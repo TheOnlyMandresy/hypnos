@@ -53,15 +53,18 @@ class InstitutionsController extends Controller
         $description = $data->description;
         $entertainment = explode('.', $data->entertainment);
 
-        foreach ($rooms as $room) {
-            $room->title = ucfirst($room->title);
-            $room->description = TextTool::shorten($room->description, 220);
+        if ($rooms !== false) {
+            foreach ($rooms as $room) {
+                $room->title = ucfirst($room->title);
+                $room->description = TextTool::shorten($room->description, 220);
+            }
+            $this->compact(['rooms']);
         }
 
         for ($i = 0; $i < count($entertainment); $i++) {
             $entertainment[$i] = ucfirst($entertainment[$i]);
         }
         
-        return $this->render('institution', compact($this->compact(['data', 'rooms', 'entertainment'])));
+        return $this->render('institution', compact($this->compact(['data', 'entertainment'])));
     }
 }

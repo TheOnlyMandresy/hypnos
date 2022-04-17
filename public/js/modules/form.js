@@ -2,12 +2,35 @@ import { reloadApp } from './nav.js'
 
 let globalData
 
+export function htmlDecode(input) {
+    var doc = new DOMParser().parseFromString(input, "text/html");
+    return doc.documentElement.textContent;
+}
+
+export function btnState (text, value, editMode)
+{
+    let btn = document.querySelector('button[type="button"]'),
+        a = btn.querySelector('a')
+
+    if (editMode) {
+        btn.classList.remove('btn-success')
+        btn.classList.add('btn-success2')
+    } else {
+        btn.classList.add('btn-success')
+        btn.classList.remove('btn-success2')
+    }
+
+    a.name = value
+    a.innerHTML = text
+}
+
 export async function sendDatas (infos)
 {
     let btn = document.querySelector('form button[type="button"]')
 
     await fetch(datasTreatment(infos))
 
+    if (globalData.state === true) document.querySelector('form').reset()
     appendAlert(globalData)
     btn.disabled = false
     return globalData
