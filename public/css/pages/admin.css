@@ -46,8 +46,6 @@ main.admin-views:not(.undersection) .box { margin-block: 2em; }
 main.admin-views:not(.undersection) .box h2 { font-size: 1.2em; }
 main.admin-views:not(.undersection) .box p { color: var(--color-light); }
 
-
-/* Undersection */
 main.admin-views.undersection .container {
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -59,3 +57,37 @@ main.admin-views.undersection .container .list { grid-area: a; }
 main.admin-views.undersection .container form { grid-area: b; }
 
 main.admin-views.undersection .container h2 { font-size: 1em; }
+
+
+main.admin-reservations .container {
+    grid-template-columns: 1fr!important;
+    grid-template-areas: inherit!important;
+}
+main.admin-reservations .list { padding-right: 0; }
+main.admin-reservations .institution { color: var(--color-dominant); }
+main.admin-reservations .count {
+    text-transform: uppercase;
+    color: var(--color-light);
+    font-size: .6em;
+    font-weight: var(--ft-weight-bolder);
+    letter-spacing: .08em;
+}
+
+/* Support */
+main.admin-support > .section {
+    text-align: center;
+    font-weight: initial;
+    color: var(--color-light);
+    font-size: 1.2em;
+    margin-bottom: 1em;
+}
+main.admin-support > .list {
+    padding: 1em;
+    max-height: 40vh;
+}
+main.admin-support > .list:not(:last-child) { margin-bottom: 3em; }
+main.admin-support h3 { font-size: 1em; }
+main.admin-support p {
+    font-size: .7em;
+    color: var(--color-dominant);
+}

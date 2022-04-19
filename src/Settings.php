@@ -27,8 +27,8 @@ class Settings
     // URLS
     protected const URL_HOTEL = '/hotel';
     protected const URL_ROOM = '/room';
+    protected const URL_SUPPORT = '/ticket';
         // IMAGES
-    protected const IMG_HOTEL = '/img/hotels';
     protected const IMG_ROOM = '/img/rooms';
 
     // Metas

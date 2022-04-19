@@ -123,13 +123,7 @@ class Tables
         $statement .= $where . $order . $limit;
 
         $attributes = null;
-        if ($att !== null) {
-            $attributes = [$att];
-
-            if (is_array($att)) {
-                $attributes = $att;
-            }
-        }
+        if ($att !== null) $attributes = (!is_array($att)) ? [$att] : $att;
 
         $datas = static::query($statement, $attributes, $all);
 
@@ -192,42 +186,69 @@ class Tables
         return static::delete($statement, $underSection);
     }
 
-    //
-    //
-    // URL ISSUE
-    //
+    /**
+     * 
+     */
     public static function generalImage ($file)
     {
-        if (empty($_FILES['image']['name'][0])) { return null; }
+        if (empty($file['name'][0])) { return 17; }
+
+        $target_dir = System::root(2) . 'public' .System::getSystemInfos('img_room'). '/';
         
-        $target_dir = System::root(3) . "public" .static::$urlBackground;
-        $name = uniqid() . basename($file["image"]["name"]);
+        if (count($file['name']) > 1) {
+            $names = null;
+            for ($i = 0; $i < count($file['name']); $i++) {                   
+
+                $name = uniqid() . basename($file['name'][$i]);
+                
+                $target_file = $target_dir . $name;
+                $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+                $check = getimagesize($file['tmp_name'][$i]);
+
+                if ($check !== false) {
+                    if ($file['size'][$i] > 500000) return 14;
+                    if($imageFileType != 'png' && $imageFileType != 'jpeg') return 15;
+                    if (move_uploaded_file($file['tmp_name'][$i], $target_file)) {
+                        $names .= $name;
+                        if ($i !== count($file['name']) - 1) $names .=  ',';
+                    }
+                    else return 16;
+                } else return 17;
+
+            }
+            return $names;
+        }
+        
+        $name = uniqid() . basename($file['name'][0]);
 
         $target_file = $target_dir . $name;
-        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-        $check = getimagesize($file["image"]["tmp_name"]);
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $check = getimagesize($file['tmp_name'][0]);
 
-        if($check !== false) {
-            if ($file["image"]["size"] > 500000) {
-                // Trop volumineux
-                return 'error-2';
-            }
+        if ($check !== false) {
+            if ($file['size'][0] > 500000) return 14;
+            if($imageFileType != 'png' && $imageFileType != 'jpeg') return 15;
+            if (move_uploaded_file($file['tmp_name'][0], $target_file)) return $name;
+            else return 16;
+        } else return 17;
+    }
 
-            if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" ) {
-                // only JPG, JPEG, PNG & GIF
-                return 'error-3';
-            }
+    public static function deleteImg ($img)
+    {
+        $target_dir = System::root(2) . 'public' .System::getSystemInfos('img_room'). '/';
+        $path = $target_dir . $img;
+        if (str_contains($img, ',')) $img = explode(',', $img);
 
-            if (move_uploaded_file($file["image"]["tmp_name"], $target_file)) {
-                return $name;
-            } else {
-                // error uploading your file.
-                return 'error-4';
+        if (is_array($img)):
+            for ($i = 0; $i < count($img); $i++) {
+                $path = $target_dir . $img[$i];
+                if (file_exists($path)) unlink($path);
+                else return 21;
             }
-        } else {
-            // Ce n'est pas une image
-            return 'error-1';
-        }
+        else:
+            if (file_exists($path)) unlink($path);
+            else return 21;
+        endif;
     }
 
     /**

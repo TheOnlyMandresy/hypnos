@@ -101,6 +101,22 @@ class AdminTable extends Tables
 
     public static function roomsDelete ($id)
     {
+        $datas = Rooms::byInstitution($id);
+        if ($datas):
+        foreach ($datas as $data):
+            Rooms::delete([
+                'where' => 'roomId = ?',
+                'att' => [$data->id]
+            ], '_booked');
+            
+            $deleteFront = static::deleteImg($data->imgFront);
+            $deleteImages = static::deleteImg($data->images);
+
+            if (is_int($deleteFront)) return $deleteFront;
+            if (is_int($deleteImages)) return $deleteImages;
+        endforeach;
+        endif;
+
         Rooms::delete([
             'where' => 'institutionId = ?',
             'att' => [$id]

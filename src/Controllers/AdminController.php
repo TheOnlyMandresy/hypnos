@@ -2,11 +2,13 @@
 
 namespace System\Controllers;
 
+use System;
 use System\Controller;
 use System\Database\Tables\AdminTable as Admin;
 use System\Database\Tables\UsersTable as Users;
 use System\Database\Tables\RoomsTable as Rooms;
 use System\Database\Tables\InstitutionsTable as Institutions;
+use System\Database\Tables\SupportTable as Support;
 use System\Tools\TextTool;
 
 class AdminController extends Controller
@@ -56,8 +58,9 @@ class AdminController extends Controller
 
         $institutions = Institutions::all();
         $rooms = Rooms::all();
+        $booked = Rooms::bookedAll();
 
-        return $this->render('admin/Views', compact($this->compact(['institutions', 'rooms'])));
+        return $this->render('admin/Views', compact($this->compact(['institutions', 'rooms', 'booked'])));
     }
 
     private function institutions ()
@@ -81,8 +84,14 @@ class AdminController extends Controller
         $title = TextTool::setTitle('Les suites');
         $h1 = 'Les suites';
 
-        $institutions = Institutions::all();
+        $datas = Institutions::all();
+        $institutions = [];
+        foreach ($datas as $value) {
+            $institutions[$value->id] = $value->name;
+        }
+        
         $rooms = Rooms::all();
+
 
         return $this->render('admin/Views/Rooms', compact($this->compact(['institutions', 'rooms'])));
     }
@@ -95,9 +104,22 @@ class AdminController extends Controller
         $title = TextTool::setTitle('Les réservations');
         $h1 = 'Les réservations';
 
-        $institutions = Institutions::all();
-        $rooms = Rooms::all();
+        $datas = Rooms::bookedAll();
 
-        return $this->render('admin/Views/Reservations', compact($this->compact(['institutions', 'rooms'])));
+        return $this->render('admin/Views/Reservations', compact($this->compact(['datas'])));
+    }
+
+    private function support ()
+    {
+        if (!self::$isAdministrator && !self::$isManager) return static::error(405);
+
+        $page = 'admin-support small';
+        $title = TextTool::setTitle('Le support technique');
+        $h1 = 'Les tickets';
+
+        $datas = Support::all();
+        $topics = System::getSystemInfos('support');
+
+        return $this->render('admin/Support/List', compact($this->compact(['datas', 'topics'])));
     }
 }

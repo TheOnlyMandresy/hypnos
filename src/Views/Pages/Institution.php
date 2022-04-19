@@ -26,7 +26,7 @@
                     </a></span>
                 </button>
                 <button class="btn-success2">
-                    <span><a href="https://tripadvisor.fr" target="_blank">
+                    <span><a href="<?= $data->link; ?>" target="_blank">
                         sur tripadvisor
                     </a></span>
                 </button>

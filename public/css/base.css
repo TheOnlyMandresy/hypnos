@@ -73,13 +73,13 @@ main {
     overflow: hidden;
 }
 main.small {
-    margin-bottom: 0;
+    margin-block: 20vh;
     min-height: initial;
     padding: 5em;
-    position: fixed;
+    width: fit-content;
     min-width: 30vw;
-    top: 50vh; left: 50vw;
-    transform: translateY(-50%) translateX(-50%);
+    left: 50vw;
+    transform: translateX(-50%);
 }
 
 .box > .texts {

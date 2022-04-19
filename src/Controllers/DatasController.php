@@ -6,8 +6,10 @@ use System\Database\Tables\AdminTable as Admin;
 use System\Database\Tables\UsersTable as Users;
 use System\Database\Tables\InstitutionsTable as Institutions;
 use System\Database\Tables\RoomsTable as Rooms;
+use System\Database\Tables\SupportTable as Support;
 use System\Controller;
 use System\Tools\TextTool;
+use System\Tools\DateTool;
 
 /**
  * Datas treatment
@@ -16,7 +18,9 @@ class DatasController extends Controller
 {
     private static $entries = [
         'register', 'login', 'adminTeamNew', 'adminTeamEdit', 'adminTeamDelete',
-        'adminInstitutionGet', 'adminInstitutionDel', 'adminInstitutionNew'
+        'adminInstitutionGet', 'adminInstitutionDel', 'adminInstitutionNew', 'adminInstitutionEdit',
+        'adminRoomGet', 'adminRoomDel', 'adminRoomNew', 'adminRoomEdit', 'bookingNew',
+        'ticketNew', 'ticketAdd', 'ticketClose'
     ];
     
     public function __construct ()
@@ -25,6 +29,7 @@ class DatasController extends Controller
 
         if (isset($_GET['logout'])) return $this->logout();
 
+        $this->compact(['json'], true);
         $load = $_POST['submit'];
         return $this->$load();
     }
@@ -42,12 +47,12 @@ class DatasController extends Controller
         $array = [
             'isForm' => $isForm,
             'state' => $state,
-            'infos' => $infos,
+            'infos' => json_encode($infos),
             'reload' => $reload,
             'link' => $link
         ];
 
-        return $array;
+        return json_encode($array);
     }
 
     private function register ()
@@ -79,8 +84,8 @@ class DatasController extends Controller
             $state = (isset($send)) ? true : static::error(8);
         }
 
-        $json = json_encode(self::datas(true, $state, false, true));
-        return $this->render('api', compact($this->compact(['json'])), true);
+        $json = self::datas(true, $state, false, true);
+        return $this->render('api', compact($this->compact()), true);
     }
 
     private function login ()
@@ -97,11 +102,12 @@ class DatasController extends Controller
         elseif (!Users::login($email)) $state = static::error(8);
         else $state = true;
 
-        $json = json_encode(self::datas(true, $state, false, true));
+        $json = self::datas(true, $state, false, true);
 
-        return $this->render('api', compact($this->compact(['json'])), true);
+        return $this->render('api', compact($this->compact()), true);
     }
 
+    // DONT FORGET
     private function logout ()
     {
         if (!Users::isLogged()) return static::error(405);
@@ -109,6 +115,141 @@ class DatasController extends Controller
         return true;
     }
 
+    private function ticketNew ()
+    {
+
+        $firstname = (Users::isLogged()) ? Users::$myDatas->firstname : TextTool::security($_POST['firstname']);
+        $lastname = (Users::isLogged()) ? Users::$myDatas->lastname : TextTool::security($_POST['lastname']);
+        $email = (Users::isLogged()) ? Users::$myDatas->email : TextTool::security($_POST['email']);
+        $topic = TextTool::security($_POST['topic']);
+        $title = TextTool::security($_POST['title']);
+        $message = TextTool::security($_POST['message']);
+        $isEmpty = [$firstname, $lastname, $email, $topic, $message];
+        $link = '/';
+
+        if (in_array('', $isEmpty)) $state = static::error(4);
+        elseif (Users::isUserExist($email) && !Users::isLogged()) {
+            $state = static::error(23);
+            $_SESSION['support'] = [
+                'topic' => $topic,
+                'message' => $message,
+                'title' => $title
+            ];
+        }
+        else {
+            if (isset($_SESSION['support'])) unset($_SESSION['support']);
+            if (Users::isLogged()) $link = '/support';
+
+            $userId = (Users::isLogged()) ? Users::$myDatas->id : 0;
+
+            Support::generalAdd([
+                'userId' => $userId,
+                'firstname' => $firstname,
+                'lastname' => $lastname,
+                'email' => $email,
+                'topic' => $topic,
+                'title' => $title,
+                'message' => $message
+            ]);
+
+            $state = true;
+        }
+
+        $json = self::datas(true, $state, false, false, $link);
+
+        return $this->render('api', compact($this->compact()), true);
+    }
+
+    private function ticketAdd ()
+    {
+        $message = TextTool::security($_POST['message']);
+        $id = TextTool::security($_POST['supportId']);
+        $api = false;
+
+        if ($message === '') $state = static::error(4);
+        else {
+            Support::generalAdd([
+                'message' => $message,
+                'userId' => Users::$myDatas->id,
+                'supportId' => $id
+            ], '_messages');
+
+            $date = Support::getMessage(Support::lastId());
+
+            $state = true;
+            $api = [
+                'message' => $message,
+                'name' => Users::$myDatas->firstname. ' ' .Users::$myDatas->lastname,
+                'date' => DateTool::dateFormat($date->dateSend, 'full')
+            ];
+        }
+
+        $json = self::datas(true, $state, $api, false, false);
+
+        return $this->render('api', compact($this->compact()), true);
+    }
+
+    private function bookingNew ()
+    {
+        $institutionId = TextTool::security($_POST['institutionId']);
+        $roomId = TextTool::security($_POST['roomId']);
+        $dateStart = DateTool::dateFormat(TextTool::security($_POST['dateStart']), 'sql');
+        $dateEnd = DateTool::dateFormat(TextTool::security($_POST['dateEnd']), 'sql');
+        
+        $isEmpty = [$institutionId, $roomId, $dateStart, $dateEnd];
+        $isBooked = Rooms::isBooked($roomId, $dateStart, $dateEnd);
+        $tomorrow = DateTool::dateFormat(DateTool::dateFormat(time(), 'tomorrow'), 'timestamp');
+        $tomorrowStart = DateTool::dateFormat(DateTool::dateFormat($dateStart, 'tomorrow'), 'timestamp');
+
+        $isForm = true;
+        $link = '/reservations';
+
+        if (in_array('', $isEmpty) || in_array('1970-01-01 01:00:00', $isEmpty)) $state = static::error(4);
+        elseif (DateTool::dateFormat($dateEnd, 'timestamp') <= DateTool::dateFormat($dateStart, 'timestamp')) $state = static::error(20);
+        elseif ($isBooked) $state = static::error(18);
+        elseif ($tomorrowStart <= $tomorrow) $state = static::error(19);
+        elseif (!Institutions::getInstitution($institutionId)) $state = static::error(9);
+        elseif (!Rooms::getRoom($roomId)) $state = static::error(12);
+        elseif (!Users::isLogged()) {
+            $_SESSION['booking'] = [
+                'institutionId' => $institutionId,
+                'roomId' => $roomId,
+                'dateStart' => $dateStart,
+                'dateEnd' => $dateEnd
+            ];
+            
+            $state = true;
+            $isForm = false;
+            $link = '/login';
+        } else {
+            if (isset($_SESSION['booking'])) unset($_SESSION['booking']);
+
+            Rooms::generalAdd([
+                'userId' => Users::$myDatas->id,
+                'roomId' => $roomId,
+                'dateStart' => $dateStart,
+                'dateEnd' => $dateEnd
+            ], '_booked');
+
+            $state = true;
+        }
+        
+        $json = self::datas($isForm, $state, false, false, $link);
+        return $this->render('api', compact($this->compact()), true);
+    }
+
+
+
+            //     _____  __  __ _____ _   _ 
+            //     /\   |  __ \|  \/  |_   _| \ | |
+            //    /  \  | |  | | \  / | | | |  \| |
+            //   / /\ \ | |  | | |\/| | | | | . ` |
+            //  / ____ \| |__| | |  | |_| |_| |\  |
+            // /_/    \_\_____/|_|  |_|_____|_| \_|
+
+    /**
+     * 
+     */
     private function adminTeamNew ()
     {
         if (!Admin::isAdministrator(Users::$myDatas->email)) return static::error(405);
@@ -136,9 +277,9 @@ class DatasController extends Controller
             ];
         }
 
-        $json = json_encode(self::datas(true, $state, json_encode($api), false, false));
+        $json = self::datas(true, $state, $api, false, false);
 
-        return $this->render('api', compact($this->compact(['json'])), true);
+        return $this->render('api', compact($this->compact()), true);
     }
 
     private function adminTeamEdit ()
@@ -157,9 +298,9 @@ class DatasController extends Controller
             $state = true;
         }
 
-        $json = json_encode(self::datas(true, $state, false, false, false));
+        $json = self::datas(true, $state, false, false, false);
 
-        return $this->render('api', compact($this->compact(['json'])), true);
+        return $this->render('api', compact($this->compact()), true);
     }
 
     private function adminTeamDelete ()
@@ -182,9 +323,9 @@ class DatasController extends Controller
             ];
         }
 
-        $json = json_encode(self::datas(false, $state, json_encode($api), false, false));
+        $json = self::datas(false, $state, $api, false, false);
 
-        return $this->render('api', compact($this->compact(['json'])), true);
+        return $this->render('api', compact($this->compact()), true);
     }
 
     private function adminInstitutionNew ()
@@ -214,9 +355,9 @@ class DatasController extends Controller
             ];
         }
 
-        $json = json_encode(self::datas(true, $state, json_encode($api), false, false));
+        $json = self::datas(true, $state, $api, false, false);
 
-        return $this->render('api', compact($this->compact(['json'])), true);
+        return $this->render('api', compact($this->compact()), true);
     }
 
     private function adminInstitutionEdit ()
@@ -247,9 +388,9 @@ class DatasController extends Controller
             $state = true;
         }
 
-        $json = json_encode(self::datas(true, $state, false, false, false));
+        $json = self::datas(true, $state, false, false, false);
 
-        return $this->render('api', compact($this->compact(['json'])), true);
+        return $this->render('api', compact($this->compact()), true);
     }
 
     private function adminInstitutionGet ()
@@ -266,9 +407,9 @@ class DatasController extends Controller
         }
         else $state = true;
 
-        $json = json_encode(self::datas(false, $state, json_encode($api), false, false));
+        $json = self::datas(false, $state, $api, false, false);
 
-        return $this->render('api', compact($this->compact(['json'])), true);
+        return $this->render('api', compact($this->compact()), true);
     }
 
     private function adminInstitutionDel ()
@@ -284,13 +425,83 @@ class DatasController extends Controller
                     'ids' => ['id' => $user->managerId]
                 ]);
             }
-            Institutions::generalDelete($id);
             Admin::roomsDelete($id);
+            Institutions::generalDelete($id);
             $state = true;
         }
 
-        $json = json_encode(self::datas(false, $state, $state, false, false));
+        $json = self::datas(false, $state, $state, false, false);
 
-        return $this->render('api', compact($this->compact(['json'])), true);
+        return $this->render('api', compact($this->compact()), true);
+    }
+
+    private function adminRoomGet ()
+    {
+        $id = TextTool::security($_POST['id']);
+        $room = Rooms::getRoom($id);
+        $api = false;
+
+        if (!$room) $state = static::error(12);
+        else {
+            $state = true;
+            $api = $room;
+        }
+
+        $sjon = self::datas(false, $state, $api, false, false);
+        return $this->render('api', compact($this->compact()), true);
+    }
+
+    private function adminRoomNew ()
+    {
+        $institutionId = TextTool::security($_POST['institutionId']);
+        $title = TextTool::security($_POST['title']);
+        $imgFront = Rooms::generalImage($_FILES['imgFront']);
+        $description = TextTool::security($_POST['description']);
+        $price = TextTool::security($_POST['price']);
+        $images = Rooms::generalImage($_FILES['images']);
+        $link = TextTool::security($_POST['link']);
+        $isEmpty = [$institutionId, $title, $imgFront, $description, $price, $images, $link];
+        $api = false;
+
+        if (in_array('', $isEmpty)) $state = static::error(4);
+        elseif (is_int($imgFront)) $state = static::error($imgFront);
+        elseif (is_int($images)) $state = static::error($images);
+        else {
+            Rooms::generalAdd([
+                'institutionId' => $institutionId,
+                'title' => $title,
+                'imgFront' => $imgFront,
+                'description' => $description,
+                'price' => $price,
+                'images' => $images,
+                'link' => $link,
+            ]);
+            
+            $state = true;
+            $api = [
+                'name' => $title,
+                'id' => Rooms::lastId()
+            ];
+        }
+
+        $json = self::datas(true, $state, $api, false, false);
+        return $this->render('api', compact($this->compact()), true);
+    }
+
+    private function ticketClose ()
+    {
+        $id = TextTool::security($_POST['supportId']);
+
+        if (!Support::get($id)) $state = static::error(12);
+        else {
+            Support::generalEdit([
+                'datas' => ['state' => 1],
+                'ids' => ['id' => $id]
+            ]);
+            $state = true;
+        }
+
+        $json = self::datas(false, $state, false, false, false);
+        return $this->render('api', compact($this->compact()), true);
     }
 }

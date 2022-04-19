@@ -3,6 +3,7 @@
 namespace System;
 
 use System;
+use System\Database\Tables\UsersTable as Users;
 use System\Tools\TextTool;
 
 class Controller
@@ -19,6 +20,7 @@ class Controller
     {
         ob_start();
             extract($vars);
+            $isOnline = (Users::isLogged()) ? true : false;
 
             // Metas
             if (!isset($metaDesc)) $metaDesc = system::getSystemInfos('meta_desc');
@@ -37,8 +39,6 @@ class Controller
             if (str_contains($page, 'template')) require_once System::root(1). 'Views/Templates/General.php';
             echo '</main>';
         }
-
-        unset($_SESSION['flash']);
     }
     
     /**
@@ -66,7 +66,7 @@ class Controller
             case 2:
                 return 'Les mot de passes ne se correspondent pas';
             case 3:
-                return 'Un compte avec cet adresse mail existe déjà';
+                return 'Un compte avec cette adresse mail existe déjà';
             case 4:
                 return 'Veuillez renseigner tous les champs';
             case 5:
@@ -87,6 +87,26 @@ class Controller
                 return 'Recherche introuvable';
             case 13:
                 return 'Cet utilisateur est déjà un membre de l\'équipe';
+            case 14:
+                return 'Une image est trop volumineuse';
+            case 15:
+                return 'Seuls les fichier de type JPEG/PNG sont acceptés';
+            case 16:
+                return 'Une erreur est survenue lors de l\'upload des images';
+            case 17:
+                return 'Un fichier envoyé n\'est pas une image';
+            case 18:
+                return 'Dates de réservation indisponibles';
+            case 19:
+                return 'La date d\'arrivée doit être de 24h minimum';
+            case 20:
+                return 'La date de départ doit être supérier à celle d\'arrivée';
+            case 21:
+                return 'Aucun fichier trouver';
+            case 22:
+                return 'Une erreur est survenue lors de la supression des fichiers';
+            case 23:
+                return 'Un compte est relié à cet adresse mail, veuillez vous connectez s\'il sagit de vous';
         }
     }
     
@@ -107,29 +127,5 @@ class Controller
         }
 
         return $this->compact;
-    }
-    
-    /**
-     * Flash alerts
-     * @param array $datas type, message
-     * @param string $link
-     */
-    protected static function flash ($datas, $link)
-    {
-        $_SESSION['flash'] = [
-            'type' => $datas['type'],
-            'message' => TextTool::specialUcFirst($datas['message'])
-        ];
-
-        return header('Location: ' .$link);
-    }
-
-    /**
-     * Visitor is connected to the platform
-     * @return bool
-     */
-    protected static function isOnline ()
-    {
-        return isset($_SESSION['user']);
     }
 }

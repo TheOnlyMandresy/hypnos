@@ -1,8 +1,3 @@
-<?php
-    use System\Tools\FormTool;
-    $form = new FormTool();
-?>
-
 <div class="title">
     <h1><?= $h1; ?></h1>
 </div>
@@ -19,20 +14,17 @@
     </p>
 </ul>
 
-<div class="container">
-    <div class="list">
+<div class="container list">
+<?php foreach ($datas as $data): ?>
+    <?php
+        $bookedCount = 0;
+        for ($i = 0; $i < count($datas); $i++) if ($datas[$i]->roomId === $data->roomId) $bookedCount++;
+    ?>
 
+    <div class="box">
+        <h2><?= $data->title; ?></h2>
+        <p class="institution"><?= $data->institutionName; ?></p>
+        <p class="count"><?= $bookedCount; ?> réservations</p>
     </div>
-
-    <form>
-        <?= $form::input('input', 'name', 'Nom de l\'hôtel'); ?>
-        <?= $form::input('input', 'city', 'Dans quelle ville est-il situé ?'); ?>
-        <?= $form::input('input', 'address', 'Quel est son adresse ?'); ?>
-        <?= $form::textarea('description', 'Parlez-nous de cet endroit'); ?>
-        <?= $form::input('input', 'entertainment', 'Quels sevices proposez-vous (séparer par des “.”)'); ?>
-
-        <div class="buttons">
-            <?= $form::button('Attribuer les droits', 'adminInstitutionNew', 'success'); ?>
-        </div>
-    </form>
+<?php endforeach; ?>
 </div>

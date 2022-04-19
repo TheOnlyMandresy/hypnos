@@ -1,6 +1,7 @@
 /* New ticket */
 main.contact-new { width: 50vw; }
-main.contact-new h1 {
+main.contact-new h1,
+main.contact-ticket h1 {
     margin: 0;
     margin-bottom: 1em;
 }
@@ -9,3 +10,29 @@ main.contact-new > .container form .settings {
     display: grid;
     gap: 3em;
 }
+
+/* Possessed */
+main.contact-all > .title { background-color: var(--color-dominant-bis); }
+main.contact-all .container > .buttons { text-align: center; }
+main.contact-all .box h2 { font-size: var(--ft-size-large); }
+main.contact-all .box p {
+    font-size: var(--ft-size-small);
+    color: var(--color-light);
+}
+
+main.contact-ticket { width: 40vw; }
+main.contact-ticket .chat {
+    max-height: 40vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column-reverse;
+}
+main.contact-ticket .chat > .box {
+    padding: 1em;
+    background: rgba(0,0,0,.2);
+}
+main.contact-ticket .chat > .box.me { background: initial; }
+main.contact-ticket .chat > .box .name {
+    font-size: var(--ft-size-small);
+    font-weight: var(--ft-weight-bold);
+} 

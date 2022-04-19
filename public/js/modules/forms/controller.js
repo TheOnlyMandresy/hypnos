@@ -1,6 +1,6 @@
 import { userCall } from './public/user.js'
-// import { teamClick } from './public/support.js'
-// import { teamClick } from './public/reservation.js'
+import { supportCall } from './public/support.js'
+import { bookCall } from './public/reservation.js'
 import { adminTeamCall } from './admin/team.js'
 import { adminViewsCall } from './admin/views.js'
 
@@ -22,12 +22,15 @@ export function formController (e)
     } 
 
 
-    let call = main.classList
+    let call = main.classList[0]
 
     // Public
-    if (call.contains('login') || call.contains('register')) userCall(e)
+    if (call === 'login' || call === 'register') userCall(e)
+    if (call.includes('book-')) bookCall(e);
+    if (call.includes('contact-')) supportCall(e);
 
     // admin
-    if (call.contains('admin-team')) adminTeamCall(e)
-    if (call.contains('admin-views')) adminViewsCall(e, main.className)
+    if (call === 'admin-team') adminTeamCall(e)
+    if (call === 'admin-views') adminViewsCall(e, main.className)
+    if (call === 'admin-support') supportCall(e);
 }

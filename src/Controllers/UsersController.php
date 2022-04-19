@@ -5,8 +5,10 @@ namespace System\Controllers;
 use System\Database\Tables\InstitutionsTable as Institutions;
 use System\Database\Tables\RoomsTable as Rooms;
 use System\Database\Tables\UsersTable as Users;
+use System\Database\Tables\SupportTable as Support;
 use System\Controller;
 use System\Tools\TextTool;
+use System\Tools\DateTool;
 
 class UsersController extends Controller
 {
@@ -66,9 +68,12 @@ class UsersController extends Controller
         $page = 'contact-new small';
         $title = TextTool::setTitle('Contact');
         $h1 = 'Formulaire de contact';
-        $description = 'Lorem ipsum dolor sit amet. Et unde architecto hic ducimus voluptatem eum blanditiis beatae in itaque facere hic recusandae numquam et enim esse. Non enim sunt a tempora odio quo nihil molestias. Et alias autem aut soluta consequatur in nostrum excepturi non galisum repudiandae et excepturi ducimus et dignissimos quaerat? Aut adipisci internos est temporibus veritatis est optio dolorem hic fuga suscipit qui nihil eligendi ut dolores culpa et eius sunt?';
+        
+        $message = (isset($_SESSION['support'])) ? $_SESSION['support']['message'] : null;
+        $topic = (isset($_SESSION['support'])) ? $_SESSION['support']['topic'] : null;
+        $title = (isset($_SESSION['support'])) ? $_SESSION['support']['title'] : null;
 
-        return $this->render('contact', compact($this->compact(['description'])));
+        return $this->render('contact', compact($this->compact(['message', 'topic', 'title'])));
     }
 
     /**
@@ -81,7 +86,9 @@ class UsersController extends Controller
         $h1 = 'Vos tickets';
         $description = 'Lorem ipsum dolor sit amet. Et unde architecto hic ducimus voluptatem eum blanditiis beatae in itaque facere hic recusandae numquam et enim esse. Non enim sunt a tempora odio quo nihil molestias. Et alias autem aut soluta consequatur in nostrum excepturi non galisum repudiandae et excepturi ducimus et dignissimos quaerat? Aut adipisci internos est temporibus veritatis est optio dolorem hic fuga suscipit qui nihil eligendi ut dolores culpa et eius sunt?';
 
-        return $this->render('user/Contact', compact($this->compact(['description'])));
+        $all = Support::getMyAll(Users::$myDatas->id);
+
+        return $this->render('user/Contact', compact($this->compact(['description', 'all'])));
     }
 
     /**
@@ -89,12 +96,14 @@ class UsersController extends Controller
      */
     private function ticket ($id)
     {
-        $page = 'contact-ticket';
+        $page = 'contact-ticket small';
         $title = TextTool::setTitle('ticket -' .$id);
-        $h1 = 'Votre ticket';
-        $description = 'Lorem ipsum dolor sit amet. Et unde architecto hic ducimus voluptatem eum blanditiis beatae in itaque facere hic recusandae numquam et enim esse. Non enim sunt a tempora odio quo nihil molestias. Et alias autem aut soluta consequatur in nostrum excepturi non galisum repudiandae et excepturi ducimus et dignissimos quaerat? Aut adipisci internos est temporibus veritatis est optio dolorem hic fuga suscipit qui nihil eligendi ut dolores culpa et eius sunt?';
 
-        return $this->render('user/Contact', compact($this->compact(['description'])));
+        $datas = Support::get($id);
+        $all = Support::getMyAll(Users::$myDatas->id);
+        $h1 = $datas['infos']->title;
+
+        return $this->render('user/Contact', compact($this->compact(['datas', 'all'])));
     }
 
     /**
@@ -117,7 +126,12 @@ class UsersController extends Controller
             $rooms[$value->id] = $value->title;
         }
 
-        return $this->render('booking', compact($this->compact(['institutions', 'rooms'])));
+        $institutionId = (isset($_SESSION['booking'])) ? $_SESSION['booking']['institutionId'] : null;
+        $roomId = (isset($_SESSION['booking'])) ? $_SESSION['booking']['roomId'] : null;
+        $dateStart = (isset($_SESSION['booking'])) ? $_SESSION['booking']['dateStart'] : null;
+        $dateEnd = (isset($_SESSION['booking'])) ? $_SESSION['booking']['dateEnd'] : null;
+
+        return $this->render('booking', compact($this->compact(['institutions', 'rooms', 'institutionId', 'roomId', 'dateStart', 'dateEnd'])));
     }
 
     /**

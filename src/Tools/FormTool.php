@@ -16,9 +16,9 @@ class FormTool
      * @param string $ph
      * @return string
      */
-    public static function input ($type, $name, $ph)
+    public static function input ($type, $name, $ph, $default = null)
     {
-        return '<input type="' .$type. '" name="' .$name. '" placeholder="' .$ph. '" />';
+        return '<input type="' .$type. '" name="' .$name. '" placeholder="' .$ph. '" value="' .$default. '" />';
     }
 
     /**
@@ -26,9 +26,9 @@ class FormTool
      * @param string $ph
      * @return string
      */
-    public static function textarea ($name, $ph)
+    public static function textarea ($name, $ph, $default = null)
     {
-        return '<textarea name="' .$name. '" placeholder="' .$ph. '"></textarea>';
+        return '<textarea name="' .$name. '" placeholder="' .$ph. '">' .$default. '</textarea>';
     }
 
     /**
@@ -38,13 +38,13 @@ class FormTool
      * @param int $datas
      * @return string
      */
-    public static function select ($name, $text, $datas, $select = null)
+    public static function select ($name, $text, $datas, $default = null)
     {
         $html = '<select name="' .$name. '">';
             $html .= '<optgroup label="' .$text. '">';
 
                 foreach ($datas as $key => $value) {
-                    if (!is_null($select) && intval($select) === $key) {
+                    if (!is_null($default) && intval($default) === $key) {
                         $html .= '<option selected value="' .$key. '">' .$value. '</option>';
                         continue;
                     }
@@ -63,9 +63,12 @@ class FormTool
      * @param string $type Classe name
      * @return string
      */
-    public static function button ($text, $action, $type)
+    public static function button ($text, $action, $type, $data = null)
     {
-        return '<button type="button" name="submit" class="btn-' .$type. '"><span><a name="' .$action. '">' .$text. '</a></span></button>';
+            $html = '<button type="button" name="submit" class="btn-' .$type. '"><span><a name="' .$action. '"';
+            if ($data) $html .= ' data-infos="' .$data. '" ';
+            $html .= '>' .$text. '</a></span></button>';
+        return $html;
     }
 
     /**
@@ -74,18 +77,31 @@ class FormTool
      * @param string $date
      * @return string
      */
-    public static function date ($name, $text, $date = null)
+    public static function date ($name, $text, $default = null)
     {
-        $tomorrow = DateTool::dateFormat(time(), 'tomorrow');
+        $tomorrow = DateTool::dateFormat(DateTool::dateFormat(time(), 'tomorrow'), 'datetime');
         $id = uniqid();
 
         $html = '<div class="date">';
             $html .= '<label for="' .$id. '">' .$text. '</label>';
-            $html .= '<input id="' .$id. '" type="date" name="' .$name. '" min="' .$tomorrow. '"';
-            if (!is_null($date)) $html .= ' value="' .DateTool::dateFormat($date). '"';
+            $html .= '<input id="' .$id. '" type="datetime-local" name="' .$name. '" min="' .$tomorrow. '"';
+            if (!is_null($default)) $html .= ' value="' .DateTool::dateFormat($default, 'datetime'). '"';
             $html .= ' />';
         $html .= '</div>';
 
+        return $html;
+    }
+
+    public static function images ($ph, $multiple = true) {
+        
+        $id = uniqid();
+        
+        $html = '<div class="img">';
+            $html .= '<label for="' .$id. '">' .$ph. '</label>';
+            $html .= '<input accept="image/png, image/jpeg" id="' .$id. '" type="file" ';
+            $html .= ($multiple)? 'name="image[]" multiple />': 'name="image" />';
+        $html .= '</div>';
+        
         return $html;
     }
 }

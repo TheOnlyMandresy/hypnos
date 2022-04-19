@@ -31,5 +31,5 @@ export function addBtn ()
         </button>
     `
 
-    form.innerHTML += el
+    if (!document.querySelector('button.add')) form.innerHTML += el
 }

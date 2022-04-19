@@ -45,7 +45,7 @@
             </li>
             <li>
                 <p class="btn-nav">
-                    <span><a href="/support" onclick="route()">Contact</a></span>
+                    <span><a href="/support" onclick="route()">assistant</a></span>
                 </p>
             </li>
             <li>

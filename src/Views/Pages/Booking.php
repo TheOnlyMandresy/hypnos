@@ -9,13 +9,13 @@
 
 <div class="container">
     <form>
-        <?= $form::select('institutionId', 'Dans quel hôtel allez-vous ?', $institutions, ''); ?>
-        <?= $form::select('roomId', 'Choix de la chambre', $rooms, ''); ?>
-        <?= $form::date('dateStart', 'Début du séjour'); ?>
-        <?= $form::date('dateEnd', 'Fin du séjour'); ?>
+        <?= $form::select('institutionId', 'Dans quel hôtel allez-vous ?', $institutions, $institutionId); ?>
+        <?= $form::select('roomId', 'Choix de la chambre', $rooms, $roomId); ?>
+        <?= $form::date('dateStart', 'Début du séjour', $dateStart); ?>
+        <?= $form::date('dateEnd', 'Fin du séjour', $dateEnd); ?>
 
         <div class="buttons">
-            <?= $form::button('Réserver', 'book-new', 'success'); ?>
+            <?= $form::button('Réserver', 'new', 'success'); ?>
         </div>
     </form>
 </div>
