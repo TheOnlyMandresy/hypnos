@@ -95,6 +95,7 @@ class Controller
                 return 'Une erreur est survenue lors de l\'upload des images';
             case 17:
                 return 'Un fichier envoyé n\'est pas une image';
+<<<<<<< HEAD
             case 18:
                 return 'Dates de réservation indisponibles';
             case 19:
@@ -107,6 +108,8 @@ class Controller
                 return 'Une erreur est survenue lors de la supression des fichiers';
             case 23:
                 return 'Un compte est relié à cet adresse mail, veuillez vous connectez s\'il sagit de vous';
+=======
+>>>>>>> 47c4b2edc51af249e7ea62d3ac2bd61c2f1ed01c
         }
     }
     
