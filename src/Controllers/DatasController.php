@@ -19,13 +19,8 @@ class DatasController extends Controller
     private static $entries = [
         'register', 'login', 'adminTeamNew', 'adminTeamEdit', 'adminTeamDelete',
         'adminInstitutionGet', 'adminInstitutionDel', 'adminInstitutionNew', 'adminInstitutionEdit',
-<<<<<<< HEAD
         'adminRoomGet', 'adminRoomDel', 'adminRoomNew', 'adminRoomEdit', 'bookingNew',
         'ticketNew', 'ticketAdd', 'ticketClose'
-=======
-        'adminRoomGet', 'adminRoomDel', 'adminRoomNew', 'adminRoomEdit',
-
->>>>>>> 47c4b2edc51af249e7ea62d3ac2bd61c2f1ed01c
     ];
     
     public function __construct ()
@@ -120,7 +115,6 @@ class DatasController extends Controller
         return true;
     }
 
-<<<<<<< HEAD
     private function ticketNew ()
     {
 
@@ -256,9 +250,6 @@ class DatasController extends Controller
     /**
      * 
      */
-=======
-    // ADMIN
->>>>>>> 47c4b2edc51af249e7ea62d3ac2bd61c2f1ed01c
     private function adminTeamNew ()
     {
         if (!Admin::isAdministrator(Users::$myDatas->email)) return static::error(405);
@@ -495,7 +486,6 @@ class DatasController extends Controller
 
         $json = self::datas(true, $state, $api, false, false);
         return $this->render('api', compact($this->compact()), true);
-<<<<<<< HEAD
     }
 
     private function ticketClose ()
@@ -513,7 +503,5 @@ class DatasController extends Controller
 
         $json = self::datas(false, $state, false, false, false);
         return $this->render('api', compact($this->compact()), true);
-=======
->>>>>>> 47c4b2edc51af249e7ea62d3ac2bd61c2f1ed01c
     }
 }

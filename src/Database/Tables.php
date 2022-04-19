@@ -231,7 +231,6 @@ class Tables
             if (move_uploaded_file($file['tmp_name'][0], $target_file)) return $name;
             else return 16;
         } else return 17;
-<<<<<<< HEAD
     }
 
     public static function deleteImg ($img)
@@ -250,8 +249,6 @@ class Tables
             if (file_exists($path)) unlink($path);
             else return 21;
         endif;
-=======
->>>>>>> 47c4b2edc51af249e7ea62d3ac2bd61c2f1ed01c
     }
 
     /**
