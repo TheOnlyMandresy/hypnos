@@ -1,6 +1,0 @@
-header.open {
-    height: 30vh;
-}
-
-header > nav > .nav { flex-direction: initial; }
-header > nav > .nav ul { align-items: flex-start; }
