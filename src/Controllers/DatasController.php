@@ -16,11 +16,18 @@ use System\Tools\DateTool;
  */
 class DatasController extends Controller
 {
+    private static $isAdministrator = false;
+    private static $isManager = false;
+
+    /**
+     * Increase security with safety entries
+     */
     private static $entries = [
         'register', 'login', 'adminTeamNew', 'adminTeamEdit', 'adminTeamDelete',
         'adminInstitutionGet', 'adminInstitutionDel', 'adminInstitutionNew', 'adminInstitutionEdit',
         'adminRoomGet', 'adminRoomDel', 'adminRoomNew', 'adminRoomEdit', 'bookingNew',
-        'ticketNew', 'ticketAdd', 'ticketClose'
+        'ticketNew', 'ticketAdd', 'ticketClose', 'bookedDel', 'adminRoomRemoveImg',
+        'adminRoomEdit', 'adminRoomDel'
     ];
     
     public function __construct ()
@@ -28,6 +35,8 @@ class DatasController extends Controller
         if ((!isset($_POST['submit']) && !isset($_GET['logout'])) && !in_array($_POST['submit'], self::$entries)) return static::error(405);
 
         if (isset($_GET['logout'])) return $this->logout();
+        if (Users::isLogged() && Admin::isAdministrator(Users::$myDatas->email)) self::$isAdministrator = true;
+        if (Users::isLogged() && Admin::isUserExist(Users::$myDatas->email)) self::$isManager = true;
 
         $this->compact(['json'], true);
         $load = $_POST['submit'];
@@ -238,6 +247,22 @@ class DatasController extends Controller
         return $this->render('api', compact($this->compact()), true);
     }
 
+    private function bookedDel ()
+    {
+        $id = TextTool::security($_POST['id']);
+        $room = Rooms::getBooked($id);
+
+        if (!$room) $state = static::error(12);
+        elseif ($room->userId !== Users::$myDatas->id) $state = static::error(24);
+        else {
+            Rooms::generalDelete($id, '_booked');
+            $state = true;
+        }
+
+        $json = self::datas(false, $state, false, false, false);
+        return $this->render('api', compact($this->compact()), true);
+    }
+
 
 
             //     _____  __  __ _____ _   _ 
@@ -252,7 +277,7 @@ class DatasController extends Controller
      */
     private function adminTeamNew ()
     {
-        if (!Admin::isAdministrator(Users::$myDatas->email)) return static::error(405);
+        if (!self::$isAdministrator) return static::error(405);
 
         $email = TextTool::security($_POST['email']);
         $institutionId = TextTool::security($_POST['institutionId']);
@@ -284,7 +309,7 @@ class DatasController extends Controller
 
     private function adminTeamEdit ()
     {
-        if (!Admin::isAdministrator(Users::$myDatas->email)) return static::error(405);
+        if (!self::$isAdministrator) return static::error(405);
 
         $email = TextTool::security($_POST['email']);
         $institutionId = TextTool::security($_POST['institutionId']);
@@ -305,7 +330,7 @@ class DatasController extends Controller
 
     private function adminTeamDelete ()
     {
-        if (!Admin::isAdministrator(Users::$myDatas->email)) return static::error(405);
+        if (!self::$isAdministrator) return static::error(405);
 
         $email = TextTool::security($_POST['email']);
         $userId = Users::getId($email);
@@ -330,6 +355,8 @@ class DatasController extends Controller
 
     private function adminInstitutionNew ()
     {
+        if (!self::$isAdministrator) return static::error(405);
+
         $name = TextTool::security($_POST['name']);
         $city = TextTool::security($_POST['city']);
         $address = TextTool::security($_POST['address']);
@@ -362,6 +389,8 @@ class DatasController extends Controller
 
     private function adminInstitutionEdit ()
     {
+        if (!self::$isAdministrator) return static::error(405);
+
         $id = TextTool::security($_POST['id']);
         $name = TextTool::security($_POST['name']);
         $city = TextTool::security($_POST['city']);
@@ -395,9 +424,10 @@ class DatasController extends Controller
 
     private function adminInstitutionGet ()
     {
+        if (!self::$isAdministrator) return static::error(405);
+        
         if (isset($_POST['id'])) $id = TextTool::security($_POST['id']);
         if (isset($_POST['email'])) $email = TextTool::security($_POST['email']);
-
 
         $api = (isset($id)) ? Institutions::getInstitution($id) : Institutions::getManagerInstitution(Users::getId($email));
         
@@ -414,6 +444,8 @@ class DatasController extends Controller
 
     private function adminInstitutionDel ()
     {
+        if (!self::$isAdministrator) return static::error(405);
+        
         $id = TextTool::security($_POST['id']);
 
         if (!Institutions::getInstitution($id)) $state = static::error(12);
@@ -437,59 +469,158 @@ class DatasController extends Controller
 
     private function adminRoomGet ()
     {
+        if (!self::$isAdministrator && !self::$isManager) return static::error(405);
+        
         $id = TextTool::security($_POST['id']);
         $room = Rooms::getRoom($id);
+        $institution = Institutions::getInstitution($room->institutionId);
         $api = false;
 
         if (!$room) $state = static::error(12);
+        elseif ($institution->managerId !== Users::$myDatas->id && !self::$isAdministrator) $state = static::error(24);
         else {
             $state = true;
             $api = $room;
         }
 
-        $sjon = self::datas(false, $state, $api, false, false);
+        $json = self::datas(false, $state, $api, false, false);
+        return $this->render('api', compact($this->compact()), true);
+    }
+
+    private function adminRoomRemoveImg ()
+    {
+        if (!self::$isAdministrator && !self::$isManager) return static::error(405);
+        
+        $img = TextTool::security($_POST['img']);
+        $id = TextTool::security($_POST['id']);
+        
+        $room = Rooms::getRoom($id);
+        $institution = Institutions::getInstitution($room->institutionId);
+
+        if ($institution->managerId !== Users::$myDatas->id && !self::$isAdministrator) $state = static::error(24);
+        else {
+            $del = Admin::roomDelImg($img, $id);
+            if (is_int($del)) $state = static::error($del);
+            else $state = true;
+        }
+
+        $json = self::datas(false, $state, false, false, false);
+        return $this->render('api', compact($this->compact()), true);
+    }
+
+    private function adminRoomDel ()
+    {
+        if (!self::$isAdministrator && !self::$isManager) return static::error(405);
+        
+        $id = TextTool::security($_POST['id']);
+        $room = Rooms::getRoom($id);
+        $institution = Institutions::getInstitution($room->institutionId);
+
+
+        if (!$room) $state = static::error(12);
+        elseif ($institution->managerId !== Users::$myDatas->id && !self::$isAdministrator) $state = static::error(24);
+        else {
+            Admin::roomDelete($id);
+            $state = true;
+        }
+
+        $json = self::datas(false, $state, false, false, false);
         return $this->render('api', compact($this->compact()), true);
     }
 
     private function adminRoomNew ()
     {
+        if (!self::$isAdministrator && !self::$isManager) return static::error(405);
+        
         $institutionId = TextTool::security($_POST['institutionId']);
         $title = TextTool::security($_POST['title']);
-        $imgFront = Rooms::generalImage($_FILES['imgFront']);
+        $imgFront = (empty($_FILES['imgFront']['name'][0])) ? '' : $_FILES['imgFront'];
         $description = TextTool::security($_POST['description']);
         $price = TextTool::security($_POST['price']);
-        $images = Rooms::generalImage($_FILES['images']);
+        $images = (empty($_FILES['images']['name'][0])) ? '' : $_FILES['images'];
         $link = TextTool::security($_POST['link']);
+
         $isEmpty = [$institutionId, $title, $imgFront, $description, $price, $images, $link];
+        $institution = Institutions::getInstitution($institutionId);
         $api = false;
 
         if (in_array('', $isEmpty)) $state = static::error(4);
-        elseif (is_int($imgFront)) $state = static::error($imgFront);
-        elseif (is_int($images)) $state = static::error($images);
+        elseif ($institution->managerId !== Users::$myDatas->id && !self::$isAdministrator) $state = static::error(24);
         else {
-            Rooms::generalAdd([
-                'institutionId' => $institutionId,
-                'title' => $title,
-                'imgFront' => $imgFront,
-                'description' => $description,
-                'price' => $price,
-                'images' => $images,
-                'link' => $link,
-            ]);
-            
-            $state = true;
-            $api = [
-                'name' => $title,
-                'id' => Rooms::lastId()
-            ];
+            $imgFront = (empty($_FILES['imgFront']['name'][0])) ? '' : Rooms::generalImage($_FILES['imgFront']);
+            $images = (empty($_FILES['images']['name'][0])) ? '' : Rooms::generalImage($_FILES['images']);
+
+            if (is_int($imgFront)) $state = static::error($imgFront);
+            elseif (is_int($images)) $state = static::error($images);
+            else {
+                Rooms::generalAdd([
+                    'institutionId' => $institutionId,
+                    'title' => $title,
+                    'imgFront' => $imgFront,
+                    'description' => $description,
+                    'price' => $price,
+                    'images' => $images,
+                    'link' => $link,
+                ]);
+                
+                $state = true;
+                $api = [
+                    'id' => Rooms::lastId()
+                ];
+            }
         }
 
         $json = self::datas(true, $state, $api, false, false);
         return $this->render('api', compact($this->compact()), true);
     }
 
+    private function adminRoomEdit ()
+    {
+        if (!self::$isAdministrator && !self::$isManager) return static::error(405);
+        
+        $id = TextTool::security($_POST['id']);
+        $title = TextTool::security($_POST['title']);
+        $imgFront = (empty($_FILES['imgFront']['name'][0])) ? NULL : $_FILES['imgFront'];
+        $description = TextTool::security($_POST['description']);
+        $price = TextTool::security($_POST['price']);
+        $images = (empty($_FILES['images']['name'][0])) ? NULL : $_FILES['images'];
+        $link = TextTool::security($_POST['link']);
+        
+        $room = Rooms::getRoom($id);
+        $institution = Institutions::getInstitution($room->institutionId);
+
+        if ($institution->managerId !== Users::$myDatas->id && !self::$isAdministrator) $state = static::error(24);
+        else {
+            $imgFront = (empty($_FILES['imgFront']['name'][0])) ? '' : Rooms::generalImage($_FILES['imgFront']);
+            $images = (empty($_FILES['images']['name'][0])) ? '' : Rooms::generalImage($_FILES['images']);
+
+            if (is_int($imgFront)) $state = static::error($imgFront);
+            elseif (is_int($images)) $state = static::error($images);
+            else {
+                Admin::roomEdit([
+                    'datas' => [
+                        'title' => $title,
+                        'imgFront' => $imgFront,
+                        'description' => $description,
+                        'price' => $price,
+                        'images' => $images,
+                        'link' => $link
+                    ],
+                    'id' => $id
+                ]);
+
+                $state = true;
+            }
+        }
+
+        $json = self::datas(true, $state, false, false, '/admin/rooms');
+        return $this->render('api', compact($this->compact()), true);
+    }
+
     private function ticketClose ()
     {
+        if (!self::$isAdministrator) return static::error(405);
+        
         $id = TextTool::security($_POST['supportId']);
 
         if (!Support::get($id)) $state = static::error(12);

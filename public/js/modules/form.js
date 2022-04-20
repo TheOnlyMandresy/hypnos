@@ -8,6 +8,10 @@ export function htmlDecode(input) {
     return doc.documentElement.textContent;
 }
 
+export function shorten(str, n){
+    return (str.length > n) ? str.substr(0, n-1) + '&hellip;' : str;
+  }
+
 export function btnState (text, value, editMode)
 {
     let btn = document.querySelector('button[type="button"]'),
@@ -109,6 +113,6 @@ function flash (main, message)
 
     setTimeout (() => {
         main.classList.remove('danger')
-        document.querySelector('.flash').remove()
+        if (document.querySelector('.flash')) document.querySelector('.flash').remove()
     }, 3000)
 }

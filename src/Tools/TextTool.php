@@ -38,7 +38,7 @@ class TextTool
                 return htmlentities(htmlspecialchars(trim($text)));
 
             case 'decode':
-                return html_entity_decode($text);
+                return html_entity_decode(str_replace("\n",'<br />', $text));
 
             case 'get':
                 return htmlspecialchars($text);

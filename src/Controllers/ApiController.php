@@ -66,7 +66,7 @@ class ApiController extends Controller
 
         $title = TextTool::setTitle('suites');
         $api = [
-            'total' => count($datas),
+            'total' => ($datas) ? count($datas) : false,
             'current_page' => (isset($current)) ? $current : 1,
             'per_page' => (isset($per)) ? $per : 10,
             'datas' => $datas

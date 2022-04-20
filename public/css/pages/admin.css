@@ -17,6 +17,7 @@ main[class*="admin-"] .list {
     overflow-y: auto;
     padding-right: 2em;
 }
+main[class*="admin-"] .list p { color: var(--color-light); }
 
 main.admin-team > .container {
     display: flex;
@@ -73,21 +74,43 @@ main.admin-reservations .count {
     letter-spacing: .08em;
 }
 
+main.admin-rooms form .images {
+    display: flex;
+    overflow-x: auto;
+    gap: 1em;
+}
+main.admin-rooms form .images > .box {
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+    align-items: center;
+}
+main.admin-rooms form .images img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+main.admin-rooms form .images a {
+    text-transform: uppercase;
+    color: var(--color-danger);
+    cursor: pointer;
+}
+
 /* Support */
-main.admin-support > .section {
+main.admin-support > .container .section {
     text-align: center;
     font-weight: initial;
     color: var(--color-light);
     font-size: 1.2em;
     margin-bottom: 1em;
 }
-main.admin-support > .list {
+main.admin-support > .container .list {
     padding: 1em;
     max-height: 40vh;
 }
-main.admin-support > .list:not(:last-child) { margin-bottom: 3em; }
+main.admin-support > .container .list:not(:last-child) { margin-bottom: 3em; }
 main.admin-support h3 { font-size: 1em; }
-main.admin-support p {
+main.admin-support a {
     font-size: .7em;
     color: var(--color-dominant);
 }

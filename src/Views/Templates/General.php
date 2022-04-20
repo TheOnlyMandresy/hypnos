@@ -3,6 +3,4 @@
     <p><?= $description; ?></p>
 </div>
 
-<div class="container">
-    <?= $container; ?>
-</div>
+<?= $container; ?>

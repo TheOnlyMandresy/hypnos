@@ -5,7 +5,7 @@
         <ul>
             <li>
                 <p class="btn-nav">
-                    <span><a href="<?= System::getSystemInfos('url_hotel'); ?>s" onclick="route()">Nos hôtels</a></span>
+                    <span><a href="/" onclick="route()">Nos hôtels</a></span>
                 </p>
             </li>
             <li>

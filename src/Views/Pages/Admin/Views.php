@@ -3,36 +3,28 @@
 </div>
 
 <ul class="quickNav">
-    <p class="btn-success2">
-        <span><a href="/admin/hotels" onclick="route()">Hôtels</a></span>
+    <p class="btn-success2 <?php if ($current === 'institutions') echo 'selected'; ?>">
+        <span>
+            <a <?php if ($current !== 'institutions') echo 'href="/admin/hotels" onclick="route()"'; ?>>Hôtels</a>
+        </span>
     </p>
-    <p class="btn-success2">
-        <span><a href="/admin/rooms" onclick="route()">Suites</a></span>
+    <p class="btn-success2 <?php if ($current === 'rooms') echo 'selected'; ?>">
+        <span>
+            <a <?php if ($current !== 'rooms') echo 'href="/admin/rooms" onclick="route()"'; ?>>Suites</a>
+        </span>
     </p>
-    <p class="btn-success2">
-        <span><a href="/admin/reservations" onclick="route()">Réservations</a></span>
+    <p class="btn-success2 <?php if ($current === 'reservations') echo 'selected'; ?>">
+        <span>
+            <a <?php if ($current !== 'reservations') echo 'href="/admin/reservations" onclick="route()"'; ?>>Réservations</a>
+        </span>
     </p>
 </ul>
 
 <div class="container">
-    <?php foreach ($institutions as $data): ?>
-        <?php
-            $roomsCount = 0;
-            $bookedCount = 0;
-            if (is_array($rooms)) {
-                foreach ($rooms as $toCount) {
-                    if ($toCount->institutionId === $data->id) $roomsCount++;
-                }
-            }
-            if (is_array($booked)) {
-                foreach ($booked as $toCount) {
-                    if ($toCount->institutionId === $data->id) $bookedCount++;
-                }
-            }
-        ?>
-    <div class="box">
-        <h2><?= $data->name; ?></h2>
-        <p><?= $roomsCount; ?> Suites, <?= $bookedCount; ?> Réservations</p>
-    </div>
-    <?php endforeach; ?>
+<?php
+    if ($current === 'index') require_once System::root(1). 'Views/HTML/Admin/Views/Index.php';
+    elseif ($current === 'institutions') require_once System::root(1). 'Views/HTML/Admin/Views/Institutions.php';
+    elseif ($current === 'rooms') require_once System::root(1). 'Views/HTML/Admin/Views/Rooms.php';
+    elseif ($current === 'reservations') require_once System::root(1). 'Views/HTML/Admin/Views/Reservations.php';
+?>
 </div>

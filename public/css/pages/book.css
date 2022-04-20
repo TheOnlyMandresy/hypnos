@@ -1,4 +1,8 @@
-main.book-new h1 {
-    margin: 0;
-    margin-bottom: 1em;
+.book-all .address { color: var(--color-light); }
+.book-all .dates {
+    text-transform: uppercase;
+    font-size: var(--ft-size-small);
+    font-weight: var(--ft-weight-bold);
+    letter-spacing: .1em;
+    color: var(--color-dominant);
 }

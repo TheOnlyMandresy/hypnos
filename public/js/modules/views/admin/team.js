@@ -64,9 +64,10 @@ export function delHTML (datas)
 
 export function changes ()
 {
-    let select = document.querySelector('select optgroup')
+    let select = document.querySelector('select optgroup'),
+        input = document.querySelector('input[name="email"]')
     
     if (select.querySelector('option.new')) select.querySelector('option.new').remove()
     FORMULAR.btnState('attribuer les droits', 'new', false)
-    input.removeEventListener('change', teamChange)
+    input.removeEventListener('change', changes)
 }

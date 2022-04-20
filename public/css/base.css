@@ -69,7 +69,7 @@ main {
     min-height: 100vh;
     padding: 13vh 15vw 1em 15vw;
     background-color: var(--color-primary);
-    box-shadow: 0 5px 0 white, 0 8px 10px 5px #20272ba3;
+    box-shadow: 0 5px 0 white, 0 8px 10px 5px rgba(0, 0, 0, .2);
     overflow: hidden;
 }
 main.small {
@@ -80,6 +80,10 @@ main.small {
     min-width: 30vw;
     left: 50vw;
     transform: translateX(-50%);
+}
+main.small h1 {
+    margin: 0;
+    margin-bottom: 1em;
 }
 
 .box > .texts {

@@ -107,6 +107,8 @@ class Controller
                 return 'Une erreur est survenue lors de la supression des fichiers';
             case 23:
                 return 'Un compte est relié à cet adresse mail, veuillez vous connectez s\'il sagit de vous';
+            case 24:
+                return 'Cette entité ne vous appartient pas';
         }
     }
     

@@ -5,6 +5,7 @@ namespace System\Database\Tables;
 use System;
 use System\Database\Tables;
 use System\Tools\DateTool;
+use System\Tools\TextTool;
 
 class SupportTable extends Tables
 {
@@ -21,8 +22,14 @@ class SupportTable extends Tables
 
         $datas = static::find($statement, null, true);
 
-        if ($datas) foreach ($datas as $data) $data->dateCreate = DateTool::dateFormat($data->dateCreate, 'full');
-        
+        if ($datas) {
+        foreach ($datas as $data):
+            $data->title = TextTool::security($data->title, 'decode');
+            $data->message = TextTool::security($data->message, 'decode');
+            $data->dateCreate = DateTool::dateFormat($data->dateCreate, 'full');
+        endforeach;
+        }
+
         return $datas;
     }
 
@@ -34,8 +41,13 @@ class SupportTable extends Tables
 
         if ($datas) {
             foreach ($datas as $data):
+                $data->title = TextTool::security($data->title, 'decode');
+                $data->message = TextTool::security($data->message, 'decode');
+                $data->dateCreate = DateTool::dateFormat($data->dateCreate, 'full');
+
                 $data->dateCreate = DateTool::dateFormat($data->dateCreate, 'full');
                 $data->topic = System::getSystemInfos('support')[$data->topic];
+
                 if (intval($data->state) === 0) $data->stateTxt = strtoupper('OUVERT');
                 elseif (intval($data->state) === 1) $data->stateTxt = strtoupper('FERMER');
                 elseif (intval($data->state) === 2) $data->stateTxt = strtoupper('EN ATTENTE DE REPONSE');
@@ -53,6 +65,9 @@ class SupportTable extends Tables
         $ticket = static::find($statement);
 
         if ($ticket) {
+            $ticket->title = TextTool::security($ticket->title, 'decode');
+            $ticket->message = TextTool::security($ticket->message, 'decode');
+            $ticket->dateCreate = DateTool::dateFormat($ticket->dateCreate, 'full');
             $ticket->dateCreate = DateTool::dateFormat($ticket->dateCreate, 'full');
             $ticket->topic = System::getSystemInfos('support')[$ticket->topic];
             if (intval($ticket->state) === 0) $ticket->stateTxt = strtoupper('OUVERT');
@@ -75,8 +90,12 @@ class SupportTable extends Tables
 
         $messages = static::find($statement, '_messages', true);
 
-        if ($messages) foreach ($messages as $data) $data->dateSend = DateTool::dateFormat($data->dateSend, 'full');
-
+        if ($messages) {
+        foreach ($messages as $data):
+            $data->message = TextTool::security($data->message, 'decode');
+            $data->dateSend = DateTool::dateFormat($data->dateSend, 'full');
+        endforeach;
+        }
         $datas = [
             'infos' => $ticket,
             'messages' => ($messages) ? $messages : null
@@ -90,6 +109,10 @@ class SupportTable extends Tables
         $statement['where'] = 'id = ?';
         $statement['att'] = $id;
 
-        return static::find($statement, '_messages');
+        $datas = static::find($statement, '_messages');
+
+        if ($datas) $datas->message = TextTool::security($datas->message, 'decode');
+
+        return $datas;
     }
 }

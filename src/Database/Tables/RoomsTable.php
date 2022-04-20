@@ -4,30 +4,65 @@ namespace System\Database\Tables;
 
 use System\Database\Tables;
 use System\Tools\DateTool;
+use System\Tools\TextTool;
 
 class RoomsTable extends Tables
 {
     protected static $table = 'rooms';
 
-    private static function statement ()
+    private static function statement ($type = null)
     {
-        return [
-            'select' => "
-                r.*,
-                i.name as institutionName
-            ",
-            'join' => " as r
-                INNER JOIN institutions i
-                ON r.institutionId = i.id
-            "
-        ];
+        switch ($type) {
+            case 'booked':
+                return [
+                    'select' =>"
+                        b.*,
+                        r.institutionId as institutionId,
+                        r.title as title,
+                        i.name as institutionName,
+                        i.address as address
+                    ",
+                    'join' => " as b
+                        INNER JOIN rooms r
+                        ON b.roomId = r.id
+                        INNER JOIN institutions i
+                        ON r.institutionId = i.id
+                    "
+                ];
+            default:
+                return [
+                    'select' => "
+                        r.*,
+                        i.name as institutionName,
+                        i.address as address,
+                        i.city as city
+                    ",
+                    'join' => " as r
+                        INNER JOIN institutions i
+                        ON r.institutionId = i.id
+                    "
+                ];
+        }
     }
 
     public static function all ()
     {
         $statement = static::statement();
 
-        return static::find($statement, null, true);
+        $datas = static::find($statement, null, true);
+
+        if ($datas) {
+        foreach ($datas as $data):
+            $data->institutionName = TextTool::security($data->institutionName, 'decode');
+            $data->city = TextTool::security($data->city, 'decode');
+            $data->address = TextTool::security($data->address, 'decode');
+            $data->description = TextTool::security($data->description, 'decode');
+            $data->title = TextTool::security($data->title, 'decode'); 
+            $data->link = TextTool::security($data->link, 'decode');  
+        endforeach;
+        }
+
+        return $datas;
     }
 
     public static function getRoom ($id)
@@ -36,7 +71,18 @@ class RoomsTable extends Tables
         $statement['where'] = 'r.id = ?';
         $statement['att'] = $id;
         
-        return static::find($statement);
+        $datas = static::find($statement);
+
+        if ($datas) {
+            $datas->institutionName = TextTool::security($datas->institutionName, 'decode');
+            $datas->city = TextTool::security($datas->city, 'decode');
+            $datas->address = TextTool::security($datas->address, 'decode');
+            $datas->description = TextTool::security($datas->description, 'decode');
+            $datas->title = TextTool::security($datas->title, 'decode'); 
+            $datas->link = TextTool::security($datas->link, 'decode');  
+        }
+
+        return $datas;
     }
 
     public static function byInstitution ($id)
@@ -45,7 +91,20 @@ class RoomsTable extends Tables
         $statement['where'] = 'r.institutionId = ?';
         $statement['att'] = $id;
 
-        return static::find($statement, null, true);
+        $datas = static::find($statement, null, true);
+
+        if ($datas) {
+        foreach ($datas as $data):
+            $data->institutionName = TextTool::security($data->institutionName, 'decode');
+            $data->city = TextTool::security($data->city, 'decode');
+            $data->address = TextTool::security($data->address, 'decode');
+            $data->description = TextTool::security($data->description, 'decode');
+            $data->title = TextTool::security($data->title, 'decode'); 
+            $data->link = TextTool::security($data->link, 'decode');  
+        endforeach;
+        }
+
+        return $datas;
     }
 
     public static function isBooked ($id, $start, $end)
@@ -62,6 +121,10 @@ class RoomsTable extends Tables
         if ($datas) {
             foreach ($datas as $data)
             {
+                $data->institutionName = TextTool::security($data->institutionName, 'decode');
+                $data->address = TextTool::security($data->address, 'decode');
+                $data->title = TextTool::security($data->title, 'decode');
+                
                 $dateStart = DateTool::dateFormat($data->dateStart, 'timestamp');
                 $dateEnd = DateTool::dateFormat($data->dateEnd, 'timestamp');
     
@@ -76,19 +139,54 @@ class RoomsTable extends Tables
 
     public static function bookedAll ()
     {
-        $statement ['select'] = "
-            b.*,
-            r.institutionId as institutionId,
-            r.title as title,
-            i.name as institutionName
-        ";
-        $statement ['join'] = " as b
-            INNER JOIN rooms r
-            ON b.roomId = r.id
-            INNER JOIN institutions i
-            ON r.institutionId = i.id
-        ";
+        $statement = self::statement('booked');
 
-        return static::find($statement, '_booked', true);
+        $datas = static::find($statement, '_booked', true);
+
+        if ($datas) {
+        foreach ($datas as $data):
+            $data->institutionName = TextTool::security($data->institutionName, 'decode');
+            $data->address = TextTool::security($data->address, 'decode');
+            $data->title = TextTool::security($data->title, 'decode'); 
+        endforeach;
+        }
+
+        return $datas;
+    }
+
+    public static function MyBooked ($id)
+    {
+        $statement = self::statement('booked');
+        $statement['where'] = 'userId = ?';
+        $statement['att'] = $id;
+
+        $datas = static::find($statement, '_booked', true);
+
+        if ($datas) {
+        foreach ($datas as $data):
+            $data->institutionName = TextTool::security($data->institutionName, 'decode');
+            $data->address = TextTool::security($data->address, 'decode');
+            $data->title = TextTool::security($data->title, 'decode'); 
+        endforeach;
+        }
+
+        return $datas;
+    }
+
+    public static function getBooked ($id)
+    {
+        $statement['where'] = 'id = ?';
+        $statement['att'] = $id;
+
+
+        $datas = static::find($statement, '_booked');
+
+        if ($datas) {
+            $datas->institutionName = TextTool::security($datas->institutionName, 'decode');
+            $datas->address = TextTool::security($datas->address, 'decode');
+            $datas->title = TextTool::security($datas->title, 'decode'); 
+        }
+
+        return $datas;
     }
 }

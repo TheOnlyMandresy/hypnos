@@ -1,4 +1,5 @@
 <?php ob_start(); ?>
+<div class="container">
 
 <div class="about">
     <h3 class="title">Les services qui vous sont proposés</h3>
@@ -35,6 +36,8 @@
     </div>
 <?php endforeach; ?>
 <?php endif; ?>
+</div>
+
 </div>
 
 <?php $container = ob_get_clean(); ?>

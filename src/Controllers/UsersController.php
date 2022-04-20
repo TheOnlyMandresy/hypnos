@@ -36,9 +36,6 @@ class UsersController extends Controller
             case 'reserved':
                 if (!Users::isLogged()) return static::error(405);
                 return $this->reserved();
-            case 'booked':
-                if (!Users::isLogged()) return static::error(405);
-                return $this->booked($page[2]);
         }
     }
 
@@ -97,7 +94,7 @@ class UsersController extends Controller
     private function ticket ($id)
     {
         $page = 'contact-ticket small';
-        $title = TextTool::setTitle('ticket -' .$id);
+        $title = TextTool::setTitle('ticket - ' .$id);
 
         $datas = Support::get($id);
         $all = Support::getMyAll(Users::$myDatas->id);
@@ -144,19 +141,16 @@ class UsersController extends Controller
         $h1 = 'Vos réservations';
         $description = 'Lorem ipsum dolor sit amet. Et unde architecto hic ducimus voluptatem eum blanditiis beatae in itaque facere hic recusandae numquam et enim esse. Non enim sunt a tempora odio quo nihil molestias. Et alias autem aut soluta consequatur in nostrum excepturi non galisum repudiandae et excepturi ducimus et dignissimos quaerat? Aut adipisci internos est temporibus veritatis est optio dolorem hic fuga suscipit qui nihil eligendi ut dolores culpa et eius sunt?';
 
-        return $this->render('user/All', compact($this->compact(['description'])));
-    }
+        $current = 'booked';
+        $datas = Rooms::MyBooked(Users::$myDatas->id);
 
-    /**
-     * See a created reservation
-     */
-    private function booked ($id)
-    {
-        $page = 'book-get template';
-        $title = TextTool::setTitle('Réservation -' .$id);
-        $h1 = 'Votre réservation';
-        $description = 'Lorem ipsum dolor sit amet. Et unde architecto hic ducimus voluptatem eum blanditiis beatae in itaque facere hic recusandae numquam et enim esse. Non enim sunt a tempora odio quo nihil molestias. Et alias autem aut soluta consequatur in nostrum excepturi non galisum repudiandae et excepturi ducimus et dignissimos quaerat? Aut adipisci internos est temporibus veritatis est optio dolorem hic fuga suscipit qui nihil eligendi ut dolores culpa et eius sunt?';
+        if ($datas) {
+            foreach ($datas as $data):
+                $data->dateStart = DateTool::dateFormat($data->dateStart, 'd/m/y'). ' à ' .DateTool::dateFormat($data->dateStart, 'time');
+                $data->dateEnd = DateTool::dateFormat($data->dateEnd, 'd/m/y'). ' à ' .DateTool::dateFormat($data->dateEnd, 'time');
+            endforeach;
+        }
 
-        return $this->render('user/Booked', compact($this->compact(['description'])));
+        return $this->render('all', compact($this->compact(['current', 'datas', 'description'])));
     }
 }

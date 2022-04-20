@@ -12,14 +12,14 @@ form {
     gap: 3em;
 }
 
-form textarea,
-form input,
-form select {
+textarea,
+input,
+select {
     width: 100%;
     padding: 1em;
     background-color: rgb(0 0 0 / 2%);
 }
-form textarea {
+textarea {
     min-height: 10vh;
     resize: vertical;
     line-height: var(--ft-lineh-large);

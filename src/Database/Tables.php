@@ -210,7 +210,7 @@ class Tables
                     if($imageFileType != 'png' && $imageFileType != 'jpeg') return 15;
                     if (move_uploaded_file($file['tmp_name'][$i], $target_file)) {
                         $names .= $name;
-                        if ($i !== count($file['name']) - 1) $names .=  ',';
+                        if ($i < count($file['name'])-1) $names .=  ',';
                     }
                     else return 16;
                 } else return 17;
@@ -246,7 +246,7 @@ class Tables
                 else return 21;
             }
         else:
-            if (file_exists($path)) unlink($path);
+            if (file_exists($path) && is_file($path)) unlink($path);
             else return 21;
         endif;
     }

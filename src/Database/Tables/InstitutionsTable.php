@@ -3,6 +3,7 @@
 namespace System\Database\Tables;
 
 use System\Database\Tables;
+use System\Tools\TextTool;
 
 class InstitutionsTable extends Tables
 {
@@ -17,7 +18,19 @@ class InstitutionsTable extends Tables
     {
         $statement = self::statement();
 
-        return static::find($statement, null, true);
+        $datas = static::find($statement, null, true);
+
+        if ($datas) {
+        foreach ($datas as $data):
+            $data->name = TextTool::security($data->name, 'decode');
+            $data->city = TextTool::security($data->city, 'decode');
+            $data->address = TextTool::security($data->address, 'decode');
+            $data->description = TextTool::security($data->description, 'decode');
+            $data->entertainment = TextTool::security($data->entertainment, 'decode');    
+        endforeach;
+        }
+
+        return $datas;
     }
 
     public static function getInstitution ($id)
@@ -26,7 +39,17 @@ class InstitutionsTable extends Tables
         $statement['where'] = 'id = ?';
         $statement['att'] = $id;
         
-        return static::find($statement);
+        $datas = static::find($statement);
+
+        if ($datas) {
+            $datas->name = TextTool::security($datas->name, 'decode');
+            $datas->city = TextTool::security($datas->city, 'decode');
+            $datas->address = TextTool::security($datas->address, 'decode');
+            $datas->description = TextTool::security($datas->description, 'decode');
+            $datas->entertainment = TextTool::security($datas->entertainment, 'decode');    
+        }
+
+        return $datas;
     }
 
     public static function getManagerInstitution ($id)
@@ -43,7 +66,17 @@ class InstitutionsTable extends Tables
         $statement['where'] = 'i.managerId = ?';
         $statement['att'] = $id;
         
-        return static::find($statement);
+        $datas = static::find($statement);
+
+        if ($datas) {
+            $datas->name = TextTool::security($datas->name, 'decode');
+            $datas->city = TextTool::security($datas->city, 'decode');
+            $datas->address = TextTool::security($datas->address, 'decode');
+            $datas->description = TextTool::security($datas->description, 'decode');
+            $datas->entertainment = TextTool::security($datas->entertainment, 'decode');
+        }
+
+        return $datas;
     }
 
     public static function withNoManager ()

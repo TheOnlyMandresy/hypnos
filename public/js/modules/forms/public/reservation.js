@@ -1,11 +1,14 @@
 import * as FORMULAR from '../../form.js'
-import * as HTML from '../../views/reservations.js'
 
 export function bookCall (e)
 {
     let target = e.target.name
 
     if (target === 'new') bookingNew()
+    if (target === 'del') bookedDel(e.target.dataset.infos)
+
+    if (target === 'institutionId') e.target.addEventListener('change', function call (e) {selection(e)})
+    if (target === 'roomId') e.target.addEventListener('change', function call (e) {selection(e)} )
 }
 
 function bookingNew ()
@@ -25,5 +28,62 @@ function bookingNew ()
         ]
     }
 
-    FORMULAR.sendDatas(send)
+    FORMULAR.sendDatas(send).then(res => {
+        if (res.state !== true) return
+
+        let institutionsSelect = document.querySelector('select[name="institutionId"]'),
+            roomsSelect = document.querySelector('select[name="roomId"]')
+
+        institutionsSelect.removeEventListener('change', call)
+        roomsSelect.removeEventListener('change', call)
+    }
+    )
+}
+
+function bookedDel (id)
+{       
+    const send = {
+        'to': 'bookedDel',
+        'post': [
+            ['id', id]
+        ]
+    }
+
+    FORMULAR.sendDatas(send).then(res => {
+        if (res.state !== true) return
+
+        id = 'booked' + id
+        document.getElementById(id).remove();
+    })
+}
+
+async function selection (e)
+{
+    const hotels = await fetch('/api/institutions').then(res => res.json())
+
+    let institutionsSelect = document.querySelector('select[name="institutionId"]'),
+        roomsSelect = document.querySelector('select[name="roomId"]'),
+        newOptions = []
+    
+    if (e.target.name === 'roomId') {
+    let foundId = await fetch('/api/room/' +e.target.value).then(res => res.json())
+        institutionsSelect.value = foundId.institutionId
+    }
+
+    for (let x = 0; x < Object.keys(hotels.datas).length; x++) {
+        if (hotels.datas[x].id !== institutionsSelect.value) continue
+        let rooms = await fetch('/api/rooms?institution=' +hotels.datas[x].id).then(res => res.json())
+
+        for (let y = 0; y < Object.keys(rooms.datas).length; y++) {
+            let option = document.createElement('option')
+            option.value = rooms.datas[y].id
+            option.innerHTML = rooms.datas[y].title
+            newOptions.push(option)
+        }
+    }
+
+    roomsSelect.innerHTML = null
+    for (let el of newOptions) {
+        roomsSelect.appendChild(el)
+    }
 }

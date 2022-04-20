@@ -19,21 +19,8 @@ class InstitutionsController extends Controller
             case 'get':
                 return $this->get($page[2]);
             default:
-                return $this->index();
+                return static::error(404);
         }
-    }
-    
-    /**
-     * All Institutions
-     */
-    private function index ()
-    {
-        $page = 'institution-all template';
-        $title = TextTool::setTitle('hôtels');
-        $h1 = 'Tous nos hôtels';
-        $description = 'Lorem ipsum dolor sit amet. Et unde architecto hic ducimus voluptatem eum blanditiis beatae in itaque facere hic recusandae numquam et enim esse. Non enim sunt a tempora odio quo nihil molestias. Et alias autem aut soluta consequatur in nostrum excepturi non galisum repudiandae et excepturi ducimus et dignissimos quaerat? Aut adipisci internos est temporibus veritatis est optio dolorem hic fuga suscipit qui nihil eligendi ut dolores culpa et eius sunt?';
-
-        return $this->render('all', compact($this->compact()));
     }
 
     /**
@@ -42,9 +29,9 @@ class InstitutionsController extends Controller
     private function get ($id)
     {
         $id = intval(TextTool::security($id, 'get'));
-        if (!is_int($id)) $this->error(404);
+        if (!is_int($id)) static::error(404);
 
-        (Institutions::getInstitution($id)) ? $data = Institutions::getInstitution($id) : $this->error(404);
+        (Institutions::getInstitution($id)) ? $data = Institutions::getInstitution($id) : static::error(404);
         $rooms = (Rooms::byInstitution($id)) ?  Rooms::byInstitution($id) : false;
 
         $page = 'institution-one template';

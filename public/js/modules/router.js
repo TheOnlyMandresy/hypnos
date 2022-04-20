@@ -1,5 +1,6 @@
 import { routes, admin } from './pages.js'
 import { formController } from './forms/controller.js'
+import { pageController } from './views/controller.js'
 
 // Getting link
 export const route = (event) => {
@@ -31,6 +32,7 @@ export const handleLocation = async () => {
     
     const main = document.querySelector('main')
     main.addEventListener('click', (e) => { formController(e) })
+    pageController()
 }
 
 // Convert to JSON or remove JSON (to delete before initializing the html)
@@ -81,7 +83,12 @@ function filterLink (path)
 
     if (Number.isInteger(id)) {
         arr.shift()
-        return '/' + arr[0] + '-ID'
+
+        for (let x = 0; x < arr.length; x++) {
+            if (x === 0) path = '/' + arr[x]
+            if (x !== 0) path += '/' + arr[x]
+        }
+        path += '-ID'
     }
     
     return path
