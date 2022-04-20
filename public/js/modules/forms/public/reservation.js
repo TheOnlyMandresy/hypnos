@@ -1,3 +1,4 @@
+import { handleLocation } from '../../router.js'
 import * as FORMULAR from '../../form.js'
 
 export function bookCall (e)
@@ -6,8 +7,9 @@ export function bookCall (e)
 
     if (target === 'new') bookingNew()
     if (target === 'del') bookedDel(e.target.dataset.infos)
+    if (target === 'quick') bookedQuick(e.target.dataset.infos)
 
-    if (target === 'institutionId') e.target.addEventListener('change', function call (e) {selection(e)})
+    if (target === 'institutionId') e.target.addEventListener('change', function (e) {selection(e)})
     if (target === 'roomId') e.target.addEventListener('change', function call (e) {selection(e)} )
 }
 
@@ -28,16 +30,7 @@ function bookingNew ()
         ]
     }
 
-    FORMULAR.sendDatas(send).then(res => {
-        if (res.state !== true) return
-
-        let institutionsSelect = document.querySelector('select[name="institutionId"]'),
-            roomsSelect = document.querySelector('select[name="roomId"]')
-
-        institutionsSelect.removeEventListener('change', call)
-        roomsSelect.removeEventListener('change', call)
-    }
-    )
+    FORMULAR.sendDatas(send)
 }
 
 function bookedDel (id)
@@ -57,6 +50,21 @@ function bookedDel (id)
     })
 }
 
+function bookedQuick (id)
+{
+    const send = {
+        'to': 'bookingQuick',
+        'post': [
+            ['id', id]
+        ]
+    }
+
+    FORMULAR.sendDatas(send).then(res => {
+        if (res.state !== true) return
+        window.history.pushState({}, "", res.link)
+        handleLocation()
+    })
+}
 async function selection (e)
 {
     const hotels = await fetch('/api/institutions').then(res => res.json())

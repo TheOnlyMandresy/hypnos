@@ -1,0 +1,15 @@
+.flash {
+    z-index: 9;
+    position: absolute;
+    top: 50%; left: 50%;
+    opacity: 0;
+    transform: translateY(100%) translateX(-50%);
+    animation: 2.5s ease forwards flash;
+}
+
+.flash p {
+    text-align: center;
+    color: var(--clr-primary);
+    padding: 1rem;
+    background-color: var(--clr-danger);
+}

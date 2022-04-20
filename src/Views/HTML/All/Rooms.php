@@ -10,7 +10,7 @@
         
             <div class="texts">
                 <h2><?= $data->title; ?></h2>
-                <p><?= $data->description; ?></p>
+                <p class="description"><?= $data->description; ?></p>
                 <p><?= $data->address; ?>, <?= $data->city; ?></p>
 
                 <div class="buttons">

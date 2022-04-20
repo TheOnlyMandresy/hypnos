@@ -1,0 +1,54 @@
+
+header .logo {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    bottom: -5vh;
+}
+
+header::before,
+header .logo > .img {
+    height: 10vh;
+    width: 10vh;
+    border-radius: 50%;
+}
+
+header .logo > .img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+
+    background-color: white;
+    box-shadow: 0 0 0 7px white;
+}
+header .logo img { height: 90%; }
+
+header.open > .logo > .img::before,
+header > .logo > .img::after {
+    content: '';
+    height: 100%; width: 100%;
+    position: absolute;
+    top: 0; left: 0;   
+}
+header.open > .logo > .img::before {
+    z-index: 1;
+    background: radial-gradient(circle, rgba(255,255,255,.5) 50%, rgba(0,0,0,0) 100%);
+    background-color: var(--clr-dominant-one);
+}
+header > .logo > .img::after {
+    z-index: 2;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+header:not(.open) > .logo > .img:hover::after {
+    background-color: white;
+    background-image: url(/img/menu.png);
+    background-size: 50%;
+}
+header.open > .logo > .img::after {
+    filter: invert(1);
+    background-image: url(/img/effacer.png);
+}

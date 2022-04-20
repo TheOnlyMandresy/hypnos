@@ -1,0 +1,129 @@
+main.institution-one > .container {
+    padding: 0;
+}
+
+main.institution-one > .about {
+    padding: 2rem 1rem;
+    display: grid;
+    gap: 0.7rem;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-areas:
+        ". t t ."
+        ". a a ."
+        ". . . .";
+    margin-bottom: var(--p-400);
+}
+main.institution-one > .about > h3.title {
+    grid-area: t;
+    text-align: right;
+}
+main.institution-one > .about > h3.address { grid-area: a; }
+main.institution-one > .about > h3 {
+    line-height: .9em;
+    font-size: 1.6em;
+}
+main.institution-one > .about > p {
+    padding: 1em;
+    border-radius: 0.5em;
+    background-color: rgb(0 0 0 / 2%);
+    font-size: var(--ft-size-small);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+main.institution-one > .container > .rooms > .box {
+    margin-bottom: var(--p-500);
+    display: grid;
+    grid-template-columns: 10vw 1fr;
+    gap: var(--p-400);
+}
+main.institution-one > .container > .rooms .texts { padding: initial; }
+main.institution-one > .container > .rooms .img {
+    background-position: center;
+    height: 10vw;
+    width: 10vw;
+    background-size: cover;
+}
+main.institution-one > .container > .rooms h3 {
+    margin-block: .5rem;
+    font-size: 1.6em;
+}
+main.institution-one > .container > .rooms .desc {
+    color: var(--color-light);
+    margin-bottom: 2em;
+    text-align: justify;
+}
+
+main.institution-one > .container > .rooms > .box {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+main.institution-one > .container > .rooms .img {
+    width: initial;
+}
+
+main.institution-one > .container > .rooms .buttons {
+    display: flex;
+    justify-content: center;
+}
+
+@media (min-width: 40em) {
+    main.institution-one > .about {
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-areas:
+            ". t t a a"
+            ". . . . ."
+    }
+}
+
+@media (min-width: 60em) {
+    main.institution-one > .container {
+        padding-block: 20vh;
+    }
+    
+    main.institution-one > .about {
+        max-width: 27vw;
+        padding: 0;
+        position: fixed;
+        right: 15vw;
+        top: 60vh;
+        z-index: 1;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-areas:
+            "t t . "
+            ". . ."
+            ". a a";
+    }
+    
+    main.institution-one > .container > .rooms {
+        width: 35vw;
+    }
+}
+
+@media (min-width: 80em) {
+    main.institution-one > .about {
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-areas:
+            "t t . ."
+            ". . . ."
+            ". . a a";
+    }
+
+    main.institution-one > .container > .rooms > .box {
+        display: grid;
+        gap: var(--p-400);
+    }
+
+    main.institution-one > .container > .rooms .img {
+        width: 10vw;
+    }
+
+    
+    main.institution-one > .container > .rooms .buttons {
+        display: initial;
+    }
+}

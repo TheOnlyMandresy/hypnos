@@ -1,0 +1,21 @@
+main.admin-rooms form .images {
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+}
+main.admin-rooms form .images > .box {
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+    align-items: center;
+}
+main.admin-rooms form .images img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+main.admin-rooms form .images a {
+    text-transform: uppercase;
+    color: var(--clr-danger);
+    cursor: pointer;
+}

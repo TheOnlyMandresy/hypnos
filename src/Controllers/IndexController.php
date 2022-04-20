@@ -32,6 +32,12 @@ class IndexController extends Controller
         $h1 = 'Bienvenue sur ' .TextTool::getName();
         $all = Institutions::all();
 
+        if ($all) {
+        foreach ($all as $data):
+            $data->description = TextTool::shorten($data->description, 300);
+        endforeach;
+        }
+
         return $this->render('index', compact($this->compact(['all'])));
     }
     

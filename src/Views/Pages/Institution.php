@@ -1,5 +1,4 @@
 <?php ob_start(); ?>
-<div class="container">
 
 <div class="about">
     <h3 class="title">Les services qui vous sont proposés</h3>
@@ -9,6 +8,8 @@
     <p><?= $data; ?></p>
 <?php endforeach; ?>
 </div>
+
+<div class="container">
 
 <div class="rooms">
 <?php if (isset($rooms)): ?>

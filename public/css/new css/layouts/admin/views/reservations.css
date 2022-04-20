@@ -1,0 +1,13 @@
+main.admin-reservations .container {
+    grid-template-columns: 1fr!important;
+    grid-template-areas: inherit!important;
+}
+main.admin-reservations .list { padding-right: 0; }
+main.admin-reservations .institution { color: var(--clr-dominant-one); }
+main.admin-reservations .count {
+    text-transform: uppercase;
+    color: var(--clr-light-one);
+    font-size: .6rem;
+    font-weight: var(--fw-bolder);
+    letter-spacing: .08rem;
+}

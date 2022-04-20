@@ -1,11 +1,22 @@
 import { htmlDecode, shorten } from "../form.js"
 
-const timer = 5 // 5 secondes
 let slideTo = 0,
-    px = 0
+    px = 0,
+    autoSlide = true,
+    readyToSlide = 0
+
+const timer = 5 // 5 secondes
+const interval = setInterval (() => {
+    if (readyToSlide <= timer) readyToSlide++
+    if (readyToSlide === timer && autoSlide) {
+        move()
+        readyToSlide = 0
+    }
+}, 1000)
 
 export function roomController ()
 {
+    endListeners()
     const main = document.querySelector('main').classList
 
     if (main.contains('room-one')) caroussel()
@@ -21,32 +32,19 @@ function caroussel ()
         left = document.querySelector('.left'),
         right = document.querySelector('.right')
 
-    let autoSlide = true,
-        readyToSlide = 0
-
-    caroussel.addEventListener('mouseover', () => { autoSlide = false })
-    caroussel.addEventListener('mouseleave', () => {
-        autoSlide = true
-        readyToSlide = 0
-    })
-
-    setInterval (() => {
-        if (readyToSlide <= timer) readyToSlide++
-        if (readyToSlide === timer && autoSlide) {
-            move()
-            readyToSlide = 0
-        }
-    }, 1000)
-
-    right.addEventListener('click', () => move(false))
-    left.addEventListener('click', () => move(true))
+    interval
+    caroussel.addEventListener('mouseover', mouseOver)
+    caroussel.addEventListener('mouseleave', mouseLeave)
+    right.addEventListener('click', move)
+    left.addEventListener('click', move)
 }
 
-function move (left = false)
+function move (e)
 {
     const box = document.querySelector('.images'),
-        images = document.querySelectorAll('.images img')
-    
+        images = document.querySelectorAll('.images img'),
+        left = (e) ? e.target.classList[0] === 'left' : false;
+
     let limit
 
     if (!box) return
@@ -60,7 +58,9 @@ function move (left = false)
 
     slideTo += (left) ? -1 : 1;
 
-    (window.screen.width >= 865) ? limit = 2 : limit = 0;
+    (window.screen.width >= 1500) ? limit = 2 : limit = 0;
+    if (window.screen.width <= 1500 && window.screen.width >= 1080) limit = 1;
+    if (images.length < 4) limit = 0;
     if (slideTo === (images.length - limit)) {
         slideTo = 0
         px = 0
@@ -83,7 +83,7 @@ async function filter ()
             
                 <div class="texts">
                     <h2>${rooms.datas[x].title}</h2>
-                    <p>${shorten(htmlDecode(rooms.datas[x].description), 220)}</p>
+                    <p class="description">${shorten(htmlDecode(rooms.datas[x].description), 220)}</p>
                     <p>${rooms.datas[x].address}, ${rooms.datas[x].city}</p>
                 
                     <div class="buttons">
@@ -108,4 +108,31 @@ async function filter ()
     for (let el of filter) {
         list.innerHTML += el
     }
+}
+
+function mouseOver ()
+{
+    autoSlide = false
+}
+
+function mouseLeave ()
+{ 
+    autoSlide = true
+    readyToSlide = 0
+}
+
+function endListeners ()
+{
+    const main = document.querySelector('main').classList
+
+    if (main.contains('room-all')) document.querySelector('select').removeEventListener('change', filter)
+
+    if (main.contains('room-one')) {
+        document.querySelector('.caroussel').removeEventListener('mouseover', mouseOver)
+        document.querySelector('.caroussel').removeEventListener('mouseleave', mouseLeave)
+        document.querySelector('.left').removeEventListener('click', move)
+        document.querySelector('.right').removeEventListener('click', move)
+    }
+
+    if (!main.contains('room-one')) clearInterval(interval)
 }

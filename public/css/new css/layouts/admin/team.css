@@ -1,0 +1,18 @@
+main.admin-team > .container {
+    display: flex;
+    gap: 5rem;
+    align-items: flex-start;
+}
+main.admin-team > .container > .team {
+    max-height: 45vh;
+    overflow-y: auto;display: grid;
+    gap: 1rem;
+    padding-right: 1rem;
+}
+main.admin-team > .container > .team .name {
+    font-size: var(--fs-300);
+    font-weight: var(--fw-bold);
+    text-transform: uppercase;
+    color: var(--clr-light-one);
+    letter-spacing: 0.1rem;
+}

@@ -1,0 +1,32 @@
+main {
+    z-index: 1;
+    margin-bottom: 20vh;
+    min-height: 100vh;
+    padding-inline: var(--p-500);
+    background-color: var(--clr-primary);
+    box-shadow: 0 5px 0 white, 0 8px 10px 5px rgba(0, 0, 0, .2);
+    overflow: hidden;
+}
+
+main.small {
+    margin-block: 20vh;
+    min-height: initial;
+    padding: 5rem;
+    width: fit-content;
+    min-width: 30vw;
+    left: 50vw;
+    transform: translateX(-50%);
+}
+main.small h1 {
+    margin: 0;
+    margin-bottom: 1rem;
+}
+
+main.danger {
+    border: 1px solid var(--clr-danger);
+    box-shadow: 0 0 10px var(--clr-danger) inset;
+}
+main.success {
+    border: 1px solid var(--clr-dominant-two);
+    box-shadow: 0 0 10px var(--clr-dominant-two) inset;
+}

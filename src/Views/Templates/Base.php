@@ -18,7 +18,7 @@
     <meta property="og:title" content="<?= System::getSystemInfos('website'); ?>" />
     
     <title><?= System::getSystemInfos('website'); ?></title>
-    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/new css/style.css" />
 </head>
 
 <body>

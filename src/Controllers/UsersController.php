@@ -123,10 +123,10 @@ class UsersController extends Controller
             $rooms[$value->id] = $value->title;
         }
 
-        $institutionId = (isset($_SESSION['booking'])) ? $_SESSION['booking']['institutionId'] : null;
-        $roomId = (isset($_SESSION['booking'])) ? $_SESSION['booking']['roomId'] : null;
-        $dateStart = (isset($_SESSION['booking'])) ? $_SESSION['booking']['dateStart'] : null;
-        $dateEnd = (isset($_SESSION['booking'])) ? $_SESSION['booking']['dateEnd'] : null;
+        $institutionId = (isset($_SESSION['booking']['institutionId'])) ? $_SESSION['booking']['institutionId'] : null;
+        $roomId = (isset($_SESSION['booking']['roomId'])) ? $_SESSION['booking']['roomId'] : null;
+        $dateStart = (isset($_SESSION['booking']['dateStart'])) ? $_SESSION['booking']['dateStart'] : null;
+        $dateEnd = (isset($_SESSION['booking']['dateEnd'])) ? $_SESSION['booking']['dateEnd'] : null;
 
         return $this->render('booking', compact($this->compact(['institutions', 'rooms', 'institutionId', 'roomId', 'dateStart', 'dateEnd'])));
     }

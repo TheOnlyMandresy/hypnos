@@ -247,6 +247,20 @@ class DatasController extends Controller
         return $this->render('api', compact($this->compact()), true);
     }
 
+    private function bookingQuick ()
+    {
+        $id = TextTool::security($_POST['id']);
+        $room = Rooms::getRoom($id);
+
+        $_SESSION['booking'] = [
+            'institutionId' => $room->institutionId,
+            'roomId' => $room->id
+        ];
+
+        $json = self::datas(false, true, false, false, '/booking');
+        return $this->render('api', compact($this->compact()), true);
+    }
+
     private function bookedDel ()
     {
         $id = TextTool::security($_POST['id']);
@@ -591,8 +605,8 @@ class DatasController extends Controller
 
         if ($institution->managerId !== Users::$myDatas->id && !self::$isAdministrator) $state = static::error(24);
         else {
-            $imgFront = (empty($_FILES['imgFront']['name'][0])) ? '' : Rooms::generalImage($_FILES['imgFront']);
-            $images = (empty($_FILES['images']['name'][0])) ? '' : Rooms::generalImage($_FILES['images']);
+            $imgFront = (is_null($imgFront)) ? NULL : Rooms::generalImage($_FILES['imgFront']);
+            $images = (is_null($images)) ? NULL : Rooms::generalImage($_FILES['images']);
 
             if (is_int($imgFront)) $state = static::error($imgFront);
             elseif (is_int($images)) $state = static::error($images);

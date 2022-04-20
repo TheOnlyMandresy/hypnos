@@ -1,0 +1,12 @@
+#loading {
+    top: 0; left: 0;
+    position: fixed;
+    width: 100vw; height: 100vh;
+    z-index: 11;
+    background-color: var(--clr-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#loading.fade { animation: 1s ease 500ms forwards fade; }
+#loading.fade img { animation: 1s ease forwards fade; }

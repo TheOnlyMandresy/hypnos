@@ -175,9 +175,9 @@ class RoomsTable extends Tables
 
     public static function getBooked ($id)
     {
-        $statement['where'] = 'id = ?';
+        $statement = self::statement('booked');
+        $statement['where'] = 'b.id = ?';
         $statement['att'] = $id;
-
 
         $datas = static::find($statement, '_booked');
 

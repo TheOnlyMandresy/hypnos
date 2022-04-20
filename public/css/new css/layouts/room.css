@@ -1,0 +1,96 @@
+main[class*='room-'] img {
+    height: 100%; width: 100%;
+    object-fit: cover;
+}
+
+main.room-one .caroussel {
+    margin-top: 5px;
+    overflow: hidden;
+    height: 40vh;
+    margin-bottom: 9vh;
+    background-color: var(--clr-secondary);
+    padding: 3em;
+    box-shadow: 0 5px 0 white, 0 5px 10px rgb(0 0 0 / 26%), 0 -5px 20px -10px rgb(0 0 0 / 26%) inset;
+}
+main.room-one .caroussel .options {
+    position: absolute;
+    height: 100%; width: 100%;
+    top: 0; left: 0;
+}
+main.room-one .caroussel .options :is(.left, .right) {
+    opacity: 0;
+    position: absolute;
+    padding: .5em;
+    font-size: 2em;
+    cursor: pointer;
+    background-color: rgba(0,0,0,.2);
+    color: var(--clr-light-one);
+    top: 50%;
+    transform: translateY(-50%);
+}
+main.room-one .caroussel:hover :is(.left, .right) { opacity: 1; }
+main.room-one .caroussel :is(.left, .right):hover {
+    color: var(--clr-primary);
+    background-color: rgba(0,0,0,.5);
+}
+main.room-one .caroussel .options .right { right: 0; }
+main.room-one .caroussel .images {
+    display: flex;
+    gap: 5px;
+    height: 100%;
+    transition: transform ease-out 1s;
+}
+main.room-one .buttons {
+    padding: 2em;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+main.room-one .buttons .price {
+    font-weight: var(--ft-weight-bolder);
+    color: var(--clr-dominant-two);
+    font-size: 1.5em;
+}
+main.room-one .presentation {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--p-500);
+}
+
+@media (min-width: 40em) {
+    main.room-one .presentation {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+main.room-one h1 {
+    margin-bottom: 0!important;
+}
+
+main.room-all .search {
+    padding-top: var(--p-500);
+}
+
+main.room-all .box {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin-block: 3em;
+    max-width: initial;
+}
+main.room-all .box > .texts {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1em;
+    padding-inline: var(--p-500);
+}
+main.room-all .box p {
+    color: var(--clr-light);
+    font-size: var(--ft-size-small);
+}
+
+main.room-all .box .description {
+    text-align: justify;
+}

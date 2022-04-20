@@ -28,6 +28,7 @@ export function formController (e)
     if (call === 'login' || call === 'register') userCall(e)
     if (call.includes('book-')) bookCall(e);
     if (call.includes('contact-')) supportCall(e);
+    if (call === 'room-one') bookCall(e);
 
     // admin
     if (call === 'admin-team') adminTeamCall(e)

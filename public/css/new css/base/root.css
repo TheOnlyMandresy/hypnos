@@ -1,0 +1,69 @@
+*,
+::after,
+::before {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    position: relative;
+    border: none;
+    text-decoration: none;
+    outline: none;
+    list-style-type: none;
+    font-family: 'Sora',Helvetica,Arial,sans-serif;
+}
+
+:root {
+    --clr-primary : #F5F5F5;
+    --clr-secondary : #2E373D;
+    --clr-dominant-one : #753307;
+    --clr-dominant-two: #2D6A64;
+    --clr-dominant-three: #8B3D1E;
+    --clr-danger : #BE0A2B;
+
+    --clr-dark : #001427;
+    --clr-mid : #2E373D;
+    --clr-light-one : #525252;
+    --clr-light-two : #d0d0d0;
+
+    --p-400 : 2rem;
+    --p-500 : 2.5rem;
+
+    --fw-normal : 600;
+    --fw-bold : 700;
+    --fw-bolder : 800;
+
+    --fs-300 : .8rem;
+    --fs-400 : 1rem;
+    --fs-500 : 1.2rem;
+    --fs-600 : 1.5rem;
+    --fs-xl : clamp(1rem, 6vw + 1rem, 4.5rem);
+
+    --fh-small : 2.2rem;
+    --fh-large : 1.2rem;
+}
+
+@media (min-width: 40em) { :root {
+    --p-400 : 2rem;
+    --p-500 : 4rem;
+
+    --fs-300: 1rem;
+    --fs-400: 1.1rem;
+    --fs-500: 1.2rem;
+    --fs-600: 1.7rem;
+
+    --fh-small : .8rem;
+    --fh-large : 1.6rem;
+}}
+
+@media (min-width: 60em) { :root {
+    --p-400 : 3rem;
+    --p-500 : 6rem;
+
+    --fs-300: 1rem;
+    --fs-400: 1.2rem;
+    --fs-500: 1.3rem;
+    --fs-600: 1.5rem;
+
+    --fh-small : .8rem;
+    --fh-large : 1.6rem;
+}}

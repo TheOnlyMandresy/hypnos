@@ -49,7 +49,7 @@
                 </p>
             </li>
             <li>
-                <p class="btn-danger">
+                <p class="btn-danger xl">
                     <span><a href="/logout" onclick="route()">déconnexion</a></span>
                 </p>
             </li>

@@ -5,11 +5,11 @@ let lastScroll = 0,
 export function scroll ()
 {
     
-    if (window.screen.width >= 865) {
+    if (window.screen.width >= 1080) {
         let title = document.querySelector('.institution-one.template .title')
     
         if (title) {
-            let about = document.querySelector('.institution-one.template > .container > .about')
+            let about = document.querySelector('.institution-one.template > .about')
     
             if (saveBackAbout === null) saveBackAbout = about.offsetTop
     

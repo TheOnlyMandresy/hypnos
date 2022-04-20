@@ -1,0 +1,14 @@
+body {
+    background-color: var(--clr-secondary);
+    overflow: hidden;
+}
+
+body.mode-admin {
+    background-color: var(--clr-dominant-two);
+}
+
+#root {
+    margin-inline: 10vw;
+    transition: margin-inline 500ms ease-out;
+}
+#root.large { margin-inline: 0vw; }

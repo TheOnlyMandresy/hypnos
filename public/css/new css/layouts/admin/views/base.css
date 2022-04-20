@@ -1,0 +1,19 @@
+main.admin-views:not(.undersection) .container {
+    max-height: 40vh;
+    overflow-y: auto;
+}
+main.admin-views:not(.undersection) .box { margin-block: 2rem; }
+main.admin-views:not(.undersection) .box h2 { font-size: 1.2rem; }
+main.admin-views:not(.undersection) .box p { color: var(--clr-light-one); }
+
+main.admin-views.undersection .container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-areas: "a b";
+    gap: 5rem
+}
+
+main.admin-views.undersection .container .list { grid-area: a; }
+main.admin-views.undersection .container form { grid-area: b; }
+
+main.admin-views.undersection .container h2 { font-size: 1rem; }

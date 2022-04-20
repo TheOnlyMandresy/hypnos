@@ -1,0 +1,17 @@
+main.admin-support > .container .section {
+    text-align: center;
+    font-weight: initial;
+    color: var(--color-light);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+main.admin-support > .container .list {
+    padding: 1rem;
+    max-height: 40vh;
+}
+main.admin-support > .container .list:not(:last-child) { margin-bottom: 3rem; }
+main.admin-support h3 { font-size: 1rem; }
+main.admin-support a {
+    font-size: .7rem;
+    color: var(--clr-dominant-one);
+}
