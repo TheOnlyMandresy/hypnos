@@ -4,13 +4,12 @@ let lastScroll = 0,
 
 export function scroll ()
 {
+    let about = document.querySelector('.institution-one.template > .about')
     
     if (window.screen.width >= 1080) {
         let title = document.querySelector('.institution-one.template .title')
     
         if (title) {
-            let about = document.querySelector('.institution-one.template > .about')
-    
             if (saveBackAbout === null) saveBackAbout = about.offsetTop
     
             if (scrollY >= lastScroll) {
@@ -27,5 +26,7 @@ export function scroll ()
             about.style.top = backAbout + 'px';
             lastScroll = scrollY;
         }
+    } else {
+        about.style.top = '0px';
     }
 }

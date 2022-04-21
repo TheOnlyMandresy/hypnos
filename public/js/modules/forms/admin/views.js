@@ -1,5 +1,5 @@
 import * as FORMULAR from '../../form.js'
-import * as VIEWS from '../../views/admin/VIEWS.js'
+import * as VIEWS from '../../views/admin/views.js'
 
 export function adminViewsCall (e, main)
 {

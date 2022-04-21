@@ -31,7 +31,8 @@ export const handleLocation = async () => {
     admin(path)
     
     const main = document.querySelector('main')
-    main.addEventListener('click', (e) => { formController(e) })
+    main.removeEventListener('click', formController)
+    main.addEventListener('click', formController)
     pageController()
 }
 

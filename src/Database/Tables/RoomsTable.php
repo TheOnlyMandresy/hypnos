@@ -120,11 +120,7 @@ class RoomsTable extends Tables
 
         if ($datas) {
             foreach ($datas as $data)
-            {
-                $data->institutionName = TextTool::security($data->institutionName, 'decode');
-                $data->address = TextTool::security($data->address, 'decode');
-                $data->title = TextTool::security($data->title, 'decode');
-                
+            {   
                 $dateStart = DateTool::dateFormat($data->dateStart, 'timestamp');
                 $dateEnd = DateTool::dateFormat($data->dateEnd, 'timestamp');
     

@@ -1,5 +1,6 @@
 import { handleLocation } from './router.js'
 import { reloadApp } from './nav.js'
+import { formController } from './forms/controller.js'
 
 let globalData
 
@@ -31,10 +32,14 @@ export function btnState (text, value, editMode)
 
 export async function sendDatas (infos)
 {
+    const main = document.querySelector('main')
+    main.removeEventListener('click', formController)
+
     let btn = document.querySelector('form button[type="button"]')
 
     await datasTreatment(infos)
-
+    
+    main.addEventListener('click', formController)
     if (globalData.state === true && globalData.isForm === true) document.querySelector('form').reset()
     if (globalData.isForm === true) btn.disabled = false
     appendAlert(globalData)
