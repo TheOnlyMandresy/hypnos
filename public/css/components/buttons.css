@@ -32,7 +32,7 @@
 }
 
 .xl[class*="btn-"] > span > a {
-    font-size: var(--fs-500)!important;
+    font-size: var(--fs-400)!important;
 }
 
 
@@ -69,7 +69,7 @@
 .btn-nav > span > a {
     text-align: center;
     color: white;
-    font-size: var(--fs-500);
+    font-size: var(--fs-400);
     letter-spacing: .3rem;
 }
 

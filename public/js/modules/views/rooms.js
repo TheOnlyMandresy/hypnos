@@ -41,8 +41,8 @@ function caroussel ()
 
 function move (e)
 {
-    const box = document.querySelector('.images'),
-        images = document.querySelectorAll('.images img'),
+    const box = document.querySelector('.caroussel .images'),
+        images = document.querySelectorAll('.caroussel .images img'),
         left = (e) ? e.target.classList[0] === 'left' : false;
 
     let limit

@@ -75,7 +75,7 @@ main.room-all .search {
 main.room-all .box {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    margin-block: 3em;
+    margin-block: var(--p-500);
     max-width: initial;
 }
 main.room-all .box > .texts {
@@ -84,7 +84,7 @@ main.room-all .box > .texts {
     align-items: center;
     justify-content: space-between;
     gap: 1em;
-    padding-inline: var(--p-500);
+    padding-left: var(--p-500);
 }
 main.room-all .box p {
     color: var(--clr-light);

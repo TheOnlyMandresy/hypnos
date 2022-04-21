@@ -27,6 +27,6 @@ export function scroll ()
             lastScroll = scrollY;
         }
     } else {
-        about.style.top = '0px';
+        if (about) about.style.top = '';
     }
 }

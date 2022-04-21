@@ -6,11 +6,11 @@ main.institution-one > .about {
     padding: 2rem 1rem;
     display: grid;
     gap: 0.7rem;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     grid-template-areas:
-        ". t t ."
-        ". a a ."
-        ". . . .";
+        ". t t"
+        ". a a"
+        ". . .";
     margin-bottom: var(--p-400);
 }
 main.institution-one > .about > h3.title {
